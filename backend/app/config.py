@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     DATABASE_URL_SYNC: str = "postgresql://postgres:postgres@localhost:5432/devkalp_db"
 
     FRONTEND_URL: str = "http://localhost:3000"
-    BACKEND_URL: str = "http://localhost:8000"
+    BACKEND_URL: str = "http://localhost:8000"  # overridden by BACKEND_URL env var in production
 
     ADMIN_EMAIL_1: str = "admin@devkalpfoundation.org"
     ADMIN_EMAIL_2: str = "director@devkalpfoundation.org"

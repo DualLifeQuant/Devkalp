@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 import mockData from './mockData.json'
 
-const BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'
+const BASE = import.meta.env.VITE_API_URL
 
 export const api: AxiosInstance = axios.create({
   baseURL: BASE,
@@ -39,7 +39,7 @@ const replaceLocalhost = (data: any, replacement: string): any => {
 
 api.interceptors.response.use(
   (r) => {
-    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'
+    const apiBase = import.meta.env.VITE_API_URL
     const backendBase = apiBase.replace('/api/v1', '')
     if (backendBase && r.data) {
       r.data = replaceLocalhost(r.data, backendBase)

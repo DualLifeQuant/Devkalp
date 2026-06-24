@@ -54,10 +54,11 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         settings.FRONTEND_URL,
+        "https://devkalp.org",
+        "https://www.devkalp.org",
         "http://localhost:3000",
         "http://localhost:3001",
     ],
-    # Allow all Vercel preview deployments and any HTTPS origin in production
     allow_origin_regex=r"https://.*\.vercel\.app|https?://localhost(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],

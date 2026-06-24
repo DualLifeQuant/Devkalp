@@ -18,7 +18,7 @@ services:
         generateValue: true
       # Set FRONTEND_URL to your Vercel deployment URL after deploying
       - key: FRONTEND_URL
-        value: https://devkalp.vercel.app
+        value: https://devkalp.org
       - key: BACKEND_URL
         value: https://devkalp-api.onrender.com
       - key: ALGORITHM
