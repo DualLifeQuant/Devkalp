@@ -1,5 +1,4 @@
-'use client'
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Heart, HeartHandshake, Star, User, Calendar, ChevronRight } from 'lucide-react'
 import { Badge, Card, Spinner, EmptyState, Button } from '@/components/ui'
 import { matrimonyApi } from '@/lib/api'

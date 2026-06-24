@@ -1,5 +1,4 @@
-'use client'
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Plus, School, Users, CheckCircle, Calendar, X, Camera, Video } from 'lucide-react'
 import { HeartHandshake, Briefcase, Leaf, Heart } from 'lucide-react'
 import AdminLayout from '@/components/layout/AdminLayout'

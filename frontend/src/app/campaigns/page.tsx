@@ -1,5 +1,4 @@
-'use client'
-import { useEffect, useState, useRef } from 'react'
+﻿import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Leaf, Calendar, MapPin, Search, X, Check, Play, Video } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'

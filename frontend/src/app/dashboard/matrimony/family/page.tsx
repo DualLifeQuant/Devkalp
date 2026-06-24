@@ -1,13 +1,12 @@
-'use client'
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { PageLoader } from '@/components/common/LoadingStates'
 
 export default function FamilyRedirectPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   useEffect(() => {
-    router.replace('/dashboard/matrimony?tab=family')
-  }, [router])
+    navigate('/dashboard/matrimony?tab=family', { replace: true })
+  }, [navigate])
 
   return <PageLoader />
 }

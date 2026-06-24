@@ -1,5 +1,4 @@
-'use client'
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Activity, RefreshCw } from 'lucide-react'
 import AdminLayout from '@/components/layout/AdminLayout'
 import { Spinner, EmptyState } from '@/components/ui'

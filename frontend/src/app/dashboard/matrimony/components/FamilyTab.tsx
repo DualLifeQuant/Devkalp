@@ -1,5 +1,4 @@
-'use client'
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Plus, Trash2, X, Check, User, AlertCircle } from 'lucide-react'
 import { Button, Card, EmptyState } from '@/components/ui'
 import { SkeletonList, InlineError } from '@/components/common/LoadingStates'

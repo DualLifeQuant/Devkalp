@@ -1,6 +1,5 @@
-'use client'
 import { useRef, useEffect } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Heart, Target, Eye, Users, Award, ArrowRight, HeartHandshake, HandHeart, Briefcase, Leaf, Check } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
@@ -282,13 +281,13 @@ export default function AboutPage() {
             Whether you want to donate, volunteer, find a life partner, or simply learn more — there's a place for you here.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/donate" className="inline-flex items-center gap-2 px-8 py-4 bg-trust-900 text-white font-semibold rounded-2xl hover:bg-trust-800 transition-all">
+            <Link to="/donate" className="inline-flex items-center gap-2 px-8 py-4 bg-trust-900 text-white font-semibold rounded-2xl hover:bg-trust-800 transition-all">
               <HandHeart size={18} /> Make a Donation
             </Link>
-            <Link href="/volunteer" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-trust-800 font-semibold rounded-2xl hover:bg-trust-50 transition-all">
+            <Link to="/volunteer" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-trust-800 font-semibold rounded-2xl hover:bg-trust-50 transition-all">
               <Users size={18} /> Volunteer With Us
             </Link>
-            <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white/60 text-trust-800 font-medium rounded-2xl hover:bg-white transition-all border border-trust-200">
+            <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-white/60 text-trust-800 font-medium rounded-2xl hover:bg-white transition-all border border-trust-200">
               Get in Touch <ArrowRight size={16} />
             </Link>
           </div>

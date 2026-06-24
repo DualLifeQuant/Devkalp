@@ -1,6 +1,5 @@
-'use client'
 import { useState, useMemo, useCallback, useEffect } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   HeartHandshake, Heart, Star, Search, Check, ChevronDown, 

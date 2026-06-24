@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { HeartHandshake, FileText, Heart, Bell, CheckCircle, Clock, User, ChevronRight, Star } from 'lucide-react'
 
 import { StatsCard, Badge, Card, Button, EmptyState, Spinner } from '@/components/ui'
@@ -93,7 +92,7 @@ export default function OverviewSection({ id }: { id?: string }) {
                       </div>
                     </div>
                   </div>
-                  <Link href="/matrimony/register" className="shrink-0 w-full lg:w-auto">
+                  <Link to="/matrimony/register" className="shrink-0 w-full lg:w-auto">
                     <Button size="sm" variant="secondary" className="w-full justify-center group text-xs h-9">
                       Begin Setup <ChevronRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
                     </Button>
@@ -120,7 +119,7 @@ export default function OverviewSection({ id }: { id?: string }) {
                     {profile.status === 'rejected' && `Reason: ${profile.rejection_reason || 'Please contact support for details.'}`}
                   </p>
                 </div>
-                <Link href="/dashboard/matrimony/profile" className="shrink-0">
+                <Link to="/dashboard/matrimony/profile" className="shrink-0">
                   <Button size="sm" variant="ghost" className="h-8 py-0 px-3 text-xs font-semibold shadow-none">
                     View Profile
                   </Button>
@@ -164,7 +163,7 @@ export default function OverviewSection({ id }: { id?: string }) {
                       </p>
                     </div>
                   </div>
-                  <Link href="/dashboard/matrimony/evaluation" className="shrink-0 w-full lg:w-auto">
+                  <Link to="/dashboard/matrimony/evaluation" className="shrink-0 w-full lg:w-auto">
                     <Button size="sm" variant="secondary" className="w-full justify-center text-xs h-9">Start Evaluation →</Button>
                   </Link>
                 </div>
@@ -178,7 +177,7 @@ export default function OverviewSection({ id }: { id?: string }) {
                   <h2 className="font-display text-xl text-trust-900 font-bold">Your Curated Matches</h2>
                   <p className="text-xs text-slate-400 mt-0.5">Handpicked profiles reviewed by your counselor</p>
                 </div>
-                <Link href="/dashboard/matrimony/matches" className="text-sm font-semibold text-trust-600 hover:text-trust-800 flex items-center gap-1 transition-colors">
+                <Link to="/dashboard/matrimony/matches" className="text-sm font-semibold text-trust-600 hover:text-trust-800 flex items-center gap-1 transition-colors">
                   View all Matches <ChevronRight size={14} />
                 </Link>
               </div>

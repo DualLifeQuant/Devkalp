@@ -1,11 +1,8 @@
-'use client'
 import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { authApi } from '@/lib/api'
 import { useAuthStore, getDashboardPath } from '@/lib/store'
@@ -18,7 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>()
   const { setAuth } = useAuthStore()
-  const router = useRouter()
+  const navigate = useNavigate()
 
   const onSubmit = async (data: LoginForm) => {
     setLoading(true)
@@ -27,7 +24,7 @@ export default function LoginPage() {
       const { access_token, refresh_token, user } = res.data
       setAuth(user, access_token, refresh_token)
       toast.success(`Welcome back, ${user.full_name.split(' ')[0]}!`)
-      router.push(getDashboardPath(user.role))
+      navigate(getDashboardPath(user.role))
     } catch (err: any) {
       toast.error(err?.response?.data?.detail || 'Invalid credentials. Please try again.')
     } finally {
@@ -42,8 +39,8 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-hero-pattern opacity-30" />
         <div className="absolute top-1/3 right-0 w-80 h-80 bg-saffron-500/10 rounded-full blur-3xl" />
         <div className="relative z-10">
-          <Link href="/">
-            <Image src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={130} height={44} className="object-contain h-24 w-auto opacity-90 brightness-0 invert" />
+          <Link to="/">
+            <img src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={130} height={44} loading="eager" className="object-contain h-24 w-auto opacity-90 brightness-0 invert" />
           </Link>
           <div className="relative z-10">
           <p className="font-accent italic text-saffron-300 text-lg mb-3">Welcome back</p>
@@ -70,8 +67,8 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-6 md:p-12 bg-white">
         <div className="w-full max-w-md">
           {/* Mobile logo */}
-          <Link href="/" className="mb-8 lg:hidden inline-block">
-            <Image src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40} className="object-contain h-9 w-auto" />
+          <Link to="/" className="mb-8 lg:hidden inline-block">
+            <img src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40} className="object-contain h-9 w-auto" />
           </Link>
 
           <h1 className="font-display text-3xl font-semibold text-trust-900 mb-1">Sign In</h1>
@@ -92,7 +89,7 @@ export default function LoginPage() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="label !mb-0">Password</label>
-                <Link href="/auth/forgot-password" className="text-xs text-trust-600 hover:text-trust-800">Forgot password?</Link>
+                <Link to="/auth/forgot-password" className="text-xs text-trust-600 hover:text-trust-800">Forgot password?</Link>
               </div>
               <div className="relative">
                 <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -117,7 +114,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-slate-500 mt-6">
             New to Devkalp?{' '}
-            <Link href="/auth/register" className="text-trust-700 font-medium hover:text-trust-900">
+            <Link to="/auth/register" className="text-trust-700 font-medium hover:text-trust-900">
               Create an account
             </Link>
           </p>

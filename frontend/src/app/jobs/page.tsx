@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState, useRef } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, MapPin, Briefcase, Clock, ChevronRight, Filter, X, Upload, Check, IndianRupee, Sparkles, TrendingUp, Heart, ShieldCheck, Building, Users, ArrowRight, HeartHandshake, Award, Zap, Bookmark, ExternalLink, FileText, Send, Share2, ChevronDown } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
@@ -386,8 +385,8 @@ function ApplyModal({ job, onClose }: { job: any; onClose: () => void }) {
 
               {!isLoggedIn && (
                 <p className="text-[11px] text-center text-slate-500 font-medium pt-2 border-t border-slate-100">
-                  <Link href="/auth/login" className="text-trust-800 font-bold hover:underline">Sign in</Link> or{' '}
-                  <Link href="/auth/register" className="text-trust-800 font-bold hover:underline">create an account</Link> to apply instantly
+                  <Link to="/auth/login" className="text-trust-800 font-bold hover:underline">Sign in</Link> or{' '}
+                  <Link to="/auth/register" className="text-trust-800 font-bold hover:underline">create an account</Link> to apply instantly
                 </p>
               )}
             </div>
@@ -982,8 +981,8 @@ export default function JobsPage() {
                       Devkalp Foundation is a premier non-profit organization dedicated to healthcare empowerment, educational advancement, and holistic grassroots community development across Gujarat.
                     </p>
                     <div className="flex items-center gap-4 text-xs font-bold text-trust-800">
-                      <Link href="/about" className="hover:underline flex items-center gap-1">Learn more <ExternalLink size={12} /></Link>
-                      <Link href="/campaigns" className="hover:underline flex items-center gap-1">Active campaigns <ExternalLink size={12} /></Link>
+                      <Link to="/about" className="hover:underline flex items-center gap-1">Learn more <ExternalLink size={12} /></Link>
+                      <Link to="/campaigns" className="hover:underline flex items-center gap-1">Active campaigns <ExternalLink size={12} /></Link>
                     </div>
                   </div>
 

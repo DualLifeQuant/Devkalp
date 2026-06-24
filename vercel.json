@@ -1,5 +1,8 @@
 {
-  "framework": "nextjs",
+  "framework": "vite",
+  "rootDirectory": "frontend",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "regions": ["sin1"],
   "headers": [
     {
@@ -10,5 +13,8 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

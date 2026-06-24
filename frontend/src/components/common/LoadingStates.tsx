@@ -1,5 +1,4 @@
-'use client'
-import { clsx } from 'clsx'
+﻿import { clsx } from 'clsx'
 import { useEffect, useState, useCallback } from 'react'
 
 // ── Skeleton primitives ───────────────────────────────────────────────────────

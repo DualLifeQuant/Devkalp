@@ -1,13 +1,11 @@
-'use client'
 import { useRef } from 'react'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Users, Heart, Clock, MapPin, ArrowRight, CheckCircle, Leaf, BookOpen, Activity, Check } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui'
 import { useAuthStore } from '@/lib/store'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { clsx } from 'clsx'
 import VariableProximity from '@/components/ui/VariableProximity'
 import CountUp from '@/components/ui/CountUp'
@@ -54,13 +52,13 @@ const TESTIMONIALS = [
 export default function VolunteerPage() {
   const containerRef = useRef<HTMLElement>(null)
   const { isLoggedIn, user } = useAuthStore()
-  const router = useRouter()
+  const navigate = useNavigate()
 
   const handleCTA = () => {
     if (!isLoggedIn) {
-      router.push('/auth/register')
+      navigate('/auth/register')
     } else {
-      router.push('/dashboard/volunteer')
+      navigate('/dashboard/volunteer')
     }
   }
 

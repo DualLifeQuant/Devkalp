@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Check, Star, ChevronRight } from 'lucide-react'
 import { HeartHandshake, User, Heart } from 'lucide-react'
 import { Button, Spinner } from '@/components/ui'
@@ -41,7 +40,7 @@ export default function EvaluationSection({ id }: { id?: string }) {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [result, setResult] = useState<any>(null)
-  const router = useRouter()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const load = async () => {
@@ -145,7 +144,7 @@ export default function EvaluationSection({ id }: { id?: string }) {
           </div>
         )}
 
-        <Button onClick={() => router.push('/dashboard/matrimony')} className="w-full justify-center h-11 font-semibold shadow-warm">
+        <Button onClick={() => navigate('/dashboard/matrimony')} className="w-full justify-center h-11 font-semibold shadow-warm">
           Return to Dashboard <ChevronRight size={16} />
         </Button>
       </div>

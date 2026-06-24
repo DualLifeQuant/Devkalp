@@ -1,5 +1,4 @@
-'use client'
-import React, { forwardRef, ReactNode } from 'react'
+﻿import React, { forwardRef, ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { Loader2, AlertCircle } from 'lucide-react'
 import { clsx } from 'clsx'

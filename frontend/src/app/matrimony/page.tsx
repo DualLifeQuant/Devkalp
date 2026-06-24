@@ -1,6 +1,5 @@
-'use client'
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   HeartHandshake, ShieldCheck, Heart, Users, Star, Search,
@@ -408,19 +407,19 @@ export default function MatrimonyPage() {
               {isMounted && isLoggedIn ? (
                 <>
                   <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                    <Link href="/dashboard/matrimony" className="inline-flex items-center gap-2 px-7 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
+                    <Link to="/dashboard/matrimony" className="inline-flex items-center gap-2 px-7 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
                       <HeartHandshake size={16} /> Go to Dashboard
                     </Link>
                   </motion.div>
                   {hasMatrimonyProfile === true ? (
                     <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                      <Link href="/dashboard/matrimony?tab=profile" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
+                      <Link to="/dashboard/matrimony?tab=profile" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                         Profile Status & Builder <ChevronRight size={14} />
                       </Link>
                     </motion.div>
                   ) : hasMatrimonyProfile === false ? (
                     <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                      <Link href="/matrimony/register" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
+                      <Link to="/matrimony/register" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                         Create My Profile <ChevronRight size={14} />
                       </Link>
                     </motion.div>
@@ -433,12 +432,12 @@ export default function MatrimonyPage() {
               ) : (
                 <>
                   <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                    <Link href="/matrimony/register" className="inline-flex items-center gap-2 px-7 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
+                    <Link to="/matrimony/register" className="inline-flex items-center gap-2 px-7 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
                       <HeartHandshake size={16} /> Create My Profile
                     </Link>
                   </motion.div>
                   <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                    <Link href="/auth/login" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
+                    <Link to="/auth/login" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                       Sign In <ChevronRight size={14} />
                     </Link>
                   </motion.div>
@@ -797,7 +796,7 @@ export default function MatrimonyPage() {
                                   : <><Heart size={13} className="fill-white/30" /> Interested</>
                                 }
                               </button>
-                              <Link href="/auth/login"
+                              <Link to="/auth/login"
                                 className="w-full py-3 text-xs font-bold rounded-2xl border border-slate-200 text-slate-700 hover:border-trust-400 hover:bg-slate-50 transition-all duration-150 flex items-center justify-center text-center">
                                 Sign in to Connect
                               </Link>
@@ -1023,17 +1022,17 @@ export default function MatrimonyPage() {
             <div className="flex flex-wrap justify-center gap-3">
               {isMounted && isLoggedIn ? (
                 <>
-                  <Link href="/dashboard/matrimony"
+                  <Link to="/dashboard/matrimony"
                     className="inline-flex items-center gap-2 px-8 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
                     <HeartHandshake size={16} /> Go to Dashboard
                   </Link>
                   {hasMatrimonyProfile === true ? (
-                    <Link href="/dashboard/matrimony?tab=profile"
+                    <Link to="/dashboard/matrimony?tab=profile"
                       className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                       Profile Status & Builder <ChevronRight size={14} />
                     </Link>
                   ) : hasMatrimonyProfile === false ? (
-                    <Link href="/matrimony/register"
+                    <Link to="/matrimony/register"
                       className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                       Create My Profile <ChevronRight size={14} />
                     </Link>
@@ -1044,12 +1043,12 @@ export default function MatrimonyPage() {
                   )}
                 </>
               ) : (
-                <Link href="/matrimony/register"
+                <Link to="/matrimony/register"
                   className="inline-flex items-center gap-2 px-8 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
                   <HeartHandshake size={16} /> Create My Profile
                 </Link>
               )}
-              <Link href="/contact"
+              <Link to="/contact"
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                 Talk to a Counselor <ArrowRight size={14} />
               </Link>

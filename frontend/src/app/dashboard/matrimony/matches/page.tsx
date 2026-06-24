@@ -1,13 +1,12 @@
-'use client'
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { PageLoader } from '@/components/common/LoadingStates'
 
 export default function MatchesRedirectPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   useEffect(() => {
-    router.replace('/dashboard/matrimony?tab=matches')
-  }, [router])
+    navigate('/dashboard/matrimony?tab=matches', { replace: true })
+  }, [navigate])
 
   return <PageLoader />
 }

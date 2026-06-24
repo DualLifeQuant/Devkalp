@@ -1,8 +1,5 @@
-'use client'
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useRouter, usePathname } from 'next/navigation'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuthStore, getDashboardPath } from '@/lib/store'
@@ -23,8 +20,9 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
   const [scrolled, setScrolled] = useState(false)
   const [userMenu, setUserMenu] = useState(false)
   const { user, isLoggedIn, clearAuth } = useAuthStore()
-  const router = useRouter()
-  const pathname = usePathname()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const pathname = location.pathname
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 24)
@@ -49,9 +47,9 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
         <div className="flex items-center justify-between h-16 md:h-[70px]">
 
           {/* Logo */}
-          <Link href="/" className="shrink-0">
+          <Link to="/" className="shrink-0">
             <motion.div whileHover={{ scale: 1.03 }} transition={{ duration: 0.2 }}>
-              <Image src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40} priority className={clsx("object-contain h-24 w-auto transition-all duration-300", glass && "brightness-0 invert")} />
+              <img src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40} loading="eager" className={clsx("object-contain h-24 w-auto transition-all duration-300", glass && "brightness-0 invert")} />
             </motion.div>
           </Link>
 
@@ -101,10 +99,10 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
                         <p className="text-xs text-slate-400 capitalize">{user.role}</p>
                       </div>
                       <div className="p-1.5">
-                        <Link href={getDashboardPath(user.role)} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                        <Link to={getDashboardPath(user.role)} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-slate-700 hover:bg-slate-50 transition-colors">
                           <LayoutDashboard size={15}/> Dashboard
                         </Link>
-                        <button onClick={() => { clearAuth(); router.push('/') }} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition-colors">
+                        <button onClick={() => { clearAuth(); navigate('/') }} className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm text-red-600 hover:bg-red-50 transition-colors">
                           <LogOut size={15}/> Sign Out
                         </button>
                       </div>
@@ -114,11 +112,11 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
               </div>
             ) : (
               <>
-                <Link href="/auth/login" className={clsx('px-4 py-2 rounded-xl text-sm font-medium transition-all', glass ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-trust-700')}>
+                <Link to="/auth/login" className={clsx('px-4 py-2 rounded-xl text-sm font-medium transition-all', glass ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-trust-700')}>
                   Sign In
                 </Link>
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  <Link href="/auth/register" className={clsx('px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm', glass ? 'bg-saffron-400 text-trust-900 hover:bg-saffron-300' : 'bg-trust-800 text-white hover:bg-trust-700 shadow-trust')}>
+                  <Link to="/auth/register" className={clsx('px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm', glass ? 'bg-saffron-400 text-trust-900 hover:bg-saffron-300' : 'bg-trust-800 text-white hover:bg-trust-700 shadow-trust')}>
                     Join Us
                   </Link>
                 </motion.div>
@@ -145,7 +143,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             <div className="page-container py-4 space-y-1">
               {NAV_LINKS.map((link, i) => (
                 <motion.div key={link.href} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04, duration: 0.2 }}>
-                  <Link href={link.href} onClick={() => setOpen(false)}
+                  <Link to={link.href} onClick={() => setOpen(false)}
                     className={clsx('block px-4 py-3 rounded-xl text-sm font-medium transition-colors',
                       (link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)) ? 'bg-trust-50 text-trust-700' : 'text-slate-700 hover:bg-slate-50')}>
                     {link.label}
@@ -155,17 +153,17 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
               <div className="border-t border-slate-100 pt-2 mt-2 space-y-1">
                 {isLoggedIn && user ? (
                   <>
-                    <Link href={getDashboardPath(user.role)} onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-3 rounded-xl text-trust-700 text-sm font-medium hover:bg-trust-50 transition-colors">
+                    <Link to={getDashboardPath(user.role)} onClick={() => setOpen(false)} className="flex items-center gap-2 px-4 py-3 rounded-xl text-trust-700 text-sm font-medium hover:bg-trust-50 transition-colors">
                       <LayoutDashboard size={16}/> Dashboard
                     </Link>
-                    <button onClick={() => { clearAuth(); router.push('/') }} className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-red-600 text-sm font-medium hover:bg-red-50 transition-colors">
+                    <button onClick={() => { clearAuth(); navigate('/') }} className="w-full flex items-center gap-2 px-4 py-3 rounded-xl text-red-600 text-sm font-medium hover:bg-red-50 transition-colors">
                       <LogOut size={16}/> Sign Out
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link href="/auth/login" onClick={() => setOpen(false)} className="block px-4 py-3 rounded-xl text-slate-700 text-sm font-medium hover:bg-slate-50">Sign In</Link>
-                    <Link href="/auth/register" onClick={() => setOpen(false)} className="block px-4 py-3 rounded-xl bg-trust-800 text-white text-sm font-semibold text-center hover:bg-trust-700">Join Us — It's Free</Link>
+                    <Link to="/auth/login" onClick={() => setOpen(false)} className="block px-4 py-3 rounded-xl text-slate-700 text-sm font-medium hover:bg-slate-50">Sign In</Link>
+                    <Link to="/auth/register" onClick={() => setOpen(false)} className="block px-4 py-3 rounded-xl bg-trust-800 text-white text-sm font-semibold text-center hover:bg-trust-700">Join Us — It's Free</Link>
                   </>
                 )}
               </div>

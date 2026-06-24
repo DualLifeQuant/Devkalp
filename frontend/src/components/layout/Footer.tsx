@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import { Link } from 'react-router-dom'
 import { Mail, Phone, MapPin } from 'lucide-react'
 
 export default function Footer() {
@@ -9,8 +8,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="md:col-span-1">
-            <Link href="/" className="inline-block mb-5">
-              <Image src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40 } className="object-contain h-32 w-auto opacity-90 brightness-0 invert" />
+            <Link to="/" className="inline-block mb-5">
+              <img src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40} className="object-contain h-32 w-auto opacity-90 brightness-0 invert" />
             </Link>
             <p className="text-sm leading-relaxed text-slate-400 mb-6 font-accent italic">
               "Empowering communities, transforming lives — one family at a time."
@@ -33,7 +32,7 @@ export default function Footer() {
                 ['Volunteer With Us', '/volunteer'],
               ].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} className="text-slate-400 hover:text-saffron-300 transition-colors">{label}</Link>
+                  <Link to={href} className="text-slate-400 hover:text-saffron-300 transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>
@@ -51,7 +50,7 @@ export default function Footer() {
                 ['Contact Us',         '/contact'],
               ].map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href} className="text-slate-400 hover:text-saffron-300 transition-colors">{label}</Link>
+                  <Link to={href} className="text-slate-400 hover:text-saffron-300 transition-colors">{label}</Link>
                 </li>
               ))}
             </ul>
@@ -80,9 +79,9 @@ export default function Footer() {
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© 2025 Devkalp Foundation. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-            <Link href="/terms"   className="hover:text-slate-300 transition-colors">Terms of Use</Link>
-            <Link href="/80g"     className="hover:text-slate-300 transition-colors">80G Certificate</Link>
+            <Link to="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
+            <Link to="/terms"   className="hover:text-slate-300 transition-colors">Terms of Use</Link>
+            <Link to="/80g"     className="hover:text-slate-300 transition-colors">80G Certificate</Link>
           </div>
         </div>
       </div>

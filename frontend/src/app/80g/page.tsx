@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import Link from 'next/link'
 
 export default function EightyGPage() {
   return (
@@ -40,7 +40,7 @@ export default function EightyGPage() {
               <p className="font-semibold text-trust-800 mb-1">Need your donation receipt?</p>
               <p className="text-sm text-slate-600">Receipts are sent automatically to your email after each donation. If you haven't received it, check your spam folder or contact us.</p>
             </div>
-            <Link href="/contact"
+            <Link to="/contact"
               className="shrink-0 px-6 py-3 bg-trust-800 text-white text-sm font-medium rounded-xl hover:bg-trust-700 transition-colors">
               Contact Us
             </Link>

@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { Briefcase, Clock, MapPin, ChevronRight, CheckCircle, AlertCircle, Calendar } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -71,7 +70,7 @@ export default function CandidateDashboard() {
             {apps.length === 0 ? (
               <EmptyState icon={<Briefcase size={24}/>} title="No applications yet"
                 description="Browse our open positions and apply."
-                action={<Link href="/jobs"><Button size="sm">Browse Jobs →</Button></Link>}/>
+                action={<Link to="/jobs"><Button size="sm">Browse Jobs →</Button></Link>}/>
             ) : (
               <div className="space-y-3">
                 {apps.map((a:any) => {

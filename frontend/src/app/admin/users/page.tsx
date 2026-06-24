@@ -1,5 +1,4 @@
-'use client'
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Users, Search, Shield, ShieldOff } from 'lucide-react'
 import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Card, Spinner, EmptyState, StatsCard } from '@/components/ui'

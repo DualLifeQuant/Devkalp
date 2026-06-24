@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { UserCheck, Calendar, Users, FileText, Clock, Check, MessageSquare, X } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -72,7 +71,7 @@ export default function CounselorDashboard() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-display text-xl text-trust-900">Upcoming Sessions</h2>
-                <Link href="/dashboard/counselor/sessions" className="text-xs text-trust-600 hover:text-trust-800">All Sessions →</Link>
+                <Link to="/dashboard/counselor/sessions" className="text-xs text-trust-600 hover:text-trust-800">All Sessions →</Link>
               </div>
               {upcomingSessions.length === 0 ? (
                 <EmptyState icon={<Calendar size={20} />} title="No upcoming sessions" description="Your scheduled sessions will appear here." />
@@ -116,7 +115,7 @@ export default function CounselorDashboard() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-display text-xl text-trust-900">Recent Clients</h2>
-                <Link href="/dashboard/counselor/profiles" className="text-xs text-trust-600 hover:text-trust-800">View all →</Link>
+                <Link to="/dashboard/counselor/profiles" className="text-xs text-trust-600 hover:text-trust-800">View all →</Link>
               </div>
               {profiles.length === 0 ? (
                 <EmptyState icon={<Users size={20} />} title="No clients yet" description="Profiles you counsel will appear here." />

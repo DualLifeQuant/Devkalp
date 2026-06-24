@@ -1,5 +1,4 @@
-'use client'
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Camera, FileText, UploadCloud, Trash2, ShieldCheck, AlertCircle, ArrowLeft, ArrowRight, Save, Plus } from 'lucide-react'
 import { Button, Card } from '@/components/ui'
 import { useCreateMatrimonyProfile, useUpdateMatrimonyProfile } from '@/hooks/useApiQueries'

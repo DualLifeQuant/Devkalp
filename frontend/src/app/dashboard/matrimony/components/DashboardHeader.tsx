@@ -1,19 +1,16 @@
-'use client'
 import { useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { Link, useNavigate } from 'react-router-dom'
 import { LogOut, Bell, Home, ArrowLeft } from 'lucide-react'
 import { useAuthStore } from '@/lib/store'
 
 export default function DashboardHeader() {
   const { user, clearAuth } = useAuthStore()
-  const router = useRouter()
+  const navigate = useNavigate()
   const [showNotifications, setShowNotifications] = useState(false)
 
   const handleLogout = () => {
     clearAuth()
-    router.push('/')
+    navigate('/')
   }
 
   return (
@@ -23,13 +20,13 @@ export default function DashboardHeader() {
           
           {/* Left Side: Brand Logo & Title */}
           <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-1 shrink-0">
-              <Image 
-                src="/Logo-removebg-preview.png" 
-                alt="Devkalp Foundation Logo" 
-                width={100} 
-                height={32} 
-                className="object-contain h-12 w-auto" 
+            <Link to="/" className="flex items-center gap-1 shrink-0">
+              <img
+                src="/Logo-removebg-preview.png"
+                alt="Devkalp Foundation Logo"
+                width={100}
+                height={32}
+                className="object-contain h-12 w-auto"
               />
             </Link>
             <div className="hidden sm:block h-5 w-[1px] bg-slate-200" />
@@ -43,8 +40,8 @@ export default function DashboardHeader() {
           <div className="flex items-center gap-3">
             
             {/* Back to Website */}
-            <Link 
-              href="/"
+            <Link
+              to="/"
               className="text-xs text-slate-500 hover:text-trust-700 transition-colors font-medium flex items-center gap-1.5 py-1.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100"
             >
               <Home size={14} />

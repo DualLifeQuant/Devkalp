@@ -1,7 +1,5 @@
-'use client'
 import { useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Heart, ArrowRight, ArrowLeft, Check, Camera, Upload, X } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
@@ -21,7 +19,7 @@ export default function MatrimonyRegisterPage() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
   const { user } = useAuthStore()
-  const router = useRouter()
+  const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors }, trigger } = useForm()
 
   const STEP_FIELDS: Record<number, string[]> = {
@@ -61,7 +59,7 @@ export default function MatrimonyRegisterPage() {
         </div>
         <h2 className="font-display text-2xl text-trust-900 mb-2">Sign in required</h2>
         <p className="text-slate-500 text-sm mb-6">Create an account with the Matrimony role to proceed.</p>
-        <Link href="/auth/register"><Button className="w-full justify-center">Create Account →</Button></Link>
+        <Link to="/auth/register"><Button className="w-full justify-center">Create Account →</Button></Link>
       </div>
     </div>
   )
@@ -102,7 +100,7 @@ export default function MatrimonyRegisterPage() {
       }
 
       toast.success('Profile submitted! Admin will review within 1–2 working days.')
-      router.push('/dashboard/matrimony')
+      navigate('/dashboard/matrimony')
     } catch (e: any) {
       toast.error(e?.response?.data?.detail || 'Failed to create profile')
     } finally { setLoading(false) }

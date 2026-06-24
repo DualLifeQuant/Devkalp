@@ -1,5 +1,4 @@
-'use client'
-import DashboardLayout from './DashboardLayout'
+﻿import DashboardLayout from './DashboardLayout'
 import { LayoutDashboard, HeartHandshake, UserCheck, Briefcase, HandHeart, Leaf, Heart, Users, Activity, Mail } from 'lucide-react'
 
 const ADMIN_NAV = [

@@ -1,6 +1,5 @@
-'use client'
 import { useRef, useEffect } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Heart, ArrowRight, Star, Users, HandHeart, Briefcase, Leaf, HeartHandshake, Quote } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
@@ -144,12 +143,12 @@ export default function HomePage() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-wrap gap-4">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/matrimony" className="inline-flex items-center gap-2 px-8 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
+                <Link to="/matrimony" className="inline-flex items-center gap-2 px-8 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
                   <HeartHandshake size={18} /> Begin Your Journey
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/donate" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
+                <Link to="/donate" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                   <Heart size={15} /> Make a Difference
                 </Link>
               </motion.div>
@@ -184,7 +183,7 @@ export default function HomePage() {
           <div className="gsap-modules-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {MODULES.map((m, i) => (
               <div key={m.href} className="gsap-module-card opacity-0">
-                <Link href={m.href} className="group block relative overflow-hidden bg-white rounded-2xl border border-slate-100 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300 h-full z-0">
+                <Link to={m.href} className="group block relative overflow-hidden bg-white rounded-2xl border border-slate-100 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300 h-full z-0">
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10">
                     <img src={m.img} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-trust-950/80 backdrop-blur-[0px]" />
@@ -204,7 +203,7 @@ export default function HomePage() {
                 <h3 className="font-display text-xl font-semibold text-white mb-2">Need guidance?</h3>
                 <p className="text-white/60 text-sm leading-relaxed">Our counselors are available for a free first conversation.</p>
               </div>
-              <Link href="/contact" className="inline-flex items-center gap-1.5 mt-5 text-saffron-300 text-sm font-semibold hover:gap-2.5 transition-all">Talk to a counselor <ArrowRight size={13} /></Link>
+              <Link to="/contact" className="inline-flex items-center gap-1.5 mt-5 text-saffron-300 text-sm font-semibold hover:gap-2.5 transition-all">Talk to a counselor <ArrowRight size={13} /></Link>
             </div>
           </div>
         </div>
@@ -301,8 +300,8 @@ export default function HomePage() {
             <h2 className="font-display text-4xl font-semibold text-trust-900 mb-3">Ready to Take the First Step?</h2>
             <p className="text-trust-800/70 text-base mb-8 max-w-lg mx-auto">Whether you're looking for a life partner, wanting to give back, or seeking meaningful work — we're here.</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/auth/register" className="inline-flex items-center gap-2 px-8 py-3.5 bg-trust-900 text-white font-bold rounded-xl hover:bg-trust-800 transition-colors text-sm">Create an Account <ArrowRight size={16} /></Link>
-              <Link href="/donate" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-trust-800 font-bold rounded-xl hover:bg-trust-50 transition-colors text-sm"><Heart size={15} className="text-red-500" /> Donate Today</Link>
+              <Link to="/auth/register" className="inline-flex items-center gap-2 px-8 py-3.5 bg-trust-900 text-white font-bold rounded-xl hover:bg-trust-800 transition-colors text-sm">Create an Account <ArrowRight size={16} /></Link>
+              <Link to="/donate" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-trust-800 font-bold rounded-xl hover:bg-trust-50 transition-colors text-sm"><Heart size={15} className="text-red-500" /> Donate Today</Link>
             </div>
           </FadeIn>
         </div>

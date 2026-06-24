@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { HandHeart, TrendingUp, Receipt, Heart } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -35,7 +34,7 @@ export default function DonorDashboard() {
           {donations.length === 0 ? (
             <EmptyState icon={<HandHeart size={24}/>} title="No donations yet"
               description="Your giving journey starts with a single step."
-              action={<Link href="/donate"><Button size="sm">Make a Donation →</Button></Link>}/>
+              action={<Link to="/donate"><Button size="sm">Make a Donation →</Button></Link>}/>
           ) : (
             <div>
               <h2 className="font-display text-xl text-trust-900 mb-4">Donation History</h2>

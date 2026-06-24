@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { HeartHandshake, User, Heart, Star, Edit2, Camera, ChevronRight } from 'lucide-react'
 import { Badge, Button, Card, Spinner } from '@/components/ui'
 import { matrimonyApi } from '@/lib/api'
@@ -46,7 +45,7 @@ export default function ProfileSection({ id }: { id?: string }) {
           </p>
         </div>
         <div className="pt-4">
-          <Link href="/matrimony/register">
+          <Link to="/matrimony/register">
             <Button size="lg" variant="secondary" className="group shadow-warm font-semibold">
               Create Profile Now <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -68,7 +67,7 @@ export default function ProfileSection({ id }: { id?: string }) {
           </div>
           <div className="flex items-center gap-2.5 shrink-0">
             <Badge status={profile.status} className="px-2.5 py-0.5 text-[10px]" />
-            <Link href="/matrimony/register">
+            <Link to="/matrimony/register">
               <Button size="sm" variant="ghost" className="shadow-none text-xs h-8 py-0 px-3">
                 <Edit2 size={12} /> Edit Profile
               </Button>

@@ -1,6 +1,4 @@
-'use client';
-
-import { useInView, useMotionValue, useSpring } from 'framer-motion';
+﻿import { useInView, useMotionValue, useSpring } from 'framer-motion';
 import { useCallback, useEffect, useRef } from 'react';
 
 export interface CountUpProps {

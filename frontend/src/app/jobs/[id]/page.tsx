@@ -1,7 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import {
   MapPin, Briefcase, Clock, Users, ArrowLeft,
   CheckCircle, ChevronRight, Calendar, IndianRupee
@@ -16,7 +14,7 @@ import { clsx } from 'clsx'
 
 export default function JobDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const router = useRouter()
+  const navigate = useNavigate()
   const { user, isLoggedIn } = useAuthStore()
 
   const [job, setJob] = useState<any>(null)
@@ -30,14 +28,14 @@ export default function JobDetailPage() {
     if (!id) return
     jobsApi.get(id)
       .then(r => setJob(r.data))
-      .catch(() => router.push('/jobs'))
+      .catch(() => navigate('/jobs'))
       .finally(() => setLoading(false))
   }, [id])
 
   const handleApply = async () => {
     if (!isLoggedIn) {
       toast.error('Please sign in to apply')
-      router.push('/auth/login')
+      navigate('/auth/login')
       return
     }
     if (user?.role !== 'candidate' && user?.role !== 'admin') {
@@ -87,7 +85,7 @@ export default function JobDetailPage() {
         <div className="page-container max-w-5xl">
 
           {/* Back */}
-          <Link href="/jobs" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-trust-700 transition-colors mb-6 mt-4">
+          <Link to="/jobs" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-trust-700 transition-colors mb-6 mt-4">
             <ArrowLeft size={15} /> All Positions
           </Link>
 
@@ -190,14 +188,14 @@ export default function JobDetailPage() {
                     <CheckCircle size={32} className="text-sage-500 mx-auto mb-3" />
                     <p className="font-semibold text-slate-800 text-sm">Application Submitted!</p>
                     <p className="text-xs text-slate-500 mt-1 mb-4">We'll review your application and reach out soon.</p>
-                    <Link href="/dashboard/jobs">
+                    <Link to="/dashboard/jobs">
                       <Button size="sm" variant="ghost" className="w-full justify-center">View My Applications →</Button>
                     </Link>
                   </div>
                 ) : job.status !== 'open' ? (
                   <div className="text-center py-4 text-slate-500 text-sm">
                     <p>This position is currently closed.</p>
-                    <Link href="/jobs" className="text-trust-600 hover:underline text-sm mt-2 block">Browse open positions →</Link>
+                    <Link to="/jobs" className="text-trust-600 hover:underline text-sm mt-2 block">Browse open positions →</Link>
                   </div>
                 ) : (
                   <>
@@ -257,8 +255,8 @@ export default function JobDetailPage() {
                     )}
                     {!isLoggedIn && (
                       <p className="text-xs text-center text-slate-400 mt-3">
-                        <Link href="/auth/login" className="text-trust-600 hover:underline">Sign in</Link> or{' '}
-                        <Link href="/auth/register" className="text-trust-600 hover:underline">create account</Link> to apply
+                        <Link to="/auth/login" className="text-trust-600 hover:underline">Sign in</Link> or{' '}
+                        <Link to="/auth/register" className="text-trust-600 hover:underline">create account</Link> to apply
                       </p>
                     )}
                   </>

@@ -1,6 +1,5 @@
-'use client'
 import { useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { Mail, Heart, ArrowLeft, Send } from 'lucide-react'
 import { Button } from '@/components/ui'
 import toast from 'react-hot-toast'
@@ -22,7 +21,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <div className="w-full max-w-md">
-        <Link href="/" className="flex items-center gap-2 mb-10 justify-center">
+        <Link to="/" className="flex items-center gap-2 mb-10 justify-center">
           <div className="w-9 h-9 rounded-xl bg-trust-800 flex items-center justify-center">
             <Heart size={17} className="text-saffron-300 fill-saffron-300" />
           </div>
@@ -68,7 +67,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         <p className="text-center text-sm text-slate-500 mt-5">
-          <Link href="/auth/login" className="inline-flex items-center gap-1.5 text-trust-600 hover:text-trust-800 font-medium">
+          <Link to="/auth/login" className="inline-flex items-center gap-1.5 text-trust-600 hover:text-trust-800 font-medium">
             <ArrowLeft size={14} /> Back to Sign In
           </Link>
         </p>

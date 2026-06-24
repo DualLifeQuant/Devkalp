@@ -1,6 +1,5 @@
-'use client'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Users, HeartHandshake, HandHeart, Briefcase,
@@ -64,7 +63,7 @@ export default function AdminDashboard() {
               <h1 className="font-display text-2xl text-trust-900">Admin Dashboard</h1>
               <p className="text-slate-500 text-sm mt-0.5">Welcome back. Here's what needs your attention today.</p>
             </div>
-            <Link href="/admin/activity"
+            <Link to="/admin/activity"
               className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-sm hover:border-trust-300 hover:text-trust-700 transition-all">
               <Activity size={15} /> View Logs
             </Link>
@@ -88,19 +87,19 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex flex-wrap gap-2.5">
                     {stats.pending_matrimony_profiles > 0 && (
-                      <Link href="/admin/matrimony"
+                      <Link to="/admin/matrimony"
                         className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-amber-200 transition-colors">
                         {stats.pending_matrimony_profiles} matrimony profiles to review <ArrowUpRight size={12} />
                       </Link>
                     )}
                     {stats.pending_applications > 0 && (
-                      <Link href="/admin/jobs"
+                      <Link to="/admin/jobs"
                         className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-amber-200 transition-colors">
                         {stats.pending_applications} job applications pending <ArrowUpRight size={12} />
                       </Link>
                     )}
                     {stats.pending_volunteers > 0 && (
-                      <Link href="/admin/volunteers"
+                      <Link to="/admin/volunteers"
                         className="inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-amber-200 transition-colors">
                         {stats.pending_volunteers} volunteer approvals <ArrowUpRight size={12} />
                       </Link>
@@ -146,7 +145,7 @@ export default function AdminDashboard() {
                 <Card className="p-6">
                   <div className="flex items-center justify-between mb-5">
                     <h3 className="font-display text-lg text-trust-900">Pending Matrimony Profiles</h3>
-                    <Link href="/admin/matrimony" className="text-xs text-trust-600 hover:text-trust-800 font-medium flex items-center gap-1">
+                    <Link to="/admin/matrimony" className="text-xs text-trust-600 hover:text-trust-800 font-medium flex items-center gap-1">
                       View all <ArrowUpRight size={12}/>
                     </Link>
                   </div>
@@ -176,7 +175,7 @@ export default function AdminDashboard() {
                 <Card className="p-6">
                   <div className="flex items-center justify-between mb-5">
                     <h3 className="font-display text-lg text-trust-900">Recent Applications</h3>
-                    <Link href="/admin/jobs" className="text-xs text-trust-600 hover:text-trust-800 font-medium flex items-center gap-1">
+                    <Link to="/admin/jobs" className="text-xs text-trust-600 hover:text-trust-800 font-medium flex items-center gap-1">
                       View all <ArrowUpRight size={12}/>
                     </Link>
                   </div>
@@ -210,7 +209,7 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {QUICK_ACTIONS.map((a, i) => (
                     <motion.div key={a.href} whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
-                      <Link href={a.href}
+                      <Link to={a.href}
                         className={`flex items-center gap-2.5 p-4 rounded-2xl border text-sm font-semibold transition-all ${a.color}`}>
                         {a.icon} {a.label}
                       </Link>

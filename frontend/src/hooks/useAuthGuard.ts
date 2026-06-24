@@ -1,7 +1,5 @@
-'use client'
-
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { useAuthStore, type UserRole } from '@/lib/store'
 
 interface AuthGuardOptions {
@@ -17,19 +15,19 @@ export function useAuthGuard({
   allowedRoles,
   redirectTo = '/auth/login',
 }: AuthGuardOptions = {}) {
-  const router = useRouter()
+  const navigate = useNavigate()
   const { isLoggedIn, user } = useAuthStore()
 
   useEffect(() => {
     if (!isLoggedIn || !user) {
-      router.replace(redirectTo)
+      navigate(redirectTo, { replace: true })
       return
     }
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
-      router.replace('/dashboard')
+      navigate('/dashboard', { replace: true })
     }
-  }, [isLoggedIn, user, allowedRoles, redirectTo, router])
+  }, [isLoggedIn, user, allowedRoles, redirectTo, navigate])
 
   return { user, isAuthenticated: isLoggedIn }
 }

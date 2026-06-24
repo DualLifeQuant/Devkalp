@@ -1,5 +1,4 @@
-'use client'
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { HeartHandshake, User, Heart, Star, Plus, Trash2, X, Check, Edit2 } from 'lucide-react'
 import { Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { familyApi } from '@/lib/api'

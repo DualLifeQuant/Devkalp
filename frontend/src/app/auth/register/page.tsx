@@ -1,10 +1,7 @@
-'use client'
 import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import Image from 'next/image'
 import { Heart, Mail, Lock, User, Phone, Eye, EyeOff, HeartHandshake, HandHeart, Briefcase, Users } from 'lucide-react'
 import { authApi } from '@/lib/api'
 import { useAuthStore, getDashboardPath, UserRole } from '@/lib/store'
@@ -29,7 +26,7 @@ export default function RegisterPage() {
   const [step, setStep] = useState<1 | 2>(1)
   const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterForm>()
   const { setAuth } = useAuthStore()
-  const router = useRouter()
+  const navigate = useNavigate()
 
   const onSubmit = async (data: RegisterForm) => {
     if (data.password !== data.confirm_password) {
@@ -48,7 +45,7 @@ export default function RegisterPage() {
       const { access_token, refresh_token, user } = res.data
       setAuth(user, access_token, refresh_token)
       toast.success(`Welcome, ${user.full_name.split(' ')[0]}! 🎉`)
-      router.push(getDashboardPath(user.role))
+      navigate(getDashboardPath(user.role))
     } catch (err: any) {
       toast.error(err?.response?.data?.detail || 'Registration failed. Please try again.')
     } finally {
@@ -63,8 +60,8 @@ export default function RegisterPage() {
         <div className="absolute inset-0 bg-hero-pattern opacity-30" />
         <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-saffron-500/10 rounded-full blur-3xl" />
         <div className="relative z-10">
-          <Link href="/">
-            <Image src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={130} height={44} className="object-contain h-32 w-auto opacity-90 brightness-0 invert" />
+          <Link to="/">
+            <img src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={130} height={44} loading="eager" className="object-contain h-32 w-auto opacity-90 brightness-0 invert" />
           </Link>
           <div className="relative z-10 mt-auto mb-8">
           <p className="font-accent italic text-saffron-300 text-lg mb-3">A space built on trust</p>
@@ -93,8 +90,8 @@ export default function RegisterPage() {
       {/* Right Panel */}
       <div className="flex-1 flex items-center justify-center p-4 md:p-8 overflow-y-auto bg-white max-h-screen">
         <div className="w-full max-w-md py-4">
-          <Link href="/" className="flex items-center gap-2 mb-6 lg:hidden">
-            <Image src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40} className="object-contain h-9 w-auto" />
+          <Link to="/" className="flex items-center gap-2 mb-6 lg:hidden">
+            <img src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={120} height={40} className="object-contain h-9 w-auto" />
           </Link>
 
           <h1 className="font-display text-2xl md:text-3xl font-semibold text-trust-900 mb-1">Create Account</h1>
@@ -175,9 +172,9 @@ export default function RegisterPage() {
 
               <p className="text-xs text-slate-400 leading-relaxed">
                 By creating an account, you agree to our{' '}
-                <Link href="/terms" className="text-trust-600 hover:underline">Terms of Service</Link>{' '}
+                <Link to="/terms" className="text-trust-600 hover:underline">Terms of Service</Link>{' '}
                 and{' '}
-                <Link href="/privacy" className="text-trust-600 hover:underline">Privacy Policy</Link>.
+                <Link to="/privacy" className="text-trust-600 hover:underline">Privacy Policy</Link>.
               </p>
 
               <Button type="submit" loading={loading} className="w-full justify-center">
@@ -188,7 +185,7 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm text-slate-500 mt-6">
             Already have an account?{' '}
-            <Link href="/auth/login" className="text-trust-700 font-medium hover:text-trust-900">Sign in</Link>
+            <Link to="/auth/login" className="text-trust-700 font-medium hover:text-trust-900">Sign in</Link>
           </p>
         </div>
       </div>

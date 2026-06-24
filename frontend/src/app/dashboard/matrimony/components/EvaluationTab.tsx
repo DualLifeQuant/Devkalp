@@ -1,5 +1,4 @@
-'use client'
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { ArrowLeft, ArrowRight, Check, Star, ChevronRight, AlertCircle, Heart } from 'lucide-react'
 import { Button, Card } from '@/components/ui'
 import { PageLoader, SkeletonList, InlineError } from '@/components/common/LoadingStates'

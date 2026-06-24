@@ -1,6 +1,5 @@
-'use client'
 import { Suspense, useEffect } from 'react'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import { HeartHandshake, User, Heart, Users } from 'lucide-react'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useMyMatrimonyProfile, useMyMatches } from '@/hooks/useApiQueries'
@@ -23,9 +22,10 @@ const TABS = [
 function MatrimonyWorkspaceContent() {
   useAuthGuard({ allowedRoles: ['matrimony', 'admin'] })
 
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const pathname = location.pathname
 
   const activeTab = searchParams.get('tab') || 'overview'
 
@@ -39,7 +39,7 @@ function MatrimonyWorkspaceContent() {
   const handleTabChange = (tabId: string) => {
     const params = new URLSearchParams(searchParams.toString())
     params.set('tab', tabId)
-    router.replace(`${pathname}?${params.toString()}`)
+    navigate(`${pathname}?${params.toString()}`, { replace: true })
   }
 
   // Pre-validate that activeTab exists in TABS, fallback to overview

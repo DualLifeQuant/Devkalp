@@ -1,5 +1,4 @@
-'use client'
-import { useCallback, useState, useTransition } from 'react'
+﻿import { useCallback, useState, useTransition } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { logger } from '@/lib/logger'
 import { trackError } from '@/lib/analytics'

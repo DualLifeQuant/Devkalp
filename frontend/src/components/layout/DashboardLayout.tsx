@@ -1,9 +1,6 @@
-'use client'
 import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { LogOut, ChevronRight, Menu, X, Bell } from 'lucide-react'
-import Image from 'next/image'
 import { useAuthStore } from '@/lib/store'
 import { Avatar } from '@/components/ui'
 import { clsx } from 'clsx'
@@ -24,12 +21,13 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children, navItems, title }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { user, clearAuth } = useAuthStore()
-  const pathname = usePathname()
-  const router = useRouter()
+  const location = useLocation()
+  const pathname = location.pathname
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     clearAuth()
-    router.push('/')
+    navigate('/')
   }
 
   const Sidebar = ({ mobile = false }) => (
@@ -39,7 +37,7 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
     )}>
       {/* Logo */}
       <div className="h-16 flex items-center gap-3 px-5 border-b border-slate-100 shrink-0">
-        <Image src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={110} height={36} className="object-contain h-14 w-auto" />
+        <img src="/Logo-removebg-preview.png" alt="Devkalp Foundation Logo" width={110} height={36} className="object-contain h-14 w-auto" />
         <span className="text-[10px] text-slate-400 uppercase tracking-widest leading-none font-medium">{title}</span>
       </div>
 
@@ -91,7 +89,7 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
 
       {/* Bottom */}
       <div className="p-3 border-t border-slate-100 shrink-0">
-        <Link href="/" className="sidebar-link text-xs mb-1 text-slate-400 hover:text-slate-600">
+        <Link to="/" className="sidebar-link text-xs mb-1 text-slate-400 hover:text-slate-600">
           ← Back to website
         </Link>
         <button
