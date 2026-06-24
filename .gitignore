@@ -67,8 +67,6 @@ Thumbs.db
 desktop.ini
 
 # ── Uploads / Static generated ───────────────────────────────────
-backend/app/static/uploads/
-public/uploads/
 
 # ── Miscellaneous ────────────────────────────────────────────────
 *.tgz
