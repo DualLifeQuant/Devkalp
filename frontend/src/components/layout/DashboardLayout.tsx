@@ -65,7 +65,7 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 onClick={() => setSidebarOpen(false)}
                 className={clsx(
                   'sidebar-link',

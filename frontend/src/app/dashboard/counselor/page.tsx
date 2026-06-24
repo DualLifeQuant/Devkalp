@@ -122,7 +122,7 @@ export default function CounselorDashboard() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {profiles.slice(0, 4).map((p: any) => (
-                    <Link key={p.id} href={`/dashboard/counselor/profiles/${p.id}`}>
+                    <Link key={p.id} to={`/dashboard/counselor/profiles/${p.id}`}>
                       <Card className="p-4 cursor-pointer" hover>
                         <div className="flex items-center gap-3">
                           <div className="w-11 h-11 rounded-2xl bg-trust-100 text-trust-700 font-display font-semibold flex items-center justify-center text-lg shrink-0">
