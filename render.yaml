@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: devkalp-api
+    env: python
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        value: postgresql+asyncpg://neondb_owner:npg_yAo69HQwtIEj@ep-lively-morning-aowr0jbg-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?ssl=require
+      - key: DATABASE_URL_SYNC
+        value: postgresql+psycopg2://neondb_owner:npg_yAo69HQwtIEj@ep-lively-morning-aowr0jbg-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require
+      - key: SECRET_KEY
+        generateValue: true
+      # Set FRONTEND_URL to your Vercel deployment URL after deploying
+      - key: FRONTEND_URL
+        value: https://devkalp.vercel.app
+      - key: BACKEND_URL
+        value: https://devkalp-api.onrender.com
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "30"
+      # Add these in the Render dashboard (sensitive values)
+      # SMTP_USER, SMTP_PASSWORD
+      # CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
+      # RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET

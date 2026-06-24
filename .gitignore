@@ -1,0 +1,78 @@
+# ── Node.js / Next.js ─────────────────────────────────────────────
+node_modules/
+.next/
+out/
+dist/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# ── Environment files (NEVER commit secrets) ─────────────────────
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+.env.staging
+backend/.env
+frontend/.env.local
+
+# ── Python ───────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# ── Database files ───────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Logs ─────────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Testing / Coverage ───────────────────────────────────────────
+coverage/
+playwright-report/
+test-results/
+.playwright/
+
+# ── IDE & OS ─────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Uploads / Static generated ───────────────────────────────────
+backend/app/static/uploads/
+public/uploads/
+
+# ── Miscellaneous ────────────────────────────────────────────────
+*.tgz
+*.zip
+.cache/
+tmp/
+temp/

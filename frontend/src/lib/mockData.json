@@ -1,0 +1,149 @@
+{
+  "profiles": [
+    {
+      "id": "85f815c6-9c8c-4733-88a1-d1164e918e0a",
+      "name": "Test U.",
+      "age": 28,
+      "gender": "male",
+      "city": "Surat",
+      "state": "Gujarat",
+      "education": "B.Tech",
+      "occupation": "Software Engineeer",
+      "religion": "Hindu",
+      "caste": "Brahmin",
+      "bio": "",
+      "photos": [],
+      "created_at": "2026-05-19 09:59:51"
+    },
+    {
+      "id": "e742e5d9-faaa-4702-8d72-ed0a865c3af0",
+      "name": "abcd",
+      "age": 20,
+      "gender": "male",
+      "city": "Surat",
+      "state": "Gujrat",
+      "education": "B.Tech",
+      "occupation": "Software engineer",
+      "religion": "Hindu",
+      "caste": "Patel",
+      "bio": "",
+      "photos": [],
+      "created_at": "2026-05-19 11:54:16"
+    },
+    {
+      "id": "0cce42b4-a465-4c6f-9c1b-f95cc0f69fa9",
+      "name": "Rahul S.",
+      "age": 24,
+      "gender": "male",
+      "city": "Surat",
+      "state": "Gujarat",
+      "education": "MBBS",
+      "occupation": "Doctor",
+      "religion": "Hindu",
+      "caste": "Patel",
+      "bio": "",
+      "photos": [
+        "http://localhost:8000/static/uploads/photo_d0e77253-5161-4865-ae7f-bcd26d929e51_21f1ed.png"
+      ],
+      "created_at": "2026-05-20 10:39:48"
+    },
+    {
+      "id": "5b5eb355-5eb2-4333-a7a3-43cb4bfa9130",
+      "name": "Siya S.",
+      "age": 20,
+      "gender": "female",
+      "city": "Surat",
+      "state": "Gujarat",
+      "education": "BHMS",
+      "occupation": "Doctor",
+      "religion": "Hindu",
+      "caste": "Patel",
+      "bio": "",
+      "photos": [],
+      "created_at": "2026-05-20 10:49:21"
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "f8f7a1a1-a9c9-43cd-8be7-9365aaba33ea",
+      "title": "Campaign \u091c\u093e\u0917\u0930\u0942\u0915\u0924\u093e",
+      "slug": "campaign-\u091c\u0917\u0930\u0915\u0924",
+      "category": "health",
+      "short_description": "\"Junk Food Awareness Campaign\"...A Small step towards healthier habits and a better future.",
+      "description": "1. Junk Food Awareness Sessions.\n2. Healthy vs. Unhealthy Food.\n3. Activities & Engagement.\n4. Pledge For Good Health.",
+      "venue": "J.B & Karp Vidhyasankul",
+      "city": "Surat",
+      "event_date": "2026-05-01 08:49:00.000000",
+      "status": "active",
+      "max_registrations": 999,
+      "registration_count": 0,
+      "is_registration_open": true,
+      "cover_image": "http://localhost:8000/static/uploads/campaign_476ec7.jpeg",
+      "media_gallery": [
+        "http://localhost:8000/static/uploads/campaign_0bb792.jpeg",
+        "http://localhost:8000/static/uploads/campaign_eff435.jpeg",
+        "http://localhost:8000/static/uploads/campaign_f57a5d.jpeg"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "0c996c86-874c-41b7-9a56-d33a78abda76",
+      "title": "Campaign \u0916\u0941\u0936\u093f\u092f\u093e ",
+      "slug": "campaign-\u0916\u0936\u092f",
+      "category": "community",
+      "short_description": "Distribute clothes",
+      "description": "Distribute clothes",
+      "venue": "Rural Area",
+      "city": "Surat",
+      "event_date": "2026-05-19 09:35:00.000000",
+      "status": "active",
+      "max_registrations": 100,
+      "registration_count": 0,
+      "is_registration_open": true,
+      "cover_image": "http://localhost:8000/static/uploads/campaign_1371ce.jpeg",
+      "media_gallery": [
+        "http://localhost:8000/static/uploads/campaign_bd5597.jpeg"
+      ],
+      "notes": ""
+    }
+  ],
+  "jobs": [
+    {
+      "id": "52ce442e-1e7b-4773-9810-f8b4e7c53364",
+      "title": "Frontend Ddevloper",
+      "department": "Web Devlopment",
+      "location": "Surat",
+      "job_type": "internship",
+      "experience_min": 0,
+      "experience_max": null,
+      "salary_min": null,
+      "salary_max": null,
+      "description": "6 months internship with 2 year contract",
+      "requirements": "Education : B.Tech\nExperince: Fresher\nSkills: HTML, CSS,Js",
+      "responsibilities": "it will infor soon",
+      "skills_required": null,
+      "status": "open",
+      "positions": 2,
+      "created_at": "2026-05-20 06:20:14"
+    }
+  ],
+  "donations": [
+    {
+      "id": "a154a599-4a14-44d4-94c1-b0b453001dd0",
+      "title": "Winter Education Drive",
+      "slug": "winter-education-drive",
+      "description": "wedsx",
+      "short_description": "khusiyo ke sathsardiya",
+      "cover_image": null,
+      "target_amount": 30000.0,
+      "collected_amount": 0.0,
+      "used_amount": 0.0,
+      "status": "active",
+      "start_date": null,
+      "end_date": null,
+      "impact_report": null,
+      "media_urls": [],
+      "created_at": "2026-05-20 05:54:19"
+    }
+  ]
+}
