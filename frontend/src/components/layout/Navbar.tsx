@@ -58,7 +58,7 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
             {NAV_LINKS.map(link => {
               const active = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
               return (
-                <Link key={link.href} href={link.href}
+                <Link key={link.href} to={link.href}
                   className={clsx(
                     'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
                     active
