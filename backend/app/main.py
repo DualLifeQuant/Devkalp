@@ -1,9 +1,8 @@
 """
 Devkalp Foundation — Main Application
 """
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import logging
@@ -53,16 +52,18 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        settings.FRONTEND_URL,
         "https://devkalp.org",
         "https://www.devkalp.org",
+        settings.FRONTEND_URL,
         "http://localhost:3000",
         "http://localhost:3001",
     ],
     allow_origin_regex=r"https://.*\.vercel\.app|https?://localhost(:\d+)?",
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=86400,
 )
 
 
@@ -88,12 +89,12 @@ async def security_headers(request: Request, call_next):
 # ── Exception Handlers ───────────────────────────────────────
 
 @app.exception_handler(404)
-async def not_found(request: Request, exc):
+async def not_found(_request: Request, _exc):
     return JSONResponse(status_code=404, content={"detail": "Resource not found"})
 
 
 @app.exception_handler(500)
-async def server_error(request: Request, exc):
+async def server_error(_request: Request, exc):
     logger.error(f"Internal error: {exc}")
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
