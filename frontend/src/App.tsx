@@ -26,6 +26,9 @@ import JobsPage from './app/jobs/page';
 import JobDetailsPage from './app/jobs/[id]/page';
 import VolunteerPage from './app/volunteer/page';
 import EightyGPage from './app/80g/page';
+import CSRPage from './app/csr/page';
+import GalleryPage from './app/gallery/page';
+import ScholarshipPage from './app/scholarship/page';
 
 // Auth pages
 import LoginPage from './app/auth/login/page';
@@ -58,6 +61,12 @@ import AdminUsersPage from './app/admin/users/page';
 import AdminActivityPage from './app/admin/activity/page';
 import AdminCampaignsPage from './app/admin/campaigns/page';
 import AdminMessagesPage from './app/admin/messages/page';
+import AdminCSRPage from './app/admin/csr/page';
+import AdminAwardsPage from './app/admin/awards/page';
+import AdminPressPage from './app/admin/press/page';
+import AdminGalleryPage from './app/admin/gallery/page';
+import AdminPartnersPage from './app/admin/partners/page';
+import AdminInstagramPage from './app/admin/instagram/page';
 
 export default function App() {
   return (
@@ -79,6 +88,9 @@ export default function App() {
           <Route path="/jobs/:id" element={<JobDetailsPage />} />
           <Route path="/volunteer" element={<VolunteerPage />} />
           <Route path="/80g" element={<EightyGPage />} />
+          <Route path="/scholarship" element={<ScholarshipPage />} />
+          <Route path="/csr" element={<CSRPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
 
           {/* Auth Routes */}
           <Route path="/auth/login" element={<LoginPage />} />
@@ -111,6 +123,12 @@ export default function App() {
           <Route path="/admin/activity" element={<AdminActivityPage />} />
           <Route path="/admin/campaigns" element={<AdminCampaignsPage />} />
           <Route path="/admin/messages" element={<AdminMessagesPage />} />
+          <Route path="/admin/csr" element={<AdminCSRPage />} />
+          <Route path="/admin/awards" element={<AdminAwardsPage />} />
+          <Route path="/admin/press" element={<AdminPressPage />} />
+          <Route path="/admin/gallery" element={<AdminGalleryPage />} />
+          <Route path="/admin/partners" element={<AdminPartnersPage />} />
+          <Route path="/admin/instagram" element={<AdminInstagramPage />} />
         </Routes>
       </RootLayout>
     </BrowserRouter>

@@ -101,7 +101,7 @@ async def server_error(_request: Request, exc):
 
 # ── Routers ──────────────────────────────────────────────────
 
-from app.routers import auth, matrimony, donations, jobs, campaigns, volunteers, admin, enquiries
+from app.routers import auth, matrimony, donations, jobs, campaigns, volunteers, admin, enquiries, awards, csr, press, gallery, partners, instagram
 from app.routers import counselors, family, emotional, campaign_sessions
 
 API = "/api/v1"
@@ -118,6 +118,12 @@ app.include_router(family.router,             prefix=API)
 app.include_router(emotional.router,          prefix=API)
 app.include_router(campaign_sessions.router,  prefix=API)
 app.include_router(enquiries.router,          prefix=API)
+app.include_router(awards.router,             prefix=API)
+app.include_router(csr.router,                prefix=API)
+app.include_router(press.router,              prefix=API)
+app.include_router(gallery.router,            prefix=API)
+app.include_router(partners.router,           prefix=API)
+app.include_router(instagram.router,          prefix=API)
 
 
 # ── Health & Root ─────────────────────────────────────────────

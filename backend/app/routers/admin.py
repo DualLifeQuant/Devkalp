@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, desc
 from typing import Optional
+import uuid
 
 from app.database import get_db
 from app.models import (
@@ -10,8 +11,18 @@ from app.models import (
     Campaign, CampaignStatus, VolunteerProfile, VolunteerStatus, ActivityLog
 )
 from app.core.security import get_current_admin
+from app.utils.storage import upload_image
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
+
+
+@router.post("/upload-image")
+async def admin_upload_image(
+    file: UploadFile = File(...),
+    admin=Depends(get_current_admin)
+):
+    url = await upload_image(file, "admin_uploads", f"admin_{uuid.uuid4().hex[:6]}")
+    return {"url": url}
 
 
 @router.get("/dashboard/stats")

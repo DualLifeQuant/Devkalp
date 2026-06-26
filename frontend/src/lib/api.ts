@@ -215,6 +215,7 @@ export const campaignsApi = {
   registrations: (id: string) => api.get(`/campaigns/admin/registrations/${id}`),
   uploadImage: (form: FormData) => api.post('/campaigns/admin/upload-image', form, { headers: { 'Content-Type': 'multipart/form-data' } }),
   uploadVideo: (form: FormData) => api.post('/campaigns/admin/upload-video', form, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  categories:  ()           => api.get('/campaigns/categories'),
 }
 
 // ── Campaign Sessions
@@ -278,6 +279,7 @@ export const adminApi = {
   users:      (p?: any)    => api.get('/admin/users', { params: p }),
   toggleUser: (id: string) => api.post(`/admin/users/${id}/toggle-active`),
   logs:       (p?: any)    => api.get('/admin/activity-logs', { params: p }),
+  uploadImage:(form: FormData) => api.post('/admin/upload-image', form, { headers: { 'Content-Type': 'multipart/form-data' } }),
 }
 
 // ── Contact Enquiries / Messages
@@ -286,4 +288,53 @@ export const enquiriesApi = {
   list:   (params?: any)    => api.get('/enquiries/', { params }),
   delete: (id: string)      => api.delete(`/enquiries/${id}`),
 }
+
+// ── Awards & Achievements
+export const awardsApi = {
+  list:   (params?: any)    => api.get('/awards/', { params }),
+  create: (data: any)       => api.post('/awards/', data),
+  update: (id: string, data: any) => api.put(`/awards/${id}`, data),
+  delete: (id: string)      => api.delete(`/awards/${id}`),
+}
+
+// ── CSR Partnerships
+export const csrApi = {
+  submit: (data: any)       => api.post('/csr/', data),
+  list:   ()                => api.get('/csr/'),
+}
+
+// ── Press & Media Coverage
+export const pressApi = {
+  list:   (params?: any)    => api.get('/press/', { params }),
+  create: (data: any)       => api.post('/press/', data),
+  update: (id: string, data: any) => api.put(`/press/${id}`, data),
+  delete: (id: string)      => api.delete(`/press/${id}`),
+}
+
+// ── Media & Gallery
+export const galleryApi = {
+  list:   (params?: any)    => api.get('/gallery/', { params }),
+  create: (data: any)       => api.post('/gallery/', data),
+  update: (id: string, data: any) => api.put(`/gallery/${id}`, data),
+  delete: (id: string)      => api.delete(`/gallery/${id}`),
+}
+
+// ── Partners & Sponsors
+export const partnersApi = {
+  list:   (params?: any)    => api.get('/partners/', { params }),
+  create: (data: any)       => api.post('/partners/', data),
+  update: (id: string, data: any) => api.put(`/partners/${id}`, data),
+  delete: (id: string)      => api.delete(`/partners/${id}`),
+}
+
+// ── Instagram Posts
+export const instagramApi = {
+  list:   (params?: any)    => api.get('/instagram/', { params }),
+  create: (data: any)       => api.post('/instagram/', data),
+  update: (id: string, data: any) => api.put(`/instagram/${id}`, data),
+  delete: (id: string)      => api.delete(`/instagram/${id}`),
+}
+
+
+
 

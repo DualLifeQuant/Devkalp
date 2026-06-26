@@ -12,10 +12,10 @@ import { clsx } from 'clsx'
 import VariableProximity from '@/components/ui/VariableProximity'
 
 const JOB_TYPES = ['All', 'full-time', 'part-time', 'contract', 'internship']
-const TYPE_COLORS: Record<string,string> = {
-  'full-time':  'bg-trust-100/80 text-trust-800 border border-trust-200/60 font-extrabold',
-  'part-time':  'bg-saffron-100/80 text-saffron-800 border border-saffron-200/60 font-extrabold',
-  'contract':   'bg-purple-100/80 text-purple-800 border border-purple-200/60 font-extrabold',
+const TYPE_COLORS: Record<string, string> = {
+  'full-time': 'bg-trust-100/80 text-trust-800 border border-trust-200/60 font-extrabold',
+  'part-time': 'bg-saffron-100/80 text-saffron-800 border border-saffron-200/60 font-extrabold',
+  'contract': 'bg-purple-100/80 text-purple-800 border border-purple-200/60 font-extrabold',
   'internship': 'bg-sage-100/80 text-sage-800 border border-sage-200/60 font-extrabold',
 }
 
@@ -175,7 +175,7 @@ function SkeletonJob() {
           <div className="h-3.5 bg-slate-100 rounded-full w-40" />
           <div className="h-2.5 bg-slate-100 rounded-full w-28" />
           <div className="flex gap-1.5 pt-1">
-            {[50,70,60].map(w => <div key={w} className="h-4 bg-slate-100 rounded-md" style={{width:w}} />)}
+            {[50, 70, 60].map(w => <div key={w} className="h-4 bg-slate-100 rounded-md" style={{ width: w }} />)}
           </div>
         </div>
       </div>
@@ -284,31 +284,31 @@ function ApplyModal({ job, onClose }: { job: any; onClose: () => void }) {
                 <div>
                   <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Full Name *</label>
                   <input className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-trust-400 focus:ring-2 focus:ring-trust-100 transition-all" placeholder="Your full name"
-                    value={form.full_name} onChange={e => setForm(f => ({...f, full_name: e.target.value}))} />
+                    value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} />
                 </div>
                 <div>
                   <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Phone *</label>
                   <input type="tel" className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-trust-400 focus:ring-2 focus:ring-trust-100 transition-all" placeholder="+91 98765 43210"
-                    value={form.phone} onChange={e => setForm(f => ({...f, phone: e.target.value}))} />
+                    value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
                 </div>
               </div>
 
               <div>
                 <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Email *</label>
                 <input type="email" className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-trust-400 focus:ring-2 focus:ring-trust-100 transition-all" placeholder="your@email.com"
-                  value={form.email} onChange={e => setForm(f => ({...f, email: e.target.value}))} />
+                  value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Years of Experience</label>
                   <input className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-trust-400 focus:ring-2 focus:ring-trust-100 transition-all" placeholder="e.g. 3 years"
-                    value={form.experience} onChange={e => setForm(f => ({...f, experience: e.target.value}))} />
+                    value={form.experience} onChange={e => setForm(f => ({ ...f, experience: e.target.value }))} />
                 </div>
                 <div>
                   <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Expected Salary (₹/mo)</label>
                   <input type="number" className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-trust-400 focus:ring-2 focus:ring-trust-100 transition-all" placeholder="45000"
-                    value={form.expected_salary} onChange={e => setForm(f => ({...f, expected_salary: e.target.value}))} />
+                    value={form.expected_salary} onChange={e => setForm(f => ({ ...f, expected_salary: e.target.value }))} />
                 </div>
               </div>
 
@@ -356,7 +356,7 @@ function ApplyModal({ job, onClose }: { job: any; onClose: () => void }) {
                 <label className="block text-[11px] font-extrabold text-slate-700 uppercase tracking-wider mb-1">Cover Letter (optional)</label>
                 <textarea className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-trust-400 focus:ring-2 focus:ring-trust-100 transition-all resize-none" rows={2}
                   placeholder="Tell us why you are passionate about Devkalp's community mission..."
-                  value={form.cover_letter} onChange={e => setForm(f => ({...f, cover_letter: e.target.value}))} />
+                  value={form.cover_letter} onChange={e => setForm(f => ({ ...f, cover_letter: e.target.value }))} />
               </div>
 
               {/* Upload Progress */}
@@ -449,7 +449,7 @@ export default function JobsPage() {
   const filtered = jobs.filter(j => {
     const matchWhat = !searchWhat || (j.title || '').toLowerCase().includes(searchWhat.toLowerCase()) || (j.department || '').toLowerCase().includes(searchWhat.toLowerCase()) || (j.description || '').toLowerCase().includes(searchWhat.toLowerCase())
     const matchWhere = !searchWhere || (j.location || '').toLowerCase().includes(searchWhere.toLowerCase())
-    
+
     let matchQuick = true
     if (quickFilter === 'remote') matchQuick = j.isRemote || (j.location || '').toLowerCase().includes('remote') || (j.location || '').toLowerCase().includes('hybrid')
     if (quickFilter === 'high-salary') matchQuick = (j.salary_min || 0) >= 40000 || (j.salary_max || 0) >= 55000
@@ -513,13 +513,6 @@ export default function JobsPage() {
         <div className="absolute inset-0 bg-hero-pattern opacity-10" />
 
         <div className="page-container relative z-10 w-full max-w-5xl mx-auto text-center px-4">
-          {/* Mission Badge */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-saffron-400/20 border border-saffron-400/30 rounded-full px-4 py-1.5 mb-6 shadow-inner">
-            <Sparkles size={14} className="text-saffron-300 fill-saffron-300 shrink-0" />
-            <span className="text-saffron-200 text-xs font-bold tracking-wider uppercase">Indeed Premium Partner Portal · High-Impact Careers</span>
-          </motion.div>
-
           {/* Headline */}
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
             className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.12] mb-6 tracking-tight">
@@ -552,7 +545,7 @@ export default function JobsPage() {
           {/* Premium Indeed-Style Dual Input Search Bar */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.45 }}
             className="bg-white/95 backdrop-blur-md rounded-2xl p-2 sm:p-2.5 shadow-2xl border border-white/20 flex flex-col md:flex-row items-center gap-1.5 max-w-4xl mx-auto w-full">
-            
+
             {/* What Input */}
             <div className="w-full md:flex-1 flex items-center gap-3 px-4 py-2.5 bg-slate-50 md:bg-transparent rounded-xl md:rounded-none border-b md:border-b-0 md:border-r border-slate-200/80">
               <Search size={20} className="text-trust-800 shrink-0" />
@@ -601,7 +594,7 @@ export default function JobsPage() {
         </div>
 
         {/* Bouncing Scroll Indicator */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, delay: 1 }}
           onClick={scrollToFeed}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors cursor-pointer z-20"
@@ -621,10 +614,10 @@ export default function JobsPage() {
               <Filter size={11} className="text-trust-800" /> Filters:
             </span>
             {[
-              { id: 'all',         label: 'All Positions', icon: null },
-              { id: 'remote',      label: 'Remote / Hybrid', icon: <Zap size={10} className="text-amber-500 fill-amber-500" /> },
-              { id: 'high-salary', label: '₹40K+ / month',   icon: <IndianRupee size={10} className="text-emerald-600" /> },
-              { id: 'urgent',      label: 'Urgently Hiring', icon: <Clock size={10} className="text-red-500" /> },
+              { id: 'all', label: 'All Positions', icon: null },
+              { id: 'remote', label: 'Remote / Hybrid', icon: <Zap size={10} className="text-amber-500 fill-amber-500" /> },
+              { id: 'high-salary', label: '₹40K+ / month', icon: <IndianRupee size={10} className="text-emerald-600" /> },
+              { id: 'urgent', label: 'Urgently Hiring', icon: <Clock size={10} className="text-red-500" /> },
             ].map(f => {
               const active = quickFilter === f.id
               return (
@@ -677,7 +670,7 @@ export default function JobsPage() {
           {/* ── LEFT COLUMN: COMPACT INDEED JOB FEED CARDS (5 COLUMNS) ── */}
           <div className="lg:col-span-5 space-y-2.5">
             {loading ? (
-              <div className="space-y-2.5">{Array.from({length:4}).map((_,i) => <SkeletonJob key={i} />)}</div>
+              <div className="space-y-2.5">{Array.from({ length: 4 }).map((_, i) => <SkeletonJob key={i} />)}</div>
             ) : filtered.length === 0 ? (
               <div className="bg-white rounded-2xl border border-slate-100 p-6 text-center shadow-card my-3">
                 <Briefcase size={24} className="text-slate-300 mx-auto mb-2" />
@@ -729,8 +722,8 @@ export default function JobsPage() {
                       {(job.salary_min || job.salary_max) && (
                         <span className="bg-trust-50 border border-trust-100 text-trust-900 text-[10px] font-extrabold px-2 py-0.5 rounded-md shadow-2xs flex items-center gap-0.5">
                           <IndianRupee size={10} className="text-trust-700" />
-                          {job.salary_min ? `${(job.salary_min/1000).toFixed(0)}K` : ''}
-                          {job.salary_max ? `–${(job.salary_max/1000).toFixed(0)}K` : ''} /mo
+                          {job.salary_min ? `${(job.salary_min / 1000).toFixed(0)}K` : ''}
+                          {job.salary_max ? `–${(job.salary_max / 1000).toFixed(0)}K` : ''} /mo
                         </span>
                       )}
                       <span className={clsx('text-[8px] px-1.5 py-0.5 rounded-md uppercase tracking-wider shadow-2xs font-extrabold', TYPE_COLORS[job.job_type] || 'bg-slate-100 text-slate-600')}>
@@ -782,7 +775,7 @@ export default function JobsPage() {
                   Submit your resume and specify your desired job criteria. We will contact you as soon as a suitable position opens up.
                 </p>
               </div>
-              <button 
+              <button
                 onClick={() => setShowGeneralApply(true)}
                 className="px-4 py-2 bg-saffron-400 text-trust-950 text-[11px] font-extrabold rounded-xl hover:bg-saffron-300 transition-all text-center"
               >
@@ -839,8 +832,8 @@ export default function JobsPage() {
                     {(selectedJob.salary_min || selectedJob.salary_max) && (
                       <span className="bg-trust-50 text-trust-900 px-2 py-0.5 rounded font-extrabold flex items-center gap-0.5 border border-trust-100 shadow-2xs shrink-0">
                         <IndianRupee size={10} className="text-trust-700" />
-                        {selectedJob.salary_min ? `${(selectedJob.salary_min/1000).toFixed(0)}K` : ''}
-                        {selectedJob.salary_max ? `–${(selectedJob.salary_max/1000).toFixed(0)}K` : ''} /mo
+                        {selectedJob.salary_min ? `${(selectedJob.salary_min / 1000).toFixed(0)}K` : ''}
+                        {selectedJob.salary_max ? `–${(selectedJob.salary_max / 1000).toFixed(0)}K` : ''} /mo
                       </span>
                     )}
                     <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-bold capitalize border border-slate-200/80 shadow-2xs shrink-0">
@@ -1087,7 +1080,7 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -1109,22 +1102,22 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label text-slate-700 font-semibold text-xs mb-1 block">Full Name *</label>
-              <input 
+              <input
                 required
                 className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500"
-                placeholder="John Doe" 
-                value={formData.name} 
+                placeholder="John Doe"
+                value={formData.name}
                 onChange={e => setFormData(d => ({ ...d, name: e.target.value }))}
               />
             </div>
             <div>
               <label className="label text-slate-700 font-semibold text-xs mb-1 block">Email *</label>
-              <input 
+              <input
                 required
                 type="email"
                 className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500"
-                placeholder="john@example.com" 
-                value={formData.email} 
+                placeholder="john@example.com"
+                value={formData.email}
                 onChange={e => setFormData(d => ({ ...d, email: e.target.value }))}
               />
             </div>
@@ -1133,22 +1126,22 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label text-slate-700 font-semibold text-xs mb-1 block">Phone Number *</label>
-              <input 
+              <input
                 required
                 type="tel"
                 className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500"
-                placeholder="e.g. +91 9876543210" 
-                value={formData.phone} 
+                placeholder="e.g. +91 9876543210"
+                value={formData.phone}
                 onChange={e => setFormData(d => ({ ...d, phone: e.target.value }))}
               />
             </div>
             <div>
               <label className="label text-slate-700 font-semibold text-xs mb-1 block">Desired Job Title *</label>
-              <input 
+              <input
                 required
                 className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500"
-                placeholder="e.g. Full Stack Developer" 
-                value={formData.desired_job_title} 
+                placeholder="e.g. Full Stack Developer"
+                value={formData.desired_job_title}
                 onChange={e => setFormData(d => ({ ...d, desired_job_title: e.target.value }))}
               />
             </div>
@@ -1157,9 +1150,9 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="label text-slate-700 font-semibold text-xs mb-1 block">Department</label>
-              <select 
+              <select
                 className="input text-sm w-full border border-slate-200 bg-white rounded-xl p-2.5 outline-none focus:border-trust-500"
-                value={formData.department} 
+                value={formData.department}
                 onChange={e => setFormData(d => ({ ...d, department: e.target.value }))}
               >
                 {['Health Programs', 'Education Programs', 'Grassroots Dev', 'Administration', 'IT Support', 'Social Work', 'Other'].map(dep => (
@@ -1169,22 +1162,22 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
             </div>
             <div>
               <label className="label text-slate-700 font-semibold text-xs mb-1 block">Experience (Years)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 min="0"
                 className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500"
-                value={formData.experience_years} 
+                value={formData.experience_years}
                 onChange={e => setFormData(d => ({ ...d, experience_years: parseInt(e.target.value) || 0 }))}
               />
             </div>
             <div>
               <label className="label text-slate-700 font-semibold text-xs mb-1 block">Expected Salary (₹/mo)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 min="0"
                 className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500"
                 placeholder="Optional"
-                value={formData.expected_salary} 
+                value={formData.expected_salary}
                 onChange={e => setFormData(d => ({ ...d, expected_salary: e.target.value }))}
               />
             </div>
@@ -1192,10 +1185,10 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
 
           <div>
             <label className="label text-slate-700 font-semibold text-xs mb-1 block">Key Skills / Area of Expertise</label>
-            <input 
+            <input
               className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500"
-              placeholder="e.g. React, public health outreach, team coordination" 
-              value={formData.skills} 
+              placeholder="e.g. React, public health outreach, team coordination"
+              value={formData.skills}
               onChange={e => setFormData(d => ({ ...d, skills: e.target.value }))}
             />
           </div>
@@ -1203,8 +1196,8 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
           <div>
             <label className="label text-slate-700 font-semibold text-xs mb-1 block">Resume / CV (PDF, DOC, JPEG, PNG) *</label>
             <div className="border-2 border-dashed border-slate-200 rounded-2xl p-4 text-center hover:border-trust-500 transition-colors relative cursor-pointer bg-slate-50/50">
-              <input 
-                type="file" 
+              <input
+                type="file"
                 required
                 accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                 className="absolute inset-0 opacity-0 cursor-pointer"
@@ -1228,18 +1221,18 @@ function GeneralApplyModal({ onClose }: GeneralApplyModalProps) {
 
           <div>
             <label className="label text-slate-700 font-semibold text-xs mb-1 block">Brief Statement / Job Criteria Notes</label>
-            <textarea 
+            <textarea
               rows={3}
               className="input text-sm w-full border border-slate-200 rounded-xl p-2.5 outline-none focus:border-trust-500 resize-none"
-              placeholder="Describe your ideal role, availability, and how you wish to contribute..." 
-              value={formData.notes} 
+              placeholder="Describe your ideal role, availability, and how you wish to contribute..."
+              value={formData.notes}
               onChange={e => setFormData(d => ({ ...d, notes: e.target.value }))}
             />
           </div>
 
-          <button 
-            type="submit" 
-            disabled={submitting} 
+          <button
+            type="submit"
+            disabled={submitting}
             className="w-full py-3 font-extrabold text-sm rounded-2xl shadow-md bg-trust-900 text-white hover:bg-trust-800 transition-all flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? 'Submitting...' : 'Submit Application'}

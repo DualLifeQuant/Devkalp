@@ -45,8 +45,8 @@ const STEPS = [
 ]
 
 const TESTIMONIALS = [
-  { name: 'Sunita Devi', role: 'Health Educator', city: 'Surat', quote: 'I\'ve facilitated 12 sessions in local schools. Seeing the girls gain confidence and knowledge — that\'s why I volunteer.' },
-  { name: 'Kiran Mhatre', role: 'Community Volunteer', city: 'Surat', quote: 'Devkalp treats every volunteer with respect. We are given real responsibility, not just tasks.' },
+  { name: 'Sunita Desai', role: 'Health Educator', city: 'Surat', quote: 'I\'ve facilitated 7 sessions in local schools. Seeing the girls gain confidence and knowledge — that\'s why I volunteer.' },
+  { name: 'Kiran Sonani', role: 'Community Volunteer', city: 'Surat', quote: 'Devkalp treats every volunteer with respect. We are given real responsibility, not just tasks.' },
 ]
 
 export default function VolunteerPage() {

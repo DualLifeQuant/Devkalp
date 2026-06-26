@@ -1,9 +1,10 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { Heart, Check, Shield } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui'
 import { useAuthStore } from '@/lib/store'
+import { donationsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
 
 declare global { interface Window { Razorpay: any } }
@@ -25,16 +26,51 @@ function DonateModal({ campaign, onClose }: { campaign: any; onClose: () => void
   const [phone, setPhone] = useState('')
   const [pan, setPan] = useState('')
   const [showQR, setShowQR] = useState(false)
+  const [donationId, setDonationId] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [completing, setCompleting] = useState(false)
   const { user } = useAuthStore()
 
   const PRESETS = [100, 500, 1000, 2500, 5000]
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     const finalAmount = custom ? parseFloat(custom) : amount
     if (!finalAmount || finalAmount < 1) { toast.error('Please enter a valid amount'); return }
     if (!name && !user) { toast.error('Please enter your name'); return }
     if (!email && !user) { toast.error('Please enter your email'); return }
-    setShowQR(true)
+    
+    setLoading(true)
+    try {
+      const res = await donationsApi.initiate({
+        amount: finalAmount,
+        campaign_id: campaign?.id || null,
+        donor_name: user ? user.full_name : (name || undefined),
+        donor_email: user ? user.email : (email || undefined),
+        donor_phone: user ? user.phone : (phone || undefined),
+        donor_pan: pan || undefined,
+      })
+      setDonationId(res.data.donation_id)
+      setShowQR(true)
+    } catch (err: any) {
+      toast.error(err?.response?.data?.detail || 'Failed to initiate donation')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleComplete = async () => {
+    if (!donationId) return
+    setCompleting(true)
+    try {
+      await donationsApi.mockComplete(donationId)
+      toast.success("Thank you for your generous donation! We have processed and saved it. 🙏")
+      onClose()
+      window.location.reload()
+    } catch (err: any) {
+      toast.error(err?.response?.data?.detail || 'Failed to complete donation')
+    } finally {
+      setCompleting(false)
+    }
   }
 
   if (showQR) {
@@ -56,21 +92,11 @@ function DonateModal({ campaign, onClose }: { campaign: any; onClose: () => void
               <img src="/donation_qr.jpg" alt="UPI QR Code" className="w-[200px] h-[200px] object-contain" />
             </div>
 
-            <div className="w-full space-y-1">
-              <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">UPI ID / VPA</p>
-              <div className="flex items-center justify-center gap-2 p-2 bg-slate-50 border border-slate-100 rounded-xl">
-                <span className="text-sm font-semibold text-slate-700 select-all">devkalp986@okaxis</span>
-              </div>
-            </div>
-
             <div className="w-full pt-4 space-y-2.5">
-              <Button onClick={() => {
-                toast.success("Thank you for your generous donation! We will process it shortly. 🙏")
-                onClose()
-              }} className="w-full justify-center" size="lg">
+              <Button onClick={handleComplete} loading={completing} className="w-full justify-center" size="lg">
                 I have completed the payment
               </Button>
-              <button onClick={() => setShowQR(false)} className="w-full text-slate-500 hover:text-slate-700 text-sm font-semibold py-2">
+              <button onClick={() => setShowQR(false)} disabled={completing} className="w-full text-slate-500 hover:text-slate-700 text-sm font-semibold py-2">
                 Back
               </button>
             </div>
@@ -144,7 +170,7 @@ function DonateModal({ campaign, onClose }: { campaign: any; onClose: () => void
             </ul>
           </div>
 
-          <Button onClick={handleNextStep} className="w-full justify-center" size="lg">
+          <Button onClick={handleNextStep} loading={loading} className="w-full justify-center" size="lg">
             <Heart size={18} className="fill-white/50" />
             Donate ₹{(custom ? parseFloat(custom) : amount).toLocaleString('en-IN')}
           </Button>

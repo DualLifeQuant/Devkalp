@@ -33,6 +33,14 @@ async def list_campaigns(category: Optional[str] = None, skip: int = 0, limit: i
     return {"items": [_serialize(c) for c in campaigns], "total": total}
 
 
+@router.get("/categories")
+async def list_campaign_categories(db: AsyncSession = Depends(get_db)):
+    q = select(Campaign.category).where(Campaign.status == CampaignStatus.ACTIVE).distinct()
+    result = await db.execute(q)
+    categories = result.scalars().all()
+    return sorted(list(filter(None, categories)))
+
+
 @router.get("/admin/all")
 async def admin_list_campaigns(skip: int = 0, limit: int = 50,
                                 admin=Depends(get_current_admin), db: AsyncSession = Depends(get_db)):

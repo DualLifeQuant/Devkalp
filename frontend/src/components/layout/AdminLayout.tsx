@@ -1,5 +1,5 @@
-﻿import DashboardLayout from './DashboardLayout'
-import { LayoutDashboard, HeartHandshake, UserCheck, Briefcase, HandHeart, Leaf, Heart, Users, Activity, Mail } from 'lucide-react'
+import DashboardLayout from './DashboardLayout'
+import { LayoutDashboard, HeartHandshake, UserCheck, Briefcase, HandHeart, Leaf, Heart, Users, Activity, Mail, Building2, Trophy, Newspaper, Image, Handshake, Instagram } from 'lucide-react'
 
 const ADMIN_NAV = [
   { href: '/admin',               icon: <LayoutDashboard size={17}/>, label: 'Dashboard' },
@@ -10,6 +10,12 @@ const ADMIN_NAV = [
   { href: '/admin/campaigns',     icon: <Leaf size={17}/>,            label: 'Campaigns' },
   { href: '/admin/volunteers',    icon: <Heart size={17}/>,           label: 'Volunteers' },
   { href: '/admin/messages',      icon: <Mail size={17}/>,            label: 'Messages' },
+  { href: '/admin/csr',           icon: <Building2 size={17}/>,       label: 'CSR Inquiries' },
+  { href: '/admin/awards',        icon: <Trophy size={17}/>,          label: 'Awards & Honors' },
+  { href: '/admin/press',         icon: <Newspaper size={17}/>,       label: 'Press & Media' },
+  { href: '/admin/gallery',       icon: <Image size={17}/>,           label: 'Media Gallery' },
+  { href: '/admin/partners',      icon: <Handshake size={17}/>,       label: 'Partners & Sponsors' },
+  { href: '/admin/instagram',     icon: <Instagram size={17}/>,       label: 'Instagram Feed' },
   { href: '/admin/users',         icon: <Users size={17}/>,           label: 'All Users' },
   { href: '/admin/activity',      icon: <Activity size={17}/>,        label: 'Activity Logs' },
 ]

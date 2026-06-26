@@ -640,3 +640,101 @@ class Enquiry(Base):
     created_at   = Column(DateTime, server_default=func.now())
 
 
+# ── Awards & Achievements ─────────────────────────────────────
+
+class Award(Base):
+    __tablename__ = "awards"
+
+    id          = Column(String(36), primary_key=True, default=gen_uuid)
+    title       = Column(String(255), nullable=False)
+    issuer      = Column(String(255), nullable=True)
+    date_given  = Column(String(50), nullable=True)
+    description = Column(Text, nullable=True)
+    image_url   = Column(String(500), nullable=True)
+    link        = Column(String(500), nullable=True)
+    is_active   = Column(Boolean, default=True)
+    created_at  = Column(DateTime, server_default=func.now())
+    updated_at  = Column(DateTime, onupdate=func.now())
+
+
+# ── CSR Partnerships ──────────────────────────────────────────
+
+class CSRInquiry(Base):
+    __tablename__ = "csr_inquiries"
+
+    id              = Column(String(36), primary_key=True, default=gen_uuid)
+    company_name    = Column(String(255), nullable=False)
+    contact_person  = Column(String(255), nullable=False)
+    email           = Column(String(255), nullable=False)
+    phone           = Column(String(20),  nullable=True)
+    proposed_budget = Column(String(100), nullable=True)
+    interest_areas  = Column(JSON, nullable=True)
+    message         = Column(Text, nullable=False)
+    created_at      = Column(DateTime, server_default=func.now())
+
+
+# ── Press & Media Coverage ────────────────────────────────────
+
+class PressMention(Base):
+    __tablename__ = "press_mentions"
+
+    id             = Column(String(36), primary_key=True, default=gen_uuid)
+    title          = Column(String(255), nullable=False)
+    publisher_name = Column(String(255), nullable=False)
+    logo_url       = Column(String(500), nullable=True)
+    article_url    = Column(String(500), nullable=True)
+    publish_date   = Column(String(50), nullable=True)
+    summary        = Column(Text, nullable=True)
+    is_active      = Column(Boolean, default=True)
+    created_at     = Column(DateTime, server_default=func.now())
+    updated_at     = Column(DateTime, onupdate=func.now())
+
+
+# ── Media & Gallery ───────────────────────────────────────────
+
+class GalleryItem(Base):
+    __tablename__ = "gallery_items"
+
+    id          = Column(String(36), primary_key=True, default=gen_uuid)
+    title       = Column(String(255), nullable=True, default="")
+    description = Column(Text, nullable=True)
+    image_url   = Column(String(500), nullable=False)
+    category    = Column(String(100), nullable=True)
+    is_active   = Column(Boolean, default=True)
+    created_at  = Column(DateTime, server_default=func.now())
+    updated_at  = Column(DateTime, onupdate=func.now())
+
+
+# ── Partners ──────────────────────────────────────────────────
+
+class Partner(Base):
+    __tablename__ = "partners"
+
+    id          = Column(String(36), primary_key=True, default=gen_uuid)
+    name        = Column(String(255), nullable=False)
+    logo_url    = Column(String(500), nullable=False)
+    website_url = Column(String(500), nullable=True)
+    is_active   = Column(Boolean, default=True)
+    created_at  = Column(DateTime, server_default=func.now())
+    updated_at  = Column(DateTime, onupdate=func.now())
+
+
+# ── Instagram Posts ───────────────────────────────────────────
+
+class InstagramPost(Base):
+    __tablename__ = "instagram_posts"
+
+    id             = Column(String(36), primary_key=True, default=gen_uuid)
+    post_url       = Column(String(500), nullable=False)
+    image_url      = Column(String(500), nullable=False)
+    caption        = Column(Text, nullable=True)
+    likes_count    = Column(Integer, default=0)
+    comments_count = Column(Integer, default=0)
+    is_active      = Column(Boolean, default=True)
+    created_at     = Column(DateTime, server_default=func.now())
+    updated_at     = Column(DateTime, onupdate=func.now())
+
+
+
+
+
