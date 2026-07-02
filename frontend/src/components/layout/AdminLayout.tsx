@@ -1,13 +1,5 @@
 import DashboardLayout from './DashboardLayout'
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { LayoutDashboard, HeartHandshake, UserCheck, Briefcase, HandHeart, Leaf, Heart, Users, Activity, Mail, Building2, Trophy, Newspaper, Image, Handshake, Instagram, BookOpen } from 'lucide-react'
-=======
-import { LayoutDashboard, HeartHandshake, UserCheck, Briefcase, HandHeart, Leaf, Heart, Users, Activity, Mail, Building2, Trophy, Newspaper, Image, Handshake, Instagram } from 'lucide-react'
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
-=======
-import { LayoutDashboard, HeartHandshake, UserCheck, Briefcase, HandHeart, Leaf, Heart, Users, Activity, Mail, Building2, Trophy, Newspaper, Image, Handshake, Instagram } from 'lucide-react'
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 
 const ADMIN_NAV = [
   { href: '/admin',               icon: <LayoutDashboard size={17}/>, label: 'Dashboard' },
@@ -18,13 +10,7 @@ const ADMIN_NAV = [
   { href: '/admin/campaigns',     icon: <Leaf size={17}/>,            label: 'Campaigns' },
   { href: '/admin/volunteers',    icon: <Heart size={17}/>,           label: 'Volunteers' },
   { href: '/admin/messages',      icon: <Mail size={17}/>,            label: 'Messages' },
-<<<<<<< HEAD
-<<<<<<< HEAD
   { href: '/admin/scholarship',   icon: <BookOpen size={17}/>,        label: 'Scholarships' },
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
   { href: '/admin/csr',           icon: <Building2 size={17}/>,       label: 'CSR Inquiries' },
   { href: '/admin/awards',        icon: <Trophy size={17}/>,          label: 'Awards & Honors' },
   { href: '/admin/press',         icon: <Newspaper size={17}/>,       label: 'Press & Media' },

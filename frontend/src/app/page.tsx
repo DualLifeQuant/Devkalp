@@ -1,15 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { Heart, ArrowRight, Star, Users, HandHeart, Briefcase, Leaf, HeartHandshake, Quote, Trophy, Award as AwardIcon, Newspaper, ChevronLeft, ChevronRight, Ambulance, Sparkles, TreeDeciduous, Activity, Coins, Building2 } from 'lucide-react'
-=======
-import { Heart, ArrowRight, Star, Users, HandHeart, Briefcase, Leaf, HeartHandshake, Quote, Trophy, Award as AwardIcon, Newspaper, ChevronLeft, ChevronRight, Ambulance, Sparkles, TreeDeciduous, Activity, Coins } from 'lucide-react'
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
-=======
-import { Heart, ArrowRight, Star, Users, HandHeart, Briefcase, Leaf, HeartHandshake, Quote, Trophy, Award as AwardIcon, Newspaper, ChevronLeft, ChevronRight, Ambulance, Sparkles, TreeDeciduous, Activity, Coins } from 'lucide-react'
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 import { awardsApi, pressApi, partnersApi } from '@/lib/api'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -276,17 +268,11 @@ export default function HomePage() {
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                 <Link to="/donate" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                   <Heart size={15} /> Donate Us
-<<<<<<< HEAD
-<<<<<<< HEAD
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                 <Link to="/csr" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
                   <Building2 size={15} /> CSR Program
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
                 </Link>
               </motion.div>
             </motion.div>

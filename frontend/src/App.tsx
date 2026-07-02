@@ -67,13 +67,7 @@ import AdminPressPage from './app/admin/press/page';
 import AdminGalleryPage from './app/admin/gallery/page';
 import AdminPartnersPage from './app/admin/partners/page';
 import AdminInstagramPage from './app/admin/instagram/page';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import AdminScholarshipsPage from './app/admin/scholarship/page';
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 
 export default function App() {
   return (
@@ -130,13 +124,7 @@ export default function App() {
           <Route path="/admin/activity" element={<AdminActivityPage />} />
           <Route path="/admin/campaigns" element={<AdminCampaignsPage />} />
           <Route path="/admin/messages" element={<AdminMessagesPage />} />
-<<<<<<< HEAD
-<<<<<<< HEAD
           <Route path="/admin/scholarship" element={<AdminScholarshipsPage />} />
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
-=======
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
           <Route path="/admin/csr" element={<AdminCSRPage />} />
           <Route path="/admin/awards" element={<AdminAwardsPage />} />
           <Route path="/admin/press" element={<AdminPressPage />} />

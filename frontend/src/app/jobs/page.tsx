@@ -801,8 +801,6 @@ export default function JobsPage() {
                 )
               })
             )}
-<<<<<<< HEAD
-=======
 
             {/* General Resume Drop Box Callout */}
             <div className="bg-gradient-to-br from-trust-900 via-trust-950 to-trust-900 rounded-2xl p-5 text-white border border-trust-800 shadow-md flex flex-col gap-3 mt-4 text-left">
@@ -821,7 +819,6 @@ export default function JobsPage() {
                 Drop Your Resume Here
               </button>
             </div>
->>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
           </div>
 
           {/* ── RIGHT COLUMN: COMPACT INDEED LIVE JOB PREVIEW PANE (FIXED IN VIEWPORT / 7 COLUMNS) ── */}
