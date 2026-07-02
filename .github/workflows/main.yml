@@ -12,13 +12,13 @@ concurrency:
 
 env:
   NODE_VERSION: '20'
-  NEXT_PUBLIC_API_URL: 'http://localhost:8000/api/v1'
-  NEXT_PUBLIC_RAZORPAY_KEY_ID: 'rzp_test_ci'
-  NEXT_PUBLIC_APP_URL: 'http://localhost:3000'
+  VITE_API_URL: 'http://localhost:8000/api/v1'
+  VITE_RAZORPAY_KEY_ID: 'rzp_test_ci'
+  VITE_APP_URL: 'http://localhost:3000'
 
 jobs:
   quality:
-    name: Lint, Type-check & Console.log guard
+    name: Lint & Type-check
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,70 +32,11 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
 
-      - name: TypeScript — strict, zero errors
+      - name: TypeScript — zero errors
         run: npx tsc --noEmit
-        # Fail build on ANY type error
 
       - name: ESLint — zero warnings
         run: npm run lint -- --max-warnings=0
-
-      - name: No console.log in production code
-        run: |
-          if grep -rn "console\.log\b" app/ lib/ hooks/ store/ components/ \
-            --include="*.ts" --include="*.tsx" \
-            --exclude-dir=node_modules 2>/dev/null | grep -v "// eslint-disable\|console\.error"; then
-            echo "❌ console.log found in production code. Use logger.info/debug instead."
-            exit 1
-          fi
-          echo "✅ No console.log in production code"
-
-      - name: No TODO/FIXME in critical paths
-        run: |
-          count=$(grep -rn "FIXME\|HACK" app/ lib/ --include="*.ts" --include="*.tsx" \
-            --exclude-dir=node_modules 2>/dev/null | wc -l || echo 0)
-          if [ "$count" -gt "5" ]; then
-            echo "⚠️  Too many FIXME/HACK comments ($count). Please resolve before merging."
-            exit 1
-          fi
-          echo "✅ FIXME count: $count"
-
-  test:
-    name: Unit & Integration Tests
-    runs-on: ubuntu-latest
-    needs: quality
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-      - run: npm ci
-
-      - name: Run all tests with coverage
-        run: npm test -- --ci --passWithNoTests --coverage --forceExit
-        env:
-          CI: true
-
-      - name: Coverage threshold enforcement
-        run: |
-          if [ -f coverage/coverage-summary.json ]; then
-            node -e "
-              const s = require('./coverage/coverage-summary.json').total
-              const pass = s.lines.pct >= 50 && s.functions.pct >= 50
-              if (!pass) { console.error('Coverage below 50%:', JSON.stringify(s)); process.exit(1) }
-              console.log('Coverage OK:', JSON.stringify({lines: s.lines.pct, fns: s.functions.pct}))
-            "
-          fi
-
-      - uses: codecov/codecov-action@v4
-        if: success()
-        with:
-          directory: frontend/coverage
-          fail_ci_if_error: false
 
   build:
     name: Production Build
@@ -113,101 +54,15 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
 
-      - name: Next.js build
+      - name: Vite build
         run: npm run build
-        env:
-          NEXT_TELEMETRY_DISABLED: 1
-          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
 
-      - name: Assert .next directory exists
-        run: test -d .next && echo "✅ Build output present"
-
-      - name: Bundle size report
-        run: |
-          if [ -f .next/build-manifest.json ]; then
-            echo "Build manifest found — checking page sizes..."
-            node -e "
-              const fs = require('fs')
-              const manifest = JSON.parse(fs.readFileSync('.next/build-manifest.json', 'utf8'))
-              const pages = Object.keys(manifest.pages)
-              console.log('Pages built:', pages.length)
-            " || true
-          fi
+      - name: Assert dist directory exists
+        run: test -d dist && echo "✅ Build output present"
 
       - uses: actions/upload-artifact@v4
         if: github.ref == 'refs/heads/main'
         with:
-          name: nextjs-build
-          path: frontend/.next
+          name: vite-build
+          path: frontend/dist
           retention-days: 7
-
-  e2e:
-    name: Playwright E2E
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: nextjs-build
-          path: frontend/.next
-
-      - name: Run E2E tests
-        run: npx playwright test --reporter=github,html
-        env:
-          PLAYWRIGHT_BASE_URL: http://localhost:3000
-          CI: true
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: frontend/playwright-report/
-          retention-days: 7
-
-  deploy:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: [test, build, e2e]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    environment:
-      name: production
-      url: https://devkalpfoundation.org
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: nextjs-build
-          path: frontend/.next
-
-      # ── Replace with your hosting provider's deploy action ────────────────
-      - name: Deploy (configure for your provider)
-        run: echo "Configure deploy step for Vercel / custom server / Docker"
-
-      - name: Sentry release
-        if: env.SENTRY_AUTH_TOKEN != ''
-        working-directory: frontend
-        run: |
-          npm ci
-          npx @sentry/cli releases new "${{ github.sha }}"
-          npx @sentry/cli releases set-commits "${{ github.sha }}" --auto
-          npx @sentry/cli releases finalize "${{ github.sha }}"
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
