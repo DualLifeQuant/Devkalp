@@ -1,6 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useState, useRef, useEffect } from 'react'
 import { Mail, Phone, MapPin, Send, Check, Shield, Award, Landmark, Building2, HelpCircle, BookOpen, Heart } from 'lucide-react'
+=======
+import { useState } from 'react'
+import { Mail, Phone, MapPin, Send, Check, Shield, Award, Landmark, Building2, HelpCircle } from 'lucide-react'
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 =======
 import { useState } from 'react'
 import { Mail, Phone, MapPin, Send, Check, Shield, Award, Landmark, Building2, HelpCircle } from 'lucide-react'
@@ -26,6 +31,7 @@ const CSR_PILLARS = [
   { value: 'community', label: 'Matrimony & Community Welfare Support' },
 ]
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 const CSR_SERVICES = [
   {
@@ -155,6 +161,8 @@ const TestimonialLogo = ({ type }: { type: string }) => {
 
 =======
 >>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
+=======
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 export default function CSRPage() {
   const [form, setForm] = useState({
     company_name: '',
@@ -168,6 +176,7 @@ export default function CSRPage() {
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   const scrollRefTestimonials = useRef<HTMLDivElement>(null)
   const isDownT = useRef(false)
@@ -361,6 +370,8 @@ export default function CSRPage() {
 
 =======
 >>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
+=======
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
   const handleAreaToggle = (val: string) => {
     setForm(f => {
       const exist = f.interest_areas.includes(val)
@@ -424,7 +435,11 @@ export default function CSRPage() {
                     icon: <Award size={20} className="text-saffron-600" />,
                     title: '12A & 80G Tax Exemptions',
 <<<<<<< HEAD
+<<<<<<< HEAD
                     desc: 'All eligible corporate contributions to our organization qualify for tax deductions under Section 80G of the Income Tax Act, 1961. Our organization is also registered under Section 12AB of the Income Tax Act. 12A & 80G Tax Exemptions',
+=======
+                    desc: 'All corporate contributions qualify for tax deductions under Section 80G and Section 12A of the Income Tax Act, 1961.',
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 =======
                     desc: 'All corporate contributions qualify for tax deductions under Section 80G and Section 12A of the Income Tax Act, 1961.',
 >>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
@@ -606,6 +621,7 @@ export default function CSRPage() {
         </div>
       </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       {/* About Devkalp / Our Services & Campaigns Section */}
       <section className="bg-white border-t border-slate-100 py-20 overflow-hidden text-center">
@@ -693,6 +709,8 @@ export default function CSRPage() {
       </section>
 
       <Footer />
+=======
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 =======
 >>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
     </div>

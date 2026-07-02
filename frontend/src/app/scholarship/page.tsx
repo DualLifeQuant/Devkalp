@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { BookOpen, School, Award, ExternalLink, Check, Mail, Info, Upload, Send } from 'lucide-react'
@@ -764,6 +765,8 @@ export default function ScholarshipPage() {
       )}
 
 =======
+=======
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 import React from 'react'
 import { motion } from 'framer-motion'
 import { GraduationCap, ArrowRight, BookOpen, School, Award, Mail } from 'lucide-react'
@@ -895,6 +898,9 @@ export default function ScholarshipPage() {
         </div>
       </main>
 
+<<<<<<< HEAD
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
+=======
 >>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
       <Footer />
     </div>

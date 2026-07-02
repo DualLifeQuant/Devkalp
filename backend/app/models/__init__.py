@@ -642,7 +642,10 @@ class Enquiry(Base):
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 # ── Awards ─────────────────────────────────────────────────────
 
 class Award(Base):
@@ -736,6 +739,9 @@ class CSRInquiry(Base):
     created_at      = Column(DateTime, server_default=func.now())
 
 
+<<<<<<< HEAD
+>>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
+=======
 >>>>>>> b04bab009f1c4adf64d70a782f2f69baa641450a
 # ── Awards & Achievements ─────────────────────────────────────
 
