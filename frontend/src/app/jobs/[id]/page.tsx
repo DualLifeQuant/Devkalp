@@ -200,7 +200,7 @@ export default function JobDetailPage() {
                 ) : (
                   <>
                     {!showForm ? (
-                      <Button onClick={() => setShowForm(true)} className="w-full justify-center" size="lg">
+                      <Button onClick={() => navigate(`/contact?type=careers&job_title=${encodeURIComponent(job.title)}&department=${encodeURIComponent(job.department || '')}`)} className="w-full justify-center" size="lg">
                         Apply Now →
                       </Button>
                     ) : (

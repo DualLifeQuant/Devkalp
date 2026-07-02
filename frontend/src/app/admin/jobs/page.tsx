@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Briefcase, Plus, Check, X, Calendar, ChevronDown, ChevronUp } from 'lucide-react'
 import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState, StatsCard } from '@/components/ui'
@@ -33,7 +33,27 @@ export default function AdminJobsPage() {
     application_deadline: ''
   })
   const [saving, setSaving] = useState(false)
+  const [editingJobId, setEditingJobId] = useState<string | null>(null)
+  const [viewJob, setViewJob] = useState<any | null>(null)
+  const [deletingJob, setDeletingJob] = useState<any | null>(null)
+  const [designations, setDesignations] = useState<string[]>([])
+  const [locations, setLocations] = useState<string[]>([])
 
+  // const load = async () => {
+  //   setLoading(true)
+  //   try {
+  //     const [jRes, aRes, gRes] = await Promise.allSettled([
+  //       jobsApi.adminList(),
+  //       jobsApi.adminApps({ limit: 100 }),
+  //       jobsApi.adminGeneralList()
+  //     ])
+  //     if (jRes.status === 'fulfilled') setJobs(jRes.value.data.items || [])
+  //     if (aRes.status === 'fulfilled') setApps(aRes.value.data.items || [])
+  //     if (gRes.status === 'fulfilled') setGeneralApps(gRes.value.data.items || [])
+  //   } catch { toast.error('Failed to load') }
+  //   finally { setLoading(false) }
+  // }
+  // useEffect(() => { load() }, [])
   const load = async () => {
     setLoading(true)
     try {
@@ -48,9 +68,89 @@ export default function AdminJobsPage() {
     } catch { toast.error('Failed to load') }
     finally { setLoading(false) }
   }
-  useEffect(() => { load() }, [])
 
-  const createJob = async () => {
+  const fetchDesignations = async () => {
+    try {
+      const erpnextUrl = 'http://192.168.1.25:5100'
+      const apiKey = '9ff88d537c92809'
+      const apiSecret = '31a275388bce201'
+
+      const res = await fetch(
+        `${erpnextUrl}/api/resource/Designation?fields=["designation_name"]&limit_page_length=0`,
+        { headers: { 'Authorization': `token ${apiKey}:${apiSecret}` } }
+      )
+      const data = await res.json()
+      const names = (data.data || []).map((d: any) => d.designation_name).sort()
+      setDesignations(names)
+    } catch (err) {
+      console.error('Failed to fetch designations:', err)
+    }
+  }
+
+   const fetchLocations = async () => {
+    try {
+      const erpnextUrl = 'http://192.168.1.25:5100'
+      const apiKey = '9ff88d537c92809'
+      const apiSecret = '31a275388bce201'
+
+      const res = await fetch(
+        `${erpnextUrl}/api/resource/Branch?fields=["branch"]&limit_page_length=0`,
+        { headers: { 'Authorization': `token ${apiKey}:${apiSecret}` } }
+      )
+      const data = await res.json()
+      const names = (data.data || []).map((l: any) => l.branch).sort()
+      setLocations(names)
+    } catch (err) {
+      console.error('Failed to fetch locations:', err)
+    }
+  }
+
+  useEffect(() => { load(); fetchDesignations(); fetchLocations() }, [])
+
+  const handleCloseModal = () => {
+    setShowNewJob(false)
+    setEditingJobId(null)
+    setNewJob({
+      title: '', department: '', location: '', job_type: 'full-time', experience_min: 0,
+      experience_max: '', salary_min: '', salary_max: '', description: '', requirements: '',
+      responsibilities: '', skills_required: '', positions: 1, application_deadline: ''
+    })
+  }
+
+  const handleEditClick = (j: any) => {
+    setEditingJobId(j.id)
+    setNewJob({
+      title: j.title || '',
+      department: j.department || '',
+      location: j.location || '',
+      job_type: j.job_type || 'full-time',
+      experience_min: j.experience_min || 0,
+      experience_max: j.experience_max !== null && j.experience_max !== undefined ? String(j.experience_max) : '',
+      salary_min: j.salary_min !== null && j.salary_min !== undefined ? String(j.salary_min) : '',
+      salary_max: j.salary_max !== null && j.salary_max !== undefined ? String(j.salary_max) : '',
+      description: j.description || '',
+      requirements: j.requirements || '',
+      responsibilities: j.responsibilities || '',
+      skills_required: Array.isArray(j.skills_required) ? j.skills_required.join(', ') : (j.skills_required || ''),
+      positions: j.positions || 1,
+      application_deadline: j.application_deadline ? j.application_deadline.split('T')[0] : ''
+    })
+    setShowNewJob(true)
+  }
+
+  const handleDeleteJob = async (id: string, title: string) => {
+    if (window.confirm(`Are you sure you want to delete the job "${title}"? This will also delete all candidate applications associated with it.`)) {
+      try {
+        await jobsApi.delete(id)
+        toast.success('Job deleted successfully')
+        load()
+      } catch (err: any) {
+        toast.error(err?.response?.data?.detail || 'Failed to delete job')
+      }
+    }
+  }
+
+  const saveJob = async () => {
     if (!newJob.title || !newJob.location || !newJob.description || !newJob.requirements || !newJob.responsibilities) {
       toast.error('Fill all required fields'); return
     }
@@ -59,21 +159,80 @@ export default function AdminJobsPage() {
       const skillsArray = newJob.skills_required
         ? newJob.skills_required.split(',').map(s => s.trim()).filter(Boolean)
         : []
-      await jobsApi.create({
+      
+      const payload = {
         ...newJob,
-        experience_max: newJob.experience_max ? parseInt(newJob.experience_max) : undefined,
-        salary_min: newJob.salary_min ? parseInt(newJob.salary_min) : undefined,
-        salary_max: newJob.salary_max ? parseInt(newJob.salary_max) : undefined,
-        skills_required: skillsArray.length > 0 ? skillsArray : undefined,
-        application_deadline: newJob.application_deadline || undefined,
-      })
-      toast.success('Job posted!')
-      setShowNewJob(false)
-      setNewJob({
-        title:'', department:'', location:'', job_type:'full-time', experience_min:0,
-        experience_max:'', salary_min:'', salary_max:'', description:'', requirements:'',
-        responsibilities:'', skills_required:'', positions:1, application_deadline:''
-      })
+        experience_max: newJob.experience_max ? parseInt(newJob.experience_max) : null,
+        salary_min: newJob.salary_min ? parseInt(newJob.salary_min) : null,
+        salary_max: newJob.salary_max ? parseInt(newJob.salary_max) : null,
+        skills_required: skillsArray.length > 0 ? skillsArray : null,
+        application_deadline: newJob.application_deadline || null,
+      }
+
+      if (editingJobId) {
+        await jobsApi.update(editingJobId, payload)
+        toast.success('Job updated successfully!')
+      } else {
+        const createRes = await jobsApi.create(payload)
+        const localJobId = createRes?.data?.job_id
+        toast.success('Job posted!')
+        // Post a Job entry in ERPNext
+        try {
+          const erpnextUrl = 'http://192.168.1.25:5100'
+          const apiKey = '9ff88d537c92809'
+          const apiSecret = '31a275388bce201'
+
+          try {
+            await fetch(`${erpnextUrl}/api/resource/Location`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `token ${apiKey}:${apiSecret}`,
+              },
+              body: JSON.stringify({ location_name: newJob.location }),
+            })
+          } catch (locErr) {}
+
+          const erpPayload = {
+            doctype: 'Job Opening',
+            job_title: newJob.title,
+            status: 'Open',
+            company: 'Devkalp',
+            designation: newJob.department, 
+            employment_type: newJob.job_type,
+            custom_positions: newJob.positions,
+            location: newJob.location,
+            description: newJob.description,
+            custom_requirements: newJob.requirements,
+            custom_responsibilities_: newJob.responsibilities,
+            custom_required_skills: skillsArray.join(', '),
+            custom_min_experience_year: newJob.experience_min || 0,
+            custom_max_experience_year: newJob.experience_max ? parseInt(newJob.experience_max) : undefined,
+            custom_min_salary: newJob.salary_min ? parseInt(newJob.salary_min) : undefined,
+            custom_max_salary: newJob.salary_max ? parseInt(newJob.salary_max) : undefined,
+            custom_application_deadline: newJob.application_deadline || undefined,
+          }
+
+          const erpRes = await fetch(`${erpnextUrl}/api/resource/Job Opening`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `token ${apiKey}:${apiSecret}`,
+              'X-Frappe-CSRF-Token': 'fetch',
+            },
+            body: JSON.stringify(erpPayload),
+          })
+          const erpData = await erpRes.json()
+          const erpnextJobId = erpData?.data?.name
+
+          if (localJobId && erpnextJobId) {
+            await jobsApi.update(localJobId, { erpnext_job_id: erpnextJobId })
+          }
+        } catch (erpErr) {
+          console.error('ERPNext job entry failed:', erpErr)
+        }
+      }
+      handleCloseModal()
       load()
     } catch (e:any) { toast.error(e?.response?.data?.detail || 'Failed') }
     finally { setSaving(false) }
@@ -111,7 +270,7 @@ export default function AdminJobsPage() {
             <h1 className="font-display text-2xl text-trust-900">Jobs & Hiring</h1>
             <p className="text-slate-500 text-sm mt-0.5">Manage open positions and candidate pipeline.</p>
           </div>
-          <Button size="sm" variant="secondary" onClick={() => setShowNewJob(true)}>
+          <Button size="sm" variant="secondary" onClick={() => { setEditingJobId(null); setShowNewJob(true); }}>
             <Plus size={15}/> Post Job
           </Button>
         </div>
@@ -142,7 +301,7 @@ export default function AdminJobsPage() {
           <>
             {tab === 'jobs' && (
               <div className="space-y-3">
-                {jobs.length === 0 ? <EmptyState icon={<Briefcase size={22}/>} title="No jobs posted yet" action={<Button size="sm" onClick={()=>setShowNewJob(true)}>Post First Job</Button>}/> :
+                {jobs.length === 0 ? <EmptyState icon={<Briefcase size={22}/>} title="No jobs posted yet" action={<Button size="sm" onClick={() => { setEditingJobId(null); setShowNewJob(true); }}>Post First Job</Button>}/> :
                   jobs.map((j:any) => (
                     <Card key={j.id} className="p-5">
                       <div className="flex items-start justify-between">
@@ -154,11 +313,23 @@ export default function AdminJobsPage() {
                           <p className="text-xs text-slate-400">{j.location} · {j.job_type} · {j.positions} position{j.positions>1?'s':''}</p>
                           <p className="text-xs text-slate-400 mt-0.5">{apps.filter(a=>a.job_title===j.title).length} applications received</p>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 items-center flex-wrap">
+                          <button onClick={() => setViewJob(j)}
+                            className="text-xs px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg font-medium transition-colors">
+                            View
+                          </button>
+                          <button onClick={() => handleEditClick(j)}
+                            className="text-xs px-3 py-1.5 bg-trust-50 text-trust-700 hover:bg-trust-100 rounded-lg font-medium transition-colors">
+                            Edit
+                          </button>
                           <button onClick={()=>jobsApi.update(j.id,{status: j.status==='open'?'closed':'open'}).then(load)}
                             className={clsx('text-xs px-3 py-1.5 rounded-lg font-medium transition-colors',
-                              j.status==='open' ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-sage-50 text-sage-700 hover:bg-sage-100')}>
+                              j.status==='open' ? 'bg-amber-50 text-amber-700 hover:bg-amber-100' : 'bg-sage-50 text-sage-700 hover:bg-sage-100')}>
                             {j.status==='open' ? 'Close' : 'Reopen'}
+                          </button>
+                          <button onClick={() => setDeletingJob(j)}
+                            className="text-xs px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg font-medium transition-colors">
+                            Delete
                           </button>
                         </div>
                       </div>
@@ -322,19 +493,31 @@ export default function AdminJobsPage() {
 
       {/* New Job Modal */}
       {showNewJob && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" onClick={()=>setShowNewJob(false)}>
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" onClick={handleCloseModal}>
           <div className="bg-white rounded-3xl shadow-float w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e=>e.stopPropagation()}>
             <div className="p-6 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white rounded-t-3xl">
-              <h2 className="font-display text-xl text-trust-900">Post a Job</h2>
-              <button onClick={()=>setShowNewJob(false)} className="p-1.5 rounded-lg hover:bg-slate-100"><X size={16}/></button>
+              <h2 className="font-display text-xl text-trust-900">{editingJobId ? 'Edit Job' : 'Post a Job'}</h2>
+              <button onClick={handleCloseModal} className="p-1.5 rounded-lg hover:bg-slate-100"><X size={16}/></button>
             </div>
             <div className="p-6 space-y-4">
-              {[{l:'Job Title *',k:'title',p:'e.g. Community Health Worker'},{l:'Department',k:'department',p:'e.g. Health Programs'},{l:'Location *',k:'location',p:'Surat, Gujarat'}].map(f=>(
-                <div key={f.k}>
-                  <label className="label">{f.l}</label>
-                  <input className="input text-sm" placeholder={f.p} value={(newJob as any)[f.k]} onChange={e=>setNewJob(d=>({...d,[f.k]:e.target.value}))}/>
-                </div>
-              ))}
+              <div>
+                <label className="label">Job Title *</label>
+                <input className="input text-sm" placeholder="e.g. Community Health Worker" value={newJob.title} onChange={e=>setNewJob(d=>({...d,title:e.target.value}))}/>
+              </div>
+              <div>
+                <label className="label">Department</label>
+                <select className="input bg-white text-sm" value={newJob.department} onChange={e=>setNewJob(d=>({...d,department:e.target.value}))}>
+                  <option value="">Select Department</option>
+                  {designations.map(name => <option key={name} value={name}>{name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="label">Location *</label>
+                <select className="input bg-white text-sm" value={newJob.location} onChange={e=>setNewJob(d=>({...d,location:e.target.value}))}>
+                  <option value="">Select Location</option>
+                  {locations.map(name => <option key={name} value={name}>{name}</option>)}
+                </select>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="label">Job Type</label>
@@ -386,7 +569,9 @@ export default function AdminJobsPage() {
                   <textarea className="input resize-none text-sm" rows={3} placeholder={f.p} value={(newJob as any)[f.k]} onChange={e=>setNewJob(d=>({...d,[f.k]:e.target.value}))}/>
                 </div>
               ))}
-              <Button onClick={createJob} loading={saving} className="w-full justify-center">Post Job</Button>
+              <Button onClick={saveJob} loading={saving} className="w-full justify-center">
+                {editingJobId ? 'Save Changes' : 'Post Job'}
+              </Button>
             </div>
           </div>
         </div>
@@ -428,6 +613,130 @@ export default function AdminJobsPage() {
               <Button onClick={scheduleInterview} loading={saving} className="w-full justify-center">
                 <Calendar size={15}/> Schedule & Notify Candidate
               </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* View Job Modal */}
+      {viewJob && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setViewJob(null)}>
+          <div className="bg-white rounded-3xl shadow-float w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white rounded-t-3xl z-10">
+              <h2 className="font-display text-xl text-trust-900">Job Details</h2>
+              <button onClick={() => setViewJob(null)} className="p-1.5 rounded-lg hover:bg-slate-100"><X size={16}/></button>
+            </div>
+            <div className="p-6 space-y-5 text-left">
+              <div>
+                <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Job Title</h3>
+                <p className="text-base font-bold text-slate-800">{viewJob.title}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Department</h3>
+                  <p className="text-sm font-semibold text-slate-700">{viewJob.department || 'Not Specified'}</p>
+                </div>
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Location</h3>
+                  <p className="text-sm font-semibold text-slate-700">{viewJob.location}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Job Type</h3>
+                  <p className="text-sm font-semibold text-slate-700 capitalize">{viewJob.job_type}</p>
+                </div>
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Positions</h3>
+                  <p className="text-sm font-semibold text-slate-700">{viewJob.positions}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Experience Required</h3>
+                  <p className="text-sm font-semibold text-slate-700">
+                    {viewJob.experience_min}–{viewJob.experience_max || '5'}+ years
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Salary Range</h3>
+                  <p className="text-sm font-semibold text-slate-700">
+                    {viewJob.salary_min || viewJob.salary_max
+                      ? `₹${viewJob.salary_min ? (viewJob.salary_min).toLocaleString('en-IN') : '0'} – ₹${viewJob.salary_max ? (viewJob.salary_max).toLocaleString('en-IN') : 'negotiable'}/mo`
+                      : 'Not Specified'}
+                  </p>
+                </div>
+              </div>
+              {viewJob.application_deadline && (
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Application Deadline</h3>
+                  <p className="text-sm font-semibold text-red-600">
+                    {new Date(viewJob.application_deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </p>
+                </div>
+              )}
+              {viewJob.skills_required && (
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-1.5">Required Skills</h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(Array.isArray(viewJob.skills_required) ? viewJob.skills_required : String(viewJob.skills_required).split(',')).map((s: string) => (
+                      <span key={s} className="px-2.5 py-1 bg-trust-50 text-trust-800 text-xs font-bold rounded-lg border border-trust-100">{s.trim()}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <div className="border-t border-slate-100 pt-4 space-y-4">
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Description</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-line mt-1">{viewJob.description}</p>
+                </div>
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Requirements</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-line mt-1">{viewJob.requirements}</p>
+                </div>
+                <div>
+                  <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Responsibilities</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-line mt-1">{viewJob.responsibilities}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deletingJob && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setDeletingJob(null)}>
+          <div className="bg-white rounded-3xl shadow-float w-full max-w-sm" onClick={e => e.stopPropagation()}>
+            <div className="p-6 text-center space-y-4">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto text-red-600">
+                <X size={24} />
+              </div>
+              <div>
+                <h3 className="font-display text-lg font-bold text-slate-800">Delete Position?</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Are you sure you want to delete <strong className="text-slate-800 font-bold">"{deletingJob.title}"</strong>?
+                  This action is permanent and will delete all candidate applications for this role.
+                </p>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button onClick={() => setDeletingJob(null)}
+                  className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-all">
+                  Cancel
+                </button>
+                <button onClick={async () => {
+                  try {
+                    await jobsApi.delete(deletingJob.id)
+                    toast.success('Job deleted successfully')
+                    setDeletingJob(null)
+                    load()
+                  } catch (err: any) {
+                    toast.error(err?.response?.data?.detail || 'Failed to delete job')
+                  }
+                }}
+                  className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all shadow-md">
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>

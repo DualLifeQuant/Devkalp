@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Mail, Phone, MapPin, Instagram } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -30,6 +30,8 @@ export default function Footer() {
                 ['Health Campaigns', '/campaigns'],
                 ['Career Opportunities', '/jobs'],
                 ['Volunteer With Us', '/volunteer'],
+                ['CSR', '/csr'],
+                ['Gallery & Media', '/gallery'],
               ].map(([label, href]) => (
                 <li key={href}>
                   <Link to={href} className="text-slate-400 hover:text-saffron-300 transition-colors">{label}</Link>
@@ -44,10 +46,10 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               {[
                 ['Fund Usage Reports', '/donate#transparency'],
-                ['Campaign Impact',    '/campaigns#impact'],
-                ['Annual Reports',     '/about#reports'],
-                ['About Us',           '/about'],
-                ['Contact Us',         '/contact'],
+                ['Campaign Impact', '/campaigns#impact'],
+                ['Annual Reports', '/about#reports'],
+                ['About Us', '/about'],
+                ['Contact Us', '/contact'],
               ].map(([label, href]) => (
                 <li key={href}>
                   <Link to={href} className="text-slate-400 hover:text-saffron-300 transition-colors">{label}</Link>
@@ -59,7 +61,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <p className="font-semibold text-white text-sm mb-4 uppercase tracking-wide">Get in Touch</p>
-            <ul className="space-y-3 text-sm text-slate-400">
+            <ul className="space-y-3 text-sm text-slate-400 mb-5">
               <li className="flex items-start gap-2.5">
                 <Mail size={14} className="text-saffron-400 mt-0.5 shrink-0" />
                 <span>devkalp986@gmail.com</span>
@@ -73,6 +75,17 @@ export default function Footer() {
                 <span>Surat, Gujarat, India</span>
               </li>
             </ul>
+            <div className="flex gap-4">
+              <a
+                href="https://www.instagram.com/devkalp_foundation?igsh=bjEyaDBzOTFhbDB0"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-white/5 border border-white/10 hover:border-saffron-500 hover:text-saffron-400 flex items-center justify-center transition-all duration-300"
+                aria-label="Instagram"
+              >
+                <Instagram size={16} />
+              </a>
+            </div>
           </div>
         </div>
 
@@ -80,8 +93,8 @@ export default function Footer() {
           <p>© 2025 Devkalp Foundation. All rights reserved.</p>
           <div className="flex gap-6">
             <Link to="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-            <Link to="/terms"   className="hover:text-slate-300 transition-colors">Terms of Use</Link>
-            <Link to="/80g"     className="hover:text-slate-300 transition-colors">80G Certificate</Link>
+            <Link to="/terms" className="hover:text-slate-300 transition-colors">Terms of Use</Link>
+            <Link to="/80g" className="hover:text-slate-300 transition-colors">12A & 80G Certificate</Link>
           </div>
         </div>
       </div>

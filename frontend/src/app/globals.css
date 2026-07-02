@@ -174,3 +174,22 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   outline-offset: 2px;
   border-radius: 6px;
 }
+
+/* ── Partners Scrolling Marquee ──────────────────────── */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Heart, Target, Eye, Users, Award, ArrowRight, HeartHandshake, HandHeart, Briefcase, Leaf, Check } from 'lucide-react'
@@ -29,6 +29,7 @@ const TEAM = [
 
 export default function AboutPage() {
   const containerRef = useRef<HTMLElement>(null)
+  const [activeTab, setActiveTab] = useState(0)
 
   useEffect(() => {
     const initGsap = async () => {
@@ -203,13 +204,13 @@ export default function AboutPage() {
               <h2 className="section-title mb-5">A Foundation Built on Relationships</h2>
               <div className="space-y-4 text-slate-600 leading-relaxed">
                 <p>
-                  Devkalp Foundation is a registered non-profit organisation working across five interconnected domains: matrimony services, health awareness, charitable giving, livelihood support, and community volunteering.
+                  Devkalp Foundation is a registered non-profit organisation working across six interconnected domains: aducation, matrimony services, health awareness, charitable giving, livelihood support, and community volunteering.
                 </p>
                 <p>
                   What makes us different isn't our programs — it's how we run them. Our matrimony service is not an algorithm; it's a counselor who listens. Our donation platform doesn't just collect money; it reports every rupee. Our campaigns don't just happen; they're tracked, session by session, school by school.
                 </p>
                 <p>
-                  We are headquartered in Surat, Gujarat, and our programs reach communities across Pune, Ahmedabad, Mumbai, and surrounding rural areas.
+                  We are headquartered in Surat, Gujarat.
                 </p>
               </div>
             </div>
@@ -217,7 +218,7 @@ export default function AboutPage() {
               {[
                 { value: 2025, from: 1990, suffix: '', label: 'Year Founded', sub: 'A decade of service', fullWidth: true },
                 { value: 80, from: 0, suffix: '+', label: 'Marriages Facilitated', sub: 'With care and counseling' },
-                { value: 48, from: 0, suffix: '', label: 'Schools Reached', sub: 'Across Maharashtra' },
+                { value: 48, from: 0, suffix: '', label: 'Schools Reached', sub: 'Across Gujarat' },
               ].map(stat => (
                 <div key={stat.label} className={clsx("bg-white rounded-2xl p-5 shadow-card text-center", stat.fullWidth && "col-span-2")}>
                   <p className="font-display text-2xl font-semibold text-trust-800 mb-0.5">
@@ -227,6 +228,91 @@ export default function AboutPage() {
                   <p className="text-xs text-slate-400 mt-0.5">{stat.sub}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── EMPOWER VISUAL CONCEPT SECTION ── */}
+      <section className="py-8 bg-[#fafaf8] overflow-hidden border-t border-b border-slate-100/50">
+        <div className="page-container relative max-w-7xl mx-auto px-4">
+          <div className="relative flex flex-col items-center justify-center min-h-[220px] sm:min-h-[300px]">
+            {/* Desktop View: Floating Tags and Giant Masked Text */}
+            <div className="hidden md:block w-full relative h-[300px]">
+              <h2 
+                className="absolute inset-0 flex items-center justify-center font-display font-black text-[10rem] lg:text-[13rem] xl:text-[16rem] tracking-tighter leading-none select-none uppercase text-center bg-clip-text text-transparent bg-cover bg-center bg-no-repeat transition-all duration-500 hover:scale-[1.01]"
+                style={{ 
+                  backgroundImage: "url('/about_hero.jpg')",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent"
+                }}
+              >
+                EMPOWER
+              </h2>
+
+              {/* Floating Tags */}
+              {[
+                { text: 'Empathy', top: '78%', left: '2%', delay: 0.2 },
+                { text: 'Mentorship', top: '2%', left: '16%', delay: 0.5 },
+                { text: 'Purpose', top: '80%', left: '24%', delay: 0.8 },
+                { text: 'Opportunity', top: '2%', left: '38%', delay: 1.1 },
+                { text: 'Welfare', top: '82%', left: '50%', delay: 0.4 },
+                { text: 'Equality', top: '50%', left: '60%', delay: 0.7 },
+                { text: 'Resilience', top: '12%', left: '72%', delay: 1.3 },
+                { text: 'Transparency', top: '80%', left: '78%', delay: 0.9 },
+                { text: 'Accountability', top: '20%', left: '90%', delay: 1.5 },
+              ].map((tag) => (
+                <motion.div
+                  key={tag.text}
+                  style={{ top: tag.top, left: tag.left }}
+                  animate={{
+                    y: [0, -8, 0],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: tag.delay,
+                  }}
+                  className="absolute z-20 bg-white/95 backdrop-blur-sm border border-slate-200/60 shadow-md shadow-slate-100/50 px-4 py-1.5 rounded-full text-xs font-semibold text-trust-700 tracking-wide select-none transition-transform hover:scale-105 cursor-default hover:bg-white"
+                >
+                  {tag.text}
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Mobile View: Wrapped Flex Tags and Smaller Masked Text */}
+            <div className="md:hidden w-full flex flex-col items-center gap-8">
+              <h2 
+                className="font-display font-black text-7xl sm:text-[6rem] tracking-tighter leading-none select-none uppercase text-center bg-clip-text text-transparent bg-cover bg-center bg-no-repeat"
+                style={{ 
+                  backgroundImage: "url('/about_hero.jpg')",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent"
+                }}
+              >
+                EMPOWER
+              </h2>
+              <div className="flex flex-wrap justify-center gap-2.5 px-2">
+                {[
+                  'Empathy',
+                  'Mentorship',
+                  'Purpose',
+                  'Opportunity',
+                  'Welfare',
+                  'Equality',
+                  'Resilience',
+                  'Transparency',
+                  'Accountability'
+                ].map((tag) => (
+                  <span 
+                    key={tag}
+                    className="bg-white border border-slate-200/60 shadow-sm px-3.5 py-1.5 rounded-full text-[11px] font-semibold text-trust-700 tracking-wide"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -252,23 +338,251 @@ export default function AboutPage() {
       </section>
 
       {/* Programs */}
-      <section className="py-20 bg-trust-950 relative overflow-hidden">
-        <div className="absolute inset-0 bg-hero-pattern opacity-20" />
-        <div className="page-container relative z-10">
-          <div className="text-center mb-12">
-            <p className="font-accent italic text-saffron-300 text-lg mb-2">Our Programs</p>
-            <h2 className="font-display text-4xl font-semibold text-white">Five Ways We Serve</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {PROGRAMS.map(p => (
-              <div key={p.title} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
-                <div className={`w-12 h-12 ${p.bg} rounded-2xl flex items-center justify-center mb-4`}>
-                  {p.icon}
-                </div>
-                <h3 className="font-display text-lg text-white mb-2">{p.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed">{p.desc}</p>
+      <section className="py-24 bg-trust-950 relative overflow-hidden">
+        <div className="absolute inset-0 bg-hero-pattern opacity-10" />
+        <div className="page-container relative z-10 max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            {/* Left Side: Circular Wheel (Desktop) & Fallback grid (Mobile) */}
+            <div className="col-span-12 lg:col-span-6 flex flex-col items-center justify-center">
+              {/* Desktop View: Interactive Wheel */}
+              <div className="hidden md:block relative w-[420px] h-[420px] rounded-full p-2 border border-white/10 shadow-2xl bg-white/5 backdrop-blur-sm">
+                
+                {/* SVG for 5 sectors */}
+                <svg viewBox="0 0 400 400" className="w-full h-full">
+                  <defs>
+                    <pattern id="pic-1" patternUnits="userSpaceOnUse" width="400" height="400">
+                      <image href="matrimony_hero.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                    </pattern>
+                    <pattern id="pic-2" patternUnits="userSpaceOnUse" width="400" height="400">
+                      <image href="camp.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                    </pattern>
+                    <pattern id="pic-3" patternUnits="userSpaceOnUse" width="400" height="400">
+                      <image href="1.jpeg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                    </pattern>
+                    <pattern id="pic-4" patternUnits="userSpaceOnUse" width="400" height="400">
+                      <image href="jobs.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                    </pattern>
+                    <pattern id="pic-5" patternUnits="userSpaceOnUse" width="400" height="400">
+                      <image href="volunteer.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                    </pattern>
+                  </defs>
+
+                  {/* Sectors */}
+                  {[
+                    { id: 'pic-1', d: 'M 200 200 L 200 10 A 190 190 0 0 1 380.7 141.3 Z' },
+                    { id: 'pic-2', d: 'M 200 200 L 380.7 141.3 A 190 190 0 0 1 311.7 353.7 Z' },
+                    { id: 'pic-3', d: 'M 200 200 L 311.7 353.7 A 190 190 0 0 1 88.3 353.7 Z' },
+                    { id: 'pic-4', d: 'M 200 200 L 88.3 353.7 A 190 190 0 0 1 19.3 141.3 Z' },
+                    { id: 'pic-5', d: 'M 200 200 L 19.3 141.3 A 190 190 0 0 1 200 10 Z' },
+                  ].map((sec, index) => (
+                    <path
+                      key={index}
+                      d={sec.d}
+                      fill={`url(#${sec.id})`}
+                      onMouseEnter={() => setActiveTab(index)}
+                      className={clsx(
+                        "transition-all duration-500 cursor-pointer origin-center hover:scale-[1.02] stroke-[3]",
+                        activeTab === index 
+                          ? "grayscale-0 stroke-saffron-500 opacity-100" 
+                          : "grayscale opacity-40 hover:opacity-75 stroke-transparent"
+                      )}
+                    />
+                  ))}
+                  
+                  {/* Inner logo/circle for design polish */}
+                  <circle cx="200" cy="200" r="35" className="fill-trust-950 stroke-white/20 stroke-2" />
+                  <circle cx="200" cy="200" r="28" className="fill-saffron-500/10 stroke-saffron-500/30 stroke" />
+                </svg>
+
+                {/* Quadrant Labels (Absolute Position Overlays) */}
+                {[
+                  { label: 'MATRIMONY', top: '24%', left: '72%', align: 'start', id: 0, hl: 'M' },
+                  { label: 'HEALTH', top: '60%', left: '76%', align: 'start', id: 1, hl: 'H' },
+                  { label: 'GIVING', top: '78%', left: '50%', align: 'center', id: 2, hl: 'G' },
+                  { label: 'LIVELIHOOD', top: '60%', left: '24%', align: 'end', id: 3, hl: 'L' },
+                  { label: 'VOLUNTEER', top: '24%', left: '28%', align: 'end', id: 4, hl: 'V' },
+                ].map((pos) => (
+                  <button
+                    key={pos.id}
+                    onMouseEnter={() => setActiveTab(pos.id)}
+                    onClick={() => setActiveTab(pos.id)}
+                    style={{
+                      top: pos.top,
+                      left: pos.left,
+                      transform: pos.align === 'center' ? 'translateX(-50%)' : pos.align === 'end' ? 'translateX(-100%)' : 'none'
+                    }}
+                    className={clsx(
+                      "absolute z-20 font-display font-black text-sm tracking-widest px-3 py-1.5 rounded-lg select-none transition-all duration-300",
+                      activeTab === pos.id
+                        ? "text-white bg-trust-950/80 backdrop-blur-md border border-saffron-500/50 shadow-lg scale-105"
+                        : "text-white/60 bg-transparent hover:text-white hover:bg-white/5 border border-transparent"
+                    )}
+                  >
+                    {pos.label.split('').map((char, charIdx) => 
+                      char === pos.hl ? <span key={charIdx} className="text-saffron-400 font-extrabold">{char}</span> : char
+                    )}
+                  </button>
+                ))}
               </div>
-            ))}
+
+              {/* Mobile View: Small Interactive Segmented Bar */}
+              <div className="md:hidden w-full flex flex-col gap-4">
+                <div className="relative w-72 h-72 rounded-full overflow-hidden border border-white/10 mx-auto bg-white/5">
+                  <svg viewBox="0 0 400 400" className="w-full h-full">
+                    <defs>
+                      <pattern id="m-pic-1" patternUnits="userSpaceOnUse" width="400" height="400">
+                        <image href="matrimony_hero.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                      </pattern>
+                      <pattern id="m-pic-2" patternUnits="userSpaceOnUse" width="400" height="400">
+                        <image href="camp.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                      </pattern>
+                      <pattern id="m-pic-3" patternUnits="userSpaceOnUse" width="400" height="400">
+                        <image href="1.jpeg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                      </pattern>
+                      <pattern id="m-pic-4" patternUnits="userSpaceOnUse" width="400" height="400">
+                        <image href="jobs.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                      </pattern>
+                      <pattern id="m-pic-5" patternUnits="userSpaceOnUse" width="400" height="400">
+                        <image href="volunteer.jpg" x="0" y="0" width="400" height="400" preserveAspectRatio="xMidYMid slice" />
+                      </pattern>
+                    </defs>
+                    {[
+                      { id: 'm-pic-1', d: 'M 200 200 L 200 10 A 190 190 0 0 1 380.7 141.3 Z' },
+                      { id: 'm-pic-2', d: 'M 200 200 L 380.7 141.3 A 190 190 0 0 1 311.7 353.7 Z' },
+                      { id: 'm-pic-3', d: 'M 200 200 L 311.7 353.7 A 190 190 0 0 1 88.3 353.7 Z' },
+                      { id: 'm-pic-4', d: 'M 200 200 L 88.3 353.7 A 190 190 0 0 1 19.3 141.3 Z' },
+                      { id: 'm-pic-5', d: 'M 200 200 L 19.3 141.3 A 190 190 0 0 1 200 10 Z' },
+                    ].map((sec, index) => (
+                      <path
+                        key={index}
+                        d={sec.d}
+                        fill={`url(#${sec.id})`}
+                        onClick={() => setActiveTab(index)}
+                        className={clsx(
+                          "transition-all duration-300 origin-center",
+                          activeTab === index 
+                            ? "grayscale-0 stroke-saffron-500 stroke-[4] opacity-100" 
+                            : "grayscale opacity-50 stroke-transparent"
+                        )}
+                      />
+                    ))}
+                  </svg>
+                </div>
+                
+                {/* Horizontal Navigation Dots / Buttons for Mobile */}
+                <div className="flex justify-center gap-2 mt-2">
+                  {['M', 'H', 'T', 'L', 'V'].map((letter, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveTab(idx)}
+                      className={clsx(
+                        "w-10 h-10 rounded-full font-bold text-sm transition-all duration-300 border flex items-center justify-center",
+                        activeTab === idx
+                          ? "bg-saffron-500 border-saffron-500 text-trust-950 font-black shadow-lg"
+                          : "bg-white/5 border-white/10 text-white/60 hover:text-white"
+                      )}
+                    >
+                      {letter}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side: Description and Details */}
+            <div className="col-span-12 lg:col-span-6 flex flex-col justify-center">
+              <span className="font-accent italic text-saffron-400 text-lg mb-2">Our Programs</span>
+              <h2 className="font-display text-4xl sm:text-5xl font-black uppercase tracking-wider text-white mb-6 leading-none">
+                <span 
+                  style={{ WebkitTextStroke: "1px rgba(255,255,255,0.75)", color: "transparent" }}
+                  className="mr-3"
+                >
+                  FIVE WAYS
+                </span>
+                WE SERVE
+              </h2>
+
+              <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-8">
+                Our core initiatives centre around five closely interlinked service domains, nurturing and uplifting diverse communities across Surat, Gujarat.
+              </p>
+
+              {/* Bulleted Detailed List */}
+              <div className="space-y-4">
+                {[
+                  {
+                    hl: 'M',
+                    title: 'atrimony Services',
+                    desc: 'A private, counselor-led matchmaking program that honours family values and personal readiness. Not an app — a relationship.'
+                  },
+                  {
+                    hl: 'H',
+                    title: 'ealth Campaigns',
+                    desc: '40–45 minute awareness sessions in schools covering menstrual hygiene, nutrition, and adolescent health — tracked session by session.'
+                  },
+                  {
+                    hl: 'T',
+                    title: 'ransparent Giving',
+                    desc: 'Campaign-based donations with full reporting. You see exactly where your contribution went and what it achieved.'
+                  },
+                  {
+                    hl: 'L',
+                    title: 'ivelihood Support',
+                    desc: 'We connect candidates with meaningful opportunities, prepare them for interviews, and stand with them through the process.'
+                  },
+                  {
+                    hl: 'V',
+                    title: 'olunteer Ecosystem',
+                    desc: 'A structured, respected volunteer program where contributions are tracked, acknowledged, and directly tied to community outcomes.'
+                  }
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    onMouseEnter={() => setActiveTab(index)}
+                    onClick={() => setActiveTab(index)}
+                    className={clsx(
+                      "cursor-pointer group flex gap-4 p-4 rounded-2xl transition-all duration-300 border",
+                      activeTab === index
+                        ? "bg-white/10 border-white/10 shadow-lg"
+                        : "bg-transparent border-transparent hover:bg-white/5"
+                    )}
+                  >
+                    <div className="flex flex-col items-center">
+                      <span className={clsx(
+                        "w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 border",
+                        activeTab === index
+                          ? "bg-saffron-500 border-saffron-500 text-trust-950 font-black"
+                          : "bg-white/5 border-white/15 text-white/50 group-hover:text-white"
+                      )}>
+                        {item.hl}
+                      </span>
+                      {index < 4 && (
+                        <div className={clsx(
+                          "w-[2px] grow min-h-[30px] my-2 transition-colors duration-300",
+                          activeTab === index ? "bg-saffron-500/50" : "bg-white/10"
+                        )} />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className={clsx(
+                        "font-display text-lg transition-colors duration-300",
+                        activeTab === index ? "text-saffron-300 font-bold" : "text-white/80 group-hover:text-white"
+                      )}>
+                        <span className="text-saffron-400 font-black">{item.hl}</span>
+                        {item.title}
+                      </h3>
+                      <p className={clsx(
+                        "text-xs sm:text-sm mt-1 leading-relaxed transition-colors duration-300",
+                        activeTab === index ? "text-white/90" : "text-white/50 group-hover:text-white/70"
+                      )}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

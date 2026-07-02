@@ -4,6 +4,8 @@ from sqlalchemy import select, func, desc, and_
 from typing import Optional, List
 from pydantic import BaseModel
 from datetime import date, datetime
+import re
+import html as html_module
 
 from app.database import get_db
 from app.models import Job, JobApplication, User, JobStatus, ApplicationStatus, GeneralApplication
@@ -13,6 +15,27 @@ from app.core.notifications import notify_interview_scheduled
 from app.utils.storage import upload_resume, upload_document
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
+
+def _clean_html(raw: Optional[str]) -> Optional[str]:
+    """ERPNext rich-text fields આવે છે HTML સાથે (Quill editor).
+    Tags કાઢી, paragraph breaks ને newline માં convert કરીને plain text બનાવે છે."""
+    if not raw:
+        return raw
+    text = raw
+    text = re.sub(r'</p\s*>', '\n', text, flags=re.IGNORECASE)
+    text = re.sub(r'<br\s*/?>', '\n', text, flags=re.IGNORECASE)
+    text = re.sub(r'<[^>]+>', '', text)
+    text = html_module.unescape(text)
+    text = re.sub(r'\n\s*\n+', '\n', text)
+    return text.strip()
+
+
+def _clean_skills(raw: Optional[str]) -> Optional[str]:
+    """Skills field માંથી HTML કાઢીને comma-separated plain text બનાવે છે."""
+    if not raw:
+        return raw
+    cleaned = _clean_html(raw)
+    return cleaned.replace('\n', ',') if cleaned else cleaned
 
 
 class JobCreate(BaseModel):
@@ -59,6 +82,23 @@ class ScheduleInterview(BaseModel):
     interview_location: Optional[str] = None
     interviewer_name: Optional[str] = None
 
+class ERPNextJobWebhook(BaseModel):
+    name: str
+    job_title: Optional[str] = None
+    designation: Optional[str] = None
+    location: Optional[str] = None
+    employment_type: Optional[str] = None
+    custom_positions: Optional[int] = None
+    description: Optional[str] = None
+    custom_requirements: Optional[str] = None
+    custom_responsibilities_: Optional[str] = None
+    custom_required_skills: Optional[str] = None
+    custom_min_experience_year: Optional[float] = None
+    custom_max_experience_year: Optional[float] = None
+    custom_min_salary: Optional[float] = None
+    custom_max_salary: Optional[float] = None
+    custom_application_deadline: Optional[str] = None
+    status: Optional[str] = None
 
 # ── Public ─────────────────────────────────────────────────────
 
@@ -193,11 +233,24 @@ async def update_job(job_id: str, data: dict,
     if not job:
         raise HTTPException(404, "Job not found")
     allowed = {"title", "department", "location", "job_type", "description", "requirements",
-               "responsibilities", "status", "positions", "skills_required", "salary_min", "salary_max"}
+               "responsibilities", "status", "positions", "skills_required", "salary_min", "salary_max",
+               "erpnext_job_id"}
     for k, v in data.items():
         if k in allowed:
+            if k == "application_deadline" and isinstance(v, str) and v:
+                v = date.fromisoformat(v)
             setattr(job, k, v)
     return {"message": "Updated"}
+
+
+@router.delete("/admin/{job_id}")
+async def delete_job(job_id: str,
+                      admin=Depends(get_current_admin), db: AsyncSession = Depends(get_db)):
+    job = await db.get(Job, job_id)
+    if not job:
+        raise HTTPException(404, "Job not found")
+    await db.delete(job)
+    return {"message": "Job deleted"}
 
 
 @router.post("/admin/shortlist/{application_id}")
@@ -335,3 +388,74 @@ async def list_general_applications(admin=Depends(get_current_admin), db: AsyncS
     result = await db.execute(q)
     apps = result.scalars().all()
     return {"items": [_serialize_general_app(a) for a in apps]}
+
+@router.post("/webhook/erpnext", status_code=200)
+async def erpnext_job_webhook(data: ERPNextJobWebhook, db: AsyncSession = Depends(get_db)):
+    from datetime import datetime as dt
+
+    result = await db.execute(select(Job).where(Job.erpnext_job_id == data.name))
+    existing = result.scalar_one_or_none()
+
+    job_status = JobStatus.OPEN.value if data.status == "Open" else JobStatus.CLOSED.value
+
+    cleaned_description = _clean_html(data.description)
+    cleaned_requirements = _clean_html(data.custom_requirements)
+    cleaned_responsibilities = _clean_html(data.custom_responsibilities_)
+    cleaned_skills_raw = _clean_skills(data.custom_required_skills)
+
+    skills_list = None
+    if cleaned_skills_raw:
+        skills_list = [s.strip() for s in cleaned_skills_raw.split(",") if s.strip()]
+
+    deadline_parsed = None
+    if data.custom_application_deadline:
+        try:
+            deadline_parsed = dt.strptime(data.custom_application_deadline, "%Y-%m-%d").date()
+        except ValueError:
+            deadline_parsed = None
+
+    if existing:
+        if data.job_title: existing.title = data.job_title
+        if data.designation: existing.department = data.designation
+        if data.location: existing.location = data.location
+        if data.employment_type: existing.job_type = data.employment_type
+        if data.custom_positions: existing.positions = data.custom_positions
+        if cleaned_description: existing.description = cleaned_description
+        if cleaned_requirements: existing.requirements = cleaned_requirements
+        if cleaned_responsibilities: existing.responsibilities = cleaned_responsibilities
+        if data.custom_min_experience_year is not None: existing.experience_min = int(data.custom_min_experience_year)
+        if data.custom_max_experience_year is not None: existing.experience_max = int(data.custom_max_experience_year)
+        if data.custom_min_salary is not None: existing.salary_min = int(data.custom_min_salary)
+        if data.custom_max_salary is not None: existing.salary_max = int(data.custom_max_salary)
+        if skills_list: existing.skills_required = skills_list
+        if deadline_parsed: existing.application_deadline = deadline_parsed
+        existing.status = job_status
+        return {"message": "Job updated from ERPNext", "job_id": existing.id}
+    else:
+        admin_result = await db.execute(select(User).where(User.role == "admin").limit(1))
+        admin_user = admin_result.scalar_one_or_none()
+        if not admin_user:
+            raise HTTPException(500, "No admin user found to assign job creation")
+
+        job = Job(
+            erpnext_job_id=data.name,
+            title=data.job_title or "Untitled",
+            department=data.designation,
+            location=data.location or "Not specified",
+            job_type=data.employment_type or "full-time",
+            positions=data.custom_positions or 1,
+            description=cleaned_description or "",
+            requirements=cleaned_requirements or "",
+            responsibilities=cleaned_responsibilities or "",
+            experience_min=int(data.custom_min_experience_year) if data.custom_min_experience_year is not None else 0,
+            experience_max=int(data.custom_max_experience_year) if data.custom_max_experience_year is not None else None,
+            salary_min=int(data.custom_min_salary) if data.custom_min_salary is not None else None,
+            salary_max=int(data.custom_max_salary) if data.custom_max_salary is not None else None,
+            skills_required=skills_list,
+            application_deadline=deadline_parsed,
+            status=job_status,
+            created_by=admin_user.id,
+        )
+        db.add(job)
+        await db.flush()
+        return {"message": "Job created from ERPNext", "job_id": job.id}

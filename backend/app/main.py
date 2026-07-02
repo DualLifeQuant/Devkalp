@@ -58,7 +58,8 @@ app.add_middleware(
         "http://localhost:3000",
         "http://localhost:3001",
     ],
-    allow_origin_regex=r"https://.*\.vercel\.app|https?://localhost(:\d+)?",
+    # allow_origin_regex=r"https://.*\.vercel\.app|https?://localhost(:\d+)?",
+    allow_origin_regex=r"https://.*\.vercel\.app|https?://(localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3})(:\d+)?",
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
@@ -101,7 +102,7 @@ async def server_error(_request: Request, exc):
 
 # ── Routers ──────────────────────────────────────────────────
 
-from app.routers import auth, matrimony, donations, jobs, campaigns, volunteers, admin, enquiries
+from app.routers import auth, matrimony, donations, jobs, campaigns, volunteers, admin, enquiries, awards, csr, press, gallery, partners, instagram
 from app.routers import counselors, family, emotional, campaign_sessions
 
 API = "/api/v1"
@@ -118,6 +119,12 @@ app.include_router(family.router,             prefix=API)
 app.include_router(emotional.router,          prefix=API)
 app.include_router(campaign_sessions.router,  prefix=API)
 app.include_router(enquiries.router,          prefix=API)
+app.include_router(awards.router,             prefix=API)
+app.include_router(csr.router,                prefix=API)
+app.include_router(press.router,              prefix=API)
+app.include_router(gallery.router,            prefix=API)
+app.include_router(partners.router,           prefix=API)
+app.include_router(instagram.router,          prefix=API)
 
 
 # ── Health & Root ─────────────────────────────────────────────

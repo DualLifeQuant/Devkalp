@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import {
   Users, HeartHandshake, HandHeart, Briefcase,
   Leaf, Heart, TrendingUp, Clock, CheckCircle, AlertCircle,
-  ArrowUpRight, Activity
+  ArrowUpRight, Activity, Building2, Trophy, Newspaper
 } from 'lucide-react'
 import AdminLayout from '@/components/layout/AdminLayout'
 import { StatsCard, Badge, Card, Spinner, EmptyState } from '@/components/ui'
@@ -15,6 +15,9 @@ const QUICK_ACTIONS = [
   { href: '/admin/jobs',       label: 'Post a Job',       icon: <Briefcase size={18}/>,      color: 'bg-sage-50 text-sage-700 hover:bg-sage-100 border-sage-100'         },
   { href: '/admin/donations',  label: 'View Donations',   icon: <HandHeart size={18}/>,      color: 'bg-saffron-50 text-saffron-700 hover:bg-saffron-100 border-saffron-100' },
   { href: '/admin/campaigns',  label: 'New Campaign',     icon: <Leaf size={18}/>,           color: 'bg-warm-50 text-warm-700 hover:bg-warm-100 border-warm-100'          },
+  { href: '/admin/csr',        label: 'CSR Proposals',    icon: <Building2 size={18}/>,      color: 'bg-trust-50 text-trust-700 hover:bg-trust-100 border-trust-100'      },
+  { href: '/admin/awards',     label: 'Manage Awards',    icon: <Trophy size={18}/>,         color: 'bg-saffron-50 text-saffron-700 hover:bg-saffron-100 border-saffron-100' },
+  { href: '/admin/press',      label: 'Manage Press',     icon: <Newspaper size={18}/>,      color: 'bg-warm-50 text-warm-700 hover:bg-warm-100 border-warm-100'          },
 ]
 
 function FadeIn({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -206,7 +209,7 @@ export default function AdminDashboard() {
             <FadeIn delay={0.5}>
               <div>
                 <h3 className="font-display text-lg text-trust-900 mb-4">Quick Actions</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
                   {QUICK_ACTIONS.map((a, i) => (
                     <motion.div key={a.href} whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
                       <Link to={a.href}

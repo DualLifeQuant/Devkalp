@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Leaf, Calendar, MapPin, Search, X, Check, Play, Video } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
@@ -20,12 +20,15 @@ const isVideoUrl = (url: string): boolean => {
 }
 
 
-const CATEGORIES = ['All','health','education','environment','community']
 const CAT_META: Record<string,{label:string;color:string;bg:string}> = {
   health:      { label:'Health',      color:'text-red-700',    bg:'bg-red-100'   },
   education:   { label:'Education',   color:'text-trust-700',  bg:'bg-trust-100' },
   environment: { label:'Environment', color:'text-sage-700',   bg:'bg-sage-100'  },
   community:   { label:'Community',   color:'text-warm-700',   bg:'bg-warm-100'  },
+}
+const getCategoryLabel = (c: string) => {
+  if (CAT_META[c]) return CAT_META[c].label
+  return c.charAt(0).toUpperCase() + c.slice(1)
 }
 
 const HERO_IMGS = [
@@ -51,6 +54,7 @@ function SkeletonCard() {
 export default function CampaignsPage() {
   const containerRef = useRef<HTMLElement>(null)
   const [campaigns, setCampaigns] = useState<any[]>([])
+  const [categories, setCategories] = useState<string[]>(['All'])
   const [loading, setLoading] = useState(true)
   const [category, setCategory] = useState('All')
   const [search, setSearch] = useState('')
@@ -65,6 +69,18 @@ export default function CampaignsPage() {
     }
   }, [selectedCamp])
 
+
+  useEffect(() => {
+    campaignsApi.categories()
+      .then(res => {
+        if (Array.isArray(res.data)) {
+          setCategories(['All', ...res.data])
+        }
+      })
+      .catch(err => {
+        console.error("Failed to fetch campaign categories:", err)
+      })
+  }, [])
 
   useEffect(() => {
     const params: any = { limit: 30 }
@@ -185,7 +201,7 @@ export default function CampaignsPage() {
       <div className="page-container py-12">
         {/* Category filter */}
         <div className="flex gap-2 mb-8 flex-wrap relative z-0">
-          {CATEGORIES.map((c, i) => {
+          {categories.map((c, i) => {
             const isActive = category === c
             return (
               <button key={c} onClick={() => setCategory(c)}
@@ -199,7 +215,7 @@ export default function CampaignsPage() {
                     transition={{ type: 'spring', stiffness: 350, damping: 25 }}
                   />
                 )}
-                {c === 'All' ? 'All Campaigns' : CAT_META[c]?.label || c}
+                {c === 'All' ? 'All Campaigns' : getCategoryLabel(c)}
               </button>
             )
           })}
@@ -267,7 +283,7 @@ export default function CampaignsPage() {
                         </div>
                         <div className="shrink-0 pb-1">
                           <span className="text-white/70 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">
-                            {cat ? cat.label : c.category}
+                            {getCategoryLabel(c.category)}
                           </span>
                         </div>
                       </div>
@@ -351,7 +367,7 @@ export default function CampaignsPage() {
               <div className="w-full md:w-1/2 p-6 md:py-8 md:pr-10 border-t md:border-t-0 md:border-l border-slate-100 flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
                   <span className={`text-xs font-bold px-3 py-1 rounded-lg ${CAT_META[selectedCamp.category]?.bg || 'bg-slate-100'} ${CAT_META[selectedCamp.category]?.color || 'text-slate-700'}`}>
-                    {CAT_META[selectedCamp.category]?.label || selectedCamp.category}
+                    {getCategoryLabel(selectedCamp.category)}
                   </span>
                 </div>
                 
