@@ -318,6 +318,11 @@ export const galleryApi = {
   create: (data: any)       => api.post('/gallery/', data),
   update: (id: string, data: any) => api.put(`/gallery/${id}`, data),
   delete: (id: string)      => api.delete(`/gallery/${id}`),
+  // Categories
+  categories:       ()                     => api.get('/gallery/categories/'),
+  createCategory:   (data: any)            => api.post('/gallery/categories/', data),
+  updateCategory:   (id: string, data: any) => api.put(`/gallery/categories/${id}`, data),
+  deleteCategory:   (id: string)           => api.delete(`/gallery/categories/${id}`),
 }
 
 // ── Partners & Sponsors

@@ -5,9 +5,11 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import { StatsCard, Badge, Card, Button, EmptyState, Spinner } from '@/components/ui'
 import { volunteersApi } from '@/lib/api'
+import { useAuthStore } from '@/lib/store'
 import toast from 'react-hot-toast'
 
 export default function VolunteerDashboard() {
+  const { user } = useAuthStore()
   const [profile, setProfile] = useState<any>(null)
   const [tasks, setTasks] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -33,12 +35,71 @@ export default function VolunteerDashboard() {
     }
     setRegistering(true)
     try {
+      // 1. Save locally as before
       await volunteersApi.register(regData)
       toast.success('Registration submitted! We will review and contact you.')
       const p = await volunteersApi.myProfile()
       setProfile(p.data)
-    } catch (e:any) { toast.error(e?.response?.data?.detail || 'Failed') }
-    finally { setRegistering(false) }
+
+      // 2. Update the SAME ERPNext record (found via email) instead of creating a new one
+      try {
+        const erpnextUrl = import.meta.env.VITE_ERPNEXT_URL
+        const apiKey = import.meta.env.VITE_ERPNEXT_API_KEY
+        const apiSecret = import.meta.env.VITE_ERPNEXT_API_SECRET
+
+        if (user?.email) {
+          const filters = encodeURIComponent(JSON.stringify([["email_address", "=", user.email]]))
+          const searchRes = await fetch(
+            `${erpnextUrl}/api/resource/Volunteer Application?filters=${filters}`,
+            { headers: { 'Authorization': `token ${apiKey}:${apiSecret}` } }
+          )
+          const searchResult = await searchRes.json()
+          const docName = searchResult?.data?.[0]?.name
+
+          if (docName) {
+            // Existing record found — update it
+            await fetch(`${erpnextUrl}/api/resource/Volunteer Application/${encodeURIComponent(docName)}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `token ${apiKey}:${apiSecret}`,
+              },
+              body: JSON.stringify({
+                occupation: regData.occupation,
+                city: regData.city,
+                motivation: regData.motivation,
+                availability: regData.availability,
+              }),
+            })
+          } else {
+            // No prior record found (edge case) — create a fresh one with everything
+            await fetch(`${erpnextUrl}/api/resource/Volunteer Application`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `token ${apiKey}:${apiSecret}`,
+              },
+              body: JSON.stringify({
+                doctype: 'Volunteer Application',
+                full_name: user.full_name || '',
+                email_address: user.email,
+                phone_number: user.phone || '',
+                occupation: regData.occupation,
+                city: regData.city,
+                motivation: regData.motivation,
+                availability: regData.availability,
+              }),
+            })
+          }
+        }
+      } catch (erpErr) {
+        console.error('ERPNext volunteer update failed:', erpErr)
+      }
+    } catch (e:any) {
+      toast.error(e?.response?.data?.detail || 'Failed')
+    } finally {
+      setRegistering(false)
+    }
   }
 
   const completeTask = async (taskId: string) => {

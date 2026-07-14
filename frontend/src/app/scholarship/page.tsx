@@ -115,9 +115,9 @@ export default function ScholarshipPage() {
     }
     setCompletingPayment(true)
     try {
-      const erpnextUrl = 'http://192.168.1.25:5100'
-      const apiKey = '9ff88d537c92809'
-      const apiSecret = '31a275388bce201'
+      const erpnextUrl = import.meta.env.VITE_ERPNEXT_URL
+      const apiKey = import.meta.env.VITE_ERPNEXT_API_KEY
+      const apiSecret = import.meta.env.VITE_ERPNEXT_API_SECRET
 
       const currentDoctype = formType === 'digital_gujarat'
         ? 'Digital Gujarat Scholarship'
@@ -338,12 +338,12 @@ export default function ScholarshipPage() {
           const file = files[field.id]
           const label = fieldLabels[field.id]
           if (file && label) {
-            adminMessage += `\n${label}: http://192.168.1.25:5100/files/${encodeURIComponent(file.name)}`
+            adminMessage += `\n${label}: ${erpnextUrl}/files/${encodeURIComponent(file.name)}`
           }
         }
 
         if (ssUrl) {
-          adminMessage += `\nPayment Screenshot: http://192.168.1.25:5100${ssUrl}`
+          adminMessage += `\nPayment Screenshot: ${erpnextUrl}${ssUrl}`
         }
 
         await enquiriesApi.submit({

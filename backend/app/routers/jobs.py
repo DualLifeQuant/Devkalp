@@ -17,8 +17,7 @@ from app.utils.storage import upload_resume, upload_document
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 
 def _clean_html(raw: Optional[str]) -> Optional[str]:
-    """ERPNext rich-text fields આવે છે HTML સાથે (Quill editor).
-    Tags કાઢી, paragraph breaks ને newline માં convert કરીને plain text બનાવે છે."""
+    """Converts ERPNext rich-text (HTML) into plain text."""
     if not raw:
         return raw
     text = raw
@@ -31,7 +30,7 @@ def _clean_html(raw: Optional[str]) -> Optional[str]:
 
 
 def _clean_skills(raw: Optional[str]) -> Optional[str]:
-    """Skills field માંથી HTML કાઢીને comma-separated plain text બનાવે છે."""
+    """Converts the Skills field from HTML to comma-separated plain text."""
     if not raw:
         return raw
     cleaned = _clean_html(raw)

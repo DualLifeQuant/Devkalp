@@ -44,6 +44,32 @@ export default function RegisterPage() {
       })
       const { access_token, refresh_token, user } = res.data
       setAuth(user, access_token, refresh_token)
+      // If registering as Volunteer, create initial ERPNext entry
+      if (role === 'volunteer') {
+        try {
+          const erpnextUrl = import.meta.env.VITE_ERPNEXT_URL
+          const apiKey = import.meta.env.VITE_ERPNEXT_API_KEY
+          const apiSecret = import.meta.env.VITE_ERPNEXT_API_SECRET
+
+          await fetch(`${erpnextUrl}/api/resource/Volunteer Application`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `token ${apiKey}:${apiSecret}`,
+            },
+            body: JSON.stringify({
+              doctype: 'Volunteer Application',
+              full_name: data.full_name,
+              phone_number: data.phone || '',
+              email_address: data.email,
+              password: data.password,
+              confirm_password: data.confirm_password,
+            }),
+          })
+        } catch (erpErr) {
+          console.error('ERPNext volunteer entry failed:', erpErr)
+        }
+      }
       toast.success(`Welcome, ${user.full_name.split(' ')[0]}! 🎉`)
       navigate(getDashboardPath(user.role))
     } catch (err: any) {

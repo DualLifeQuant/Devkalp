@@ -262,7 +262,7 @@ export default function HomePage() {
               className="flex flex-wrap gap-4">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                 <Link to="/matrimony" className="inline-flex items-center gap-2 px-8 py-3.5 bg-saffron-400 text-trust-900 font-bold rounded-xl hover:bg-saffron-300 transition-colors shadow-warm text-sm">
-                  <HeartHandshake size={18} /> Begin Your Journey
+                  <HeartHandshake size={18} /> Create My Account
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
@@ -272,7 +272,7 @@ export default function HomePage() {
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                 <Link to="/csr" className="inline-flex items-center gap-2 px-8 py-3.5 bg-white/10 text-white font-medium rounded-xl hover:bg-white/15 border border-white/10 transition-colors text-sm">
-                  <Building2 size={15} /> CSR Program
+                  <Building2 size={15} /> CSR
                 </Link>
               </motion.div>
             </motion.div>

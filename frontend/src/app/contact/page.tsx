@@ -73,12 +73,9 @@ export default function ContactPage() {
       }
       setSending(true)
       try {
-        // const erpnextUrl = 'http://dellerp.com:8000'
-        // const apiKey = '27f43d4573046e6'
-        // const apiSecret = '1aa5e455a212d9c'
-        const erpnextUrl = 'http://192.168.1.25:5100'
-        const apiKey = '9ff88d537c92809'
-        const apiSecret = '31a275388bce201'
+        const erpnextUrl = import.meta.env.VITE_ERPNEXT_URL
+        const apiKey = import.meta.env.VITE_ERPNEXT_API_KEY
+        const apiSecret = import.meta.env.VITE_ERPNEXT_API_SECRET
 
         const payload: Record<string, any> = {
           doctype: 'Job Applicant',

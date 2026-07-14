@@ -671,6 +671,18 @@ class GalleryItem(Base):
     created_at  = Column(DateTime, server_default=func.now())
     updated_at  = Column(DateTime, onupdate=func.now())
 
+# ── Gallery Categories ──────────────────────────────────────────
+
+class GalleryCategory(Base):
+    __tablename__ = "gallery_categories"
+
+    id          = Column(String(36), primary_key=True, default=gen_uuid)
+    value       = Column(String(100), unique=True, nullable=False)   # slug, e.g. "health"
+    label       = Column(String(255), nullable=False)                # display name, e.g. "Health Campaigns"
+    order_index = Column(Integer, default=0)
+    created_at  = Column(DateTime, server_default=func.now())
+    updated_at  = Column(DateTime, onupdate=func.now())
+
 
 # ── Partners ───────────────────────────────────────────────────
 

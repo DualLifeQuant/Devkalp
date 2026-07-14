@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react'
-import { Image as ImageIcon, Calendar, Plus, Edit, Trash2, X, Search, Eye, EyeOff, Camera, Upload, Check, AlertCircle } from 'lucide-react'
+import { Image as ImageIcon, Calendar, Plus, Edit, Trash2, X, Search, Eye, EyeOff, Camera, Upload, Check, AlertCircle, Settings, Save } from 'lucide-react'
 import AdminLayout from '@/components/layout/AdminLayout'
 import { Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { galleryApi, adminApi } from '@/lib/api'
 import toast from 'react-hot-toast'
 
-const CATEGORIES = [
-  { value: 'matrimony', label: 'Matrimony Services' },
-  { value: 'health', label: 'Health Campaigns' },
-  { value: 'giving', label: 'Transparent Giving' },
-  { value: 'livelihood', label: 'Livelihood Support' },
-  { value: 'volunteer', label: 'Volunteer Ecosystem' },
-  { value: 'general', label: 'General NGO Events' },
-]
+type GalleryCategory = {
+  id: string
+  value: string
+  label: string
+  order_index: number
+}
 
 export default function AdminGalleryPage() {
   const [items, setItems] = useState<any[]>([])
+  const [categories, setCategories] = useState<GalleryCategory[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState<any>(null) // For modal (create/edit)
@@ -25,16 +24,23 @@ export default function AdminGalleryPage() {
     title: '',
     description: '',
     image_url: '',
-    category: 'general',
+    category: '',
     is_active: true,
   })
 
   const [uploadingImage, setUploadingImage] = useState(false)
 
-  const [bulkCategory, setBulkCategory] = useState('general')
+  const [bulkCategory, setBulkCategory] = useState('')
   const [bulkFiles, setBulkFiles] = useState<File[]>([])
   const [bulkUploads, setBulkUploads] = useState<{ name: string; status: 'idle' | 'uploading' | 'success' | 'error' }[]>([])
   const [isBulkUploading, setIsBulkUploading] = useState(false)
+
+  // ── Category Management State ──
+  const [showCategoryModal, setShowCategoryModal] = useState(false)
+  const [newCatLabel, setNewCatLabel] = useState('')
+  const [editingCatId, setEditingCatId] = useState<string | null>(null)
+  const [editingCatLabel, setEditingCatLabel] = useState('')
+  const [savingCategory, setSavingCategory] = useState(false)
 
   const loadGallery = async () => {
     setLoading(true)
@@ -52,9 +58,28 @@ export default function AdminGalleryPage() {
     }
   }
 
+  const loadCategories = async () => {
+    try {
+      const res = await galleryApi.categories()
+      const cats = Array.isArray(res.data) ? res.data : []
+      setCategories(cats)
+      // Default the bulk/create category selects to the first available category
+      if (cats.length > 0) {
+        setBulkCategory(prev => prev || cats[0].value)
+        setForm(prev => ({ ...prev, category: prev.category || cats[0].value }))
+      }
+    } catch {
+      toast.error('Failed to load categories')
+    }
+  }
+
   useEffect(() => {
     loadGallery()
+    loadCategories()
   }, [])
+
+  const slugify = (label: string) =>
+    label.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '')
 
   const handleOpenCreate = () => {
     setSelected(null)
@@ -62,10 +87,10 @@ export default function AdminGalleryPage() {
       title: '',
       description: '',
       image_url: '',
-      category: 'general',
+      category: categories[0]?.value || '',
       is_active: true,
     })
-    setBulkCategory('general')
+    setBulkCategory(categories[0]?.value || '')
     setBulkFiles([])
     setBulkUploads([])
     setShowModal(true)
@@ -77,7 +102,7 @@ export default function AdminGalleryPage() {
       title: item.title || '',
       description: item.description || '',
       image_url: item.image_url || '',
-      category: item.category || 'general',
+      category: item.category || categories[0]?.value || '',
       is_active: item.is_active ?? true,
     })
     setShowModal(true)
@@ -102,9 +127,12 @@ export default function AdminGalleryPage() {
 
   const handleBulkUpload = async (e?: React.FormEvent) => {
     e?.preventDefault()
-    console.log("handleBulkUpload initiated", { files: bulkFiles, category: bulkCategory })
     if (bulkFiles.length === 0) {
       toast.error('Please select at least one photo to upload')
+      return
+    }
+    if (!bulkCategory) {
+      toast.error('Please select a category')
       return
     }
     try {
@@ -115,17 +143,13 @@ export default function AdminGalleryPage() {
       let successCount = 0
       for (let i = 0; i < bulkFiles.length; i++) {
         const file = bulkFiles[i]
-        console.log(`Uploading file ${i + 1}/${bulkFiles.length}: ${file.name}`)
         setBulkUploads(prev => prev.map((s, idx) => idx === i ? { ...s, status: 'uploading' } : s))
         const formData = new FormData()
         formData.append('file', file)
         try {
-          console.log("Calling adminApi.uploadImage...")
           const uploadRes = await adminApi.uploadImage(formData)
-          console.log("Upload response received:", uploadRes.data)
           const imageUrl = uploadRes.data.url
-          
-          console.log("Calling galleryApi.create...")
+
           await galleryApi.create({
             title: '',
             description: '',
@@ -133,11 +157,9 @@ export default function AdminGalleryPage() {
             category: bulkCategory,
             is_active: true
           })
-          console.log("Gallery item created successfully")
           setBulkUploads(prev => prev.map((s, idx) => idx === i ? { ...s, status: 'success' } : s))
           successCount++
         } catch (err: any) {
-          console.error(`Error uploading ${file.name}:`, err)
           toast.error(`Error uploading ${file.name}: ${err?.response?.data?.detail || err?.message || err}`)
           setBulkUploads(prev => prev.map((s, idx) => idx === i ? { ...s, status: 'error' } : s))
         }
@@ -157,7 +179,6 @@ export default function AdminGalleryPage() {
         toast.error('Failed to upload any photos.')
       }
     } catch (outerErr: any) {
-      console.error("Outer handleBulkUpload error:", outerErr)
       toast.error(`System error: ${outerErr?.message || outerErr}`)
       setIsBulkUploading(false)
     }
@@ -182,11 +203,9 @@ export default function AdminGalleryPage() {
     }
     try {
       if (selected) {
-        // Edit mode
         await galleryApi.update(selected.id, form)
         toast.success('Photo details updated successfully')
       } else {
-        // Create mode
         await galleryApi.create(form)
         toast.success('Photo added to gallery successfully')
       }
@@ -197,9 +216,76 @@ export default function AdminGalleryPage() {
     }
   }
 
+  // ── Category CRUD Handlers ──
+
+  const handleAddCategory = async () => {
+    if (!newCatLabel.trim()) {
+      toast.error('Please enter a category name')
+      return
+    }
+    setSavingCategory(true)
+    try {
+      await galleryApi.createCategory({
+        value: slugify(newCatLabel),
+        label: newCatLabel.trim(),
+        order_index: categories.length,
+      })
+      toast.success('Category added successfully')
+      setNewCatLabel('')
+      loadCategories()
+    } catch (err: any) {
+      toast.error(err?.response?.data?.detail || 'Failed to add category')
+    } finally {
+      setSavingCategory(false)
+    }
+  }
+
+  const startEditCategory = (cat: GalleryCategory) => {
+    setEditingCatId(cat.id)
+    setEditingCatLabel(cat.label)
+  }
+
+  const cancelEditCategory = () => {
+    setEditingCatId(null)
+    setEditingCatLabel('')
+  }
+
+  const saveEditCategory = async (cat: GalleryCategory) => {
+    if (!editingCatLabel.trim()) {
+      toast.error('Category name cannot be empty')
+      return
+    }
+    setSavingCategory(true)
+    try {
+      await galleryApi.updateCategory(cat.id, { label: editingCatLabel.trim() })
+      toast.success('Category updated successfully')
+      cancelEditCategory()
+      loadCategories()
+    } catch (err: any) {
+      toast.error(err?.response?.data?.detail || 'Failed to update category')
+    } finally {
+      setSavingCategory(false)
+    }
+  }
+
+  const handleDeleteCategory = async (cat: GalleryCategory) => {
+    const inUse = items.some(item => item.category === cat.value)
+    const warning = inUse
+      ? `"${cat.label}" is used by existing gallery photos. Deleting it will NOT delete those photos, but they will show without a valid category. Continue?`
+      : `Delete category "${cat.label}"?`
+    if (!window.confirm(warning)) return
+    try {
+      await galleryApi.deleteCategory(cat.id)
+      toast.success('Category deleted successfully')
+      loadCategories()
+    } catch (err: any) {
+      toast.error(err?.response?.data?.detail || 'Failed to delete category')
+    }
+  }
+
   const getCategoryLabel = (val: string) => {
-    const cat = CATEGORIES.find(c => c.value === val)
-    return cat ? cat.label : val ? val.charAt(0).toUpperCase() + val.slice(1) : 'General'
+    const cat = categories.find(c => c.value === val)
+    return cat ? cat.label : val ? val.charAt(0).toUpperCase() + val.slice(1) : 'Uncategorized'
   }
 
   const filteredItems = items.filter(item => {
@@ -214,7 +300,7 @@ export default function AdminGalleryPage() {
   return (
     <AdminLayout>
       <div className="p-6 md:p-8">
-        
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
@@ -226,7 +312,7 @@ export default function AdminGalleryPage() {
               Add, update, or remove photos shown on the public Media & Gallery page.
             </p>
           </div>
-          
+
           <div className="flex gap-3 w-full sm:w-auto">
             {/* Search bar */}
             <div className="relative flex-1 sm:w-64 sm:flex-none">
@@ -241,7 +327,14 @@ export default function AdminGalleryPage() {
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
-            
+
+            <button
+              onClick={() => setShowCategoryModal(true)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border border-slate-200 text-slate-600 hover:border-trust-300 hover:text-trust-700 transition-colors whitespace-nowrap"
+            >
+              <Settings size={15} /> Categories
+            </button>
+
             <Button onClick={handleOpenCreate} className="gap-1.5 whitespace-nowrap">
               <Plus size={16} /> Add Photos
             </Button>
@@ -268,10 +361,10 @@ export default function AdminGalleryPage() {
               >
                 <div>
                   <div className="relative aspect-[4/3] w-full bg-slate-100 overflow-hidden border-b border-slate-100">
-                    <img 
-                      src={item.image_url} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500" 
+                    <img
+                      src={item.image_url}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
                     />
                   </div>
 
@@ -334,7 +427,11 @@ export default function AdminGalleryPage() {
                 <button onClick={() => !isBulkUploading && setShowModal(false)} className="text-slate-400 hover:text-slate-600" disabled={isBulkUploading}><X size={18} /></button>
               </div>
 
-              {selected ? (
+              {categories.length === 0 ? (
+                <div className="p-6 text-center text-sm text-slate-500">
+                  No categories exist yet. Please add a category first using the "Categories" button before adding photos.
+                </div>
+              ) : selected ? (
                 /* Edit Mode: Single Photo Form */
                 <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">
                   <div className="p-6 space-y-4">
@@ -346,7 +443,7 @@ export default function AdminGalleryPage() {
                         onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
                         required
                       >
-                        {CATEGORIES.map(c => (
+                        {categories.map(c => (
                           <option key={c.value} value={c.value}>{c.label}</option>
                         ))}
                       </select>
@@ -426,7 +523,7 @@ export default function AdminGalleryPage() {
                         disabled={isBulkUploading}
                         required
                       >
-                        {CATEGORIES.map(c => (
+                        {categories.map(c => (
                           <option key={c.value} value={c.value}>{c.label}</option>
                         ))}
                       </select>
@@ -492,6 +589,107 @@ export default function AdminGalleryPage() {
                   </div>
                 </form>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Manage Categories Modal */}
+        {showCategoryModal && (
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowCategoryModal(false)}>
+            <div className="bg-white rounded-3xl shadow-float w-full max-w-md overflow-hidden flex flex-col max-h-[85vh]" onClick={e => e.stopPropagation()}>
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Settings className="text-saffron-500" size={20} />
+                  <h2 className="font-display text-lg text-trust-900">Manage Categories</h2>
+                </div>
+                <button onClick={() => setShowCategoryModal(false)} className="text-slate-400 hover:text-slate-600">
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Add new category */}
+              <div className="p-6 border-b border-slate-100 space-y-2">
+                <label className="label text-xs font-bold text-slate-700">Add New Category</label>
+                <div className="flex gap-2">
+                  <input
+                    className="input text-sm flex-1"
+                    placeholder="e.g. Youth Programs"
+                    value={newCatLabel}
+                    onChange={e => setNewCatLabel(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddCategory() } }}
+                  />
+                  <button
+                    onClick={handleAddCategory}
+                    disabled={savingCategory}
+                    className="px-4 py-2 rounded-xl bg-trust-800 text-white text-sm font-semibold hover:bg-trust-700 transition-colors disabled:opacity-60 flex items-center gap-1.5 whitespace-nowrap"
+                  >
+                    <Plus size={15} /> Add
+                  </button>
+                </div>
+              </div>
+
+              {/* Existing categories list */}
+              <div className="p-6 flex-1 overflow-y-auto space-y-2">
+                {categories.length === 0 ? (
+                  <p className="text-sm text-slate-400 text-center py-6">No categories yet. Add one above.</p>
+                ) : (
+                  categories.map(cat => (
+                    <div key={cat.id} className="flex items-center gap-2 p-3 rounded-xl border border-slate-100 bg-slate-50/50">
+                      {editingCatId === cat.id ? (
+                        <>
+                          <input
+                            className="input text-sm flex-1 py-1.5"
+                            value={editingCatLabel}
+                            onChange={e => setEditingCatLabel(e.target.value)}
+                            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); saveEditCategory(cat) } }}
+                            autoFocus
+                          />
+                          <button
+                            onClick={() => saveEditCategory(cat)}
+                            disabled={savingCategory}
+                            className="p-2 rounded-lg bg-sage-50 text-sage-600 hover:bg-sage-100 transition-colors"
+                            title="Save"
+                          >
+                            <Save size={14} />
+                          </button>
+                          <button
+                            onClick={cancelEditCategory}
+                            className="p-2 rounded-lg bg-white border border-slate-200 text-slate-500 hover:text-slate-700 transition-colors"
+                            title="Cancel"
+                          >
+                            <X size={14} />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-slate-800 truncate">{cat.label}</p>
+                            <p className="text-[10px] text-slate-400">{cat.value}</p>
+                          </div>
+                          <button
+                            onClick={() => startEditCategory(cat)}
+                            className="p-2 rounded-lg bg-white border border-slate-200 hover:border-trust-300 text-slate-500 hover:text-trust-600 transition-colors"
+                            title="Edit"
+                          >
+                            <Edit size={13} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCategory(cat)}
+                            className="p-2 rounded-lg bg-white border border-slate-200 hover:border-red-200 text-slate-500 hover:text-red-600 transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
+                <Button type="button" variant="ghost" onClick={() => setShowCategoryModal(false)}>Close</Button>
+              </div>
             </div>
           </div>
         )}
