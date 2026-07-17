@@ -55,7 +55,7 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
       )}
 
       {/* Nav Items */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto">
+      <nav className="flex-1 px-3 py-4 overflow-y-auto sidebar-scroll">
         <div className="space-y-1">
           {navItems.map((item) => {
             const active = pathname === item.href || (

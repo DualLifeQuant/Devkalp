@@ -143,6 +143,27 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: none;             /* Chrome, Safari, Opera */
 }
 
+/* ── Premium sidebar scrollbar ──────────────────────── */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.trust.300') transparent;
+  transition: scrollbar-color 0.2s ease;
+}
+.sidebar-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 4px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, theme('colors.trust.300'), theme('colors.trust.600'));
+  border-radius: 999px;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, theme('colors.trust.400'), theme('colors.trust.800'));
+}
+
 /* ── Line clamp ─────────────────────────────────────── */
 .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
 .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
