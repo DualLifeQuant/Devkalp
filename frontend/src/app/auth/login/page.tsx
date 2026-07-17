@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { authApi } from '@/lib/api'
 import { useAuthStore, getDashboardPath } from '@/lib/store'
 import { Input, Button } from '@/components/ui'
+import Seo from '@/components/common/Seo'
 
 interface LoginForm { email: string; password: string }
 
@@ -34,6 +35,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
+      <Seo
+        title="Sign In"
+        description="Sign in to your Devkalp Foundation account."
+        path="/auth/login"
+        noindex={true}
+      />
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-trust-950 relative overflow-hidden flex-col justify-between p-14">
         <div className="absolute inset-0 bg-hero-pattern opacity-30" />

@@ -7,6 +7,7 @@ import { EmptyState, Spinner } from '@/components/ui'
 import { galleryApi } from '@/lib/api'
 import toast from 'react-hot-toast'
 import { clsx } from 'clsx'
+import Seo from '@/components/common/Seo'
 
 const CATEGORIES = [
   { value: 'All', label: 'All Media' },
@@ -67,6 +68,11 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fc]">
+      <Seo
+        title="Gallery"
+        description="Browse photos from Devkalp Foundation's campaigns, events, and community programs."
+        path="/gallery"
+      />
       <Navbar />
 
       {/* ── PHOTO CONTENT AREA ── */}

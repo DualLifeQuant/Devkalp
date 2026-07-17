@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer'
 import { clsx } from 'clsx'
 import VariableProximity from '@/components/ui/VariableProximity'
 import CountUp from '@/components/ui/CountUp'
+import Seo from '@/components/common/Seo'
 
 const VALUES = [
   { icon: '🤝', title: 'Trust Above All', desc: 'Every interaction — a profile review, a counselor session, a donation — is handled with the same standard of care and honesty.' },
@@ -58,6 +59,11 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="About Us"
+        description="Devkalp Foundation is a counselor-led foundation working across matrimony matchmaking, adolescent health campaigns, livelihood support, and volunteer-driven community programs across India."
+        path="/about"
+      />
       <Navbar transparent />
 
       {/* ── BREATHTAKING CINEMATIC HERO (MATCHING JOBS, MATRIMONY & CAMPAIGNS PAGES) ── */}

@@ -7,6 +7,7 @@ import { authApi } from '@/lib/api'
 import { useAuthStore, getDashboardPath, UserRole } from '@/lib/store'
 import { Input, Button } from '@/components/ui'
 import { clsx } from 'clsx'
+import Seo from '@/components/common/Seo'
 
 interface RegisterForm {
   full_name: string; email: string; phone: string; password: string; confirm_password: string
@@ -81,6 +82,12 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex">
+      <Seo
+        title="Create Account"
+        description="Create a Devkalp Foundation account."
+        path="/auth/register"
+        noindex={true}
+      />
       {/* Left Panel */}
       <div className="hidden lg:flex lg:w-5/12 bg-gradient-to-br from-trust-900 to-trust-800 relative overflow-hidden flex-col p-14">
         <div className="absolute inset-0 bg-hero-pattern opacity-30" />

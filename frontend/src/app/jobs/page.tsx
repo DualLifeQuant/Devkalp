@@ -10,6 +10,7 @@ import { useAuthStore } from '@/lib/store'
 import toast from 'react-hot-toast'
 import { clsx } from 'clsx'
 import VariableProximity from '@/components/ui/VariableProximity'
+import Seo from '@/components/common/Seo'
 
 const JOB_TYPES = ['All', 'full-time', 'part-time', 'contract', 'internship']
 const TYPE_COLORS: Record<string, string> = {
@@ -477,6 +478,11 @@ export default function JobsPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="Jobs &amp; Careers"
+        description="Browse open job opportunities and livelihood support programs offered through Devkalp Foundation."
+        path="/jobs"
+      />
       <Navbar transparent />
 
       {/* ── BREATHTAKING FULL-SCREEN INDEED-STYLE CINEMATIC HERO ───────────────────────────────────────────── */}

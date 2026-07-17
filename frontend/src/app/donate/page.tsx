@@ -7,6 +7,7 @@ import { useAuthStore } from '@/lib/store'
 import { donationsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import Seo from '@/components/common/Seo'
 
 declare global { interface Window { Razorpay: any } }
 
@@ -197,6 +198,11 @@ export default function DonatePage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="Donate"
+        description="Support Devkalp Foundation's campaigns with full transparency — see exactly where your contribution goes and the impact it creates."
+        path="/donate"
+      />
       <Navbar />
 
       {/* Hero */}

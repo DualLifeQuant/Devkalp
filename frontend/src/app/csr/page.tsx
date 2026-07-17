@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui'
 import toast from 'react-hot-toast'
 import { csrApi } from '@/lib/api'
+import Seo from '@/components/common/Seo'
 
 const BUDGETS = [
   'Under ₹5 Lakhs',
@@ -383,6 +384,11 @@ export default function CSRPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="CSR Partnerships"
+        description="Partner with Devkalp Foundation for your CSR initiatives across health, education, matrimony, and livelihood programs."
+        path="/csr"
+      />
       <Navbar />
 
       {/* Hero */}

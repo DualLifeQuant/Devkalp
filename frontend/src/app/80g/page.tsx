@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import Seo from '@/components/common/Seo'
 
 export default function EightyGPage() {
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="12A & 80G Tax Exemptions"
+        description="Learn about Devkalp Foundation's 12A and 80G tax exemption status and how your donations qualify for tax benefits."
+        path="/80g"
+      />
       <Navbar />
       <div className="pt-28 pb-20 page-container max-w-3xl">
         <div className="mt-6 mb-10">

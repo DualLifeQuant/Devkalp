@@ -745,3 +745,14 @@ class CSRInquiry(Base):
     message         = Column(Text,        nullable=False)
     created_at      = Column(DateTime, server_default=func.now())
 
+
+class PlatformSetting(Base):
+    """Singleton row holding site-wide toggles (maintenance mode, etc.)."""
+    __tablename__ = "platform_settings"
+
+    id                  = Column(String(36), primary_key=True, default=gen_uuid)
+    maintenance_mode    = Column(Boolean, nullable=False, default=False)
+    maintenance_message = Column(Text, nullable=True)
+    updated_at          = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    updated_by          = Column(String(36), nullable=True)
+

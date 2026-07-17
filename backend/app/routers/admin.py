@@ -12,6 +12,7 @@ from app.models import (
 )
 from app.core.security import get_current_admin
 from app.utils.storage import upload_image
+from app.utils.platform_settings import get_maintenance_status, set_maintenance_status
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
@@ -23,6 +24,23 @@ async def admin_upload_image(
 ):
     url = await upload_image(file, "admin_uploads", f"admin_{uuid.uuid4().hex[:6]}")
     return {"url": url}
+
+
+@router.get("/maintenance")
+async def get_maintenance(admin=Depends(get_current_admin)):
+    return await get_maintenance_status(use_cache=False)
+
+
+@router.post("/maintenance")
+async def update_maintenance(data: dict, admin=Depends(get_current_admin)):
+    """Toggle maintenance mode. Setting maintenance_mode=false makes the site live again."""
+    if "maintenance_mode" not in data:
+        raise HTTPException(400, "maintenance_mode is required")
+    return await set_maintenance_status(
+        maintenance_mode=bool(data["maintenance_mode"]),
+        message=data.get("message"),
+        updated_by=admin.id,
+    )
 
 
 @router.get("/dashboard/stats")

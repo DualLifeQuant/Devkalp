@@ -9,6 +9,7 @@ import { matrimonyApi } from '@/lib/api'
 import { useAuthStore } from '@/lib/store'
 import toast from 'react-hot-toast'
 import { clsx } from 'clsx'
+import Seo from '@/components/common/Seo'
 
 const STEPS = ['Personal', 'Background', 'Career', 'Photo & Bio']
 
@@ -53,6 +54,11 @@ export default function MatrimonyRegisterPage() {
 
   if (!user) return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <Seo
+        title="Create Matrimony Profile"
+        description="Register your matrimony profile with Devkalp Foundation's counselor-led matchmaking program."
+        path="/matrimony/register"
+      />
       <div className="text-center p-8 max-w-sm">
         <div className="w-14 h-14 rounded-2xl bg-trust-100 flex items-center justify-center mx-auto mb-4">
           <Heart size={24} className="text-trust-700" />
@@ -215,6 +221,11 @@ export default function MatrimonyRegisterPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <Seo
+        title="Create Matrimony Profile"
+        description="Register your matrimony profile with Devkalp Foundation's counselor-led matchmaking program."
+        path="/matrimony/register"
+      />
       <Navbar />
       <div className="pt-20 pb-16">
         <div className="page-container max-w-2xl">

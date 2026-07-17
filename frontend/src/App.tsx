@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import RootLayout from './app/layout';
+import MaintenancePage from './components/MaintenancePage';
+import { api } from './lib/api';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -10,6 +12,35 @@ function ScrollToTop() {
   }, [pathname]);
 
   return null;
+}
+
+function useMaintenanceStatus() {
+  const [status, setStatus] = useState({ checked: false, active: false, message: null as string | null });
+
+  useEffect(() => {
+    let mounted = true;
+    api.get('/system/status')
+      .then((res) => {
+        if (mounted) setStatus({ checked: true, active: !!res.data.maintenance_mode, message: res.data.message });
+      })
+      .catch(() => {
+        if (mounted) setStatus({ checked: true, active: false, message: null });
+      });
+    return () => { mounted = false; };
+  }, []);
+
+  return status;
+}
+
+function MaintenanceGate({ children }: { children: React.ReactNode }) {
+  const { pathname } = useLocation();
+  const maintenance = useMaintenanceStatus();
+  const bypass = pathname.startsWith('/admin') || pathname.startsWith('/auth');
+
+  if (maintenance.active && !bypass) {
+    return <MaintenancePage message={maintenance.message} />;
+  }
+  return <>{children}</>;
 }
 
 // Page components
@@ -74,6 +105,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <RootLayout>
+        <MaintenanceGate>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<HomePage />} />
@@ -132,6 +164,7 @@ export default function App() {
           <Route path="/admin/partners" element={<AdminPartnersPage />} />
           <Route path="/admin/instagram" element={<AdminInstagramPage />} />
         </Routes>
+        </MaintenanceGate>
       </RootLayout>
     </BrowserRouter>
   );

@@ -11,6 +11,7 @@ import { jobsApi } from '@/lib/api'
 import { useAuthStore } from '@/lib/store'
 import toast from 'react-hot-toast'
 import { clsx } from 'clsx'
+import Seo from '@/components/common/Seo'
 
 export default function JobDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -67,11 +68,22 @@ export default function JobDetailPage() {
 
   if (loading) return (
     <div className="min-h-screen bg-[#fafaf8] flex items-center justify-center pt-16">
+      <Seo
+        title={job ? job.title : 'Job Details'}
+        description={job ? `${job.title} — ${job.location || ''}. Apply now for this opportunity at Devkalp Foundation.` : 'View job openings at Devkalp Foundation.'}
+        path={`/jobs/${id}`}
+      />
       <Spinner size="lg" />
     </div>
   )
 
-  if (!job) return null
+  if (!job) return (
+    <Seo
+      title="Job Details"
+      description="View job openings at Devkalp Foundation."
+      path={`/jobs/${id}`}
+    />
+  )
 
   const salaryRange = job.salary_min || job.salary_max
     ? `₹${job.salary_min ? (job.salary_min / 1000).toFixed(0) + 'K' : ''}${job.salary_max ? '–' + (job.salary_max / 1000).toFixed(0) + 'K' : ''}/mo`
@@ -79,6 +91,11 @@ export default function JobDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title={job ? job.title : 'Job Details'}
+        description={job ? `${job.title} — ${job.location || ''}. Apply now for this opportunity at Devkalp Foundation.` : 'View job openings at Devkalp Foundation.'}
+        path={`/jobs/${id}`}
+      />
       <Navbar />
 
       <div className="pt-24 pb-16">

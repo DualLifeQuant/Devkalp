@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui'
 import toast from 'react-hot-toast'
 import { enquiriesApi, jobsApi } from '@/lib/api'
+import Seo from '@/components/common/Seo'
 
 const ENQUIRY_TYPES = [
   { value: 'matrimony', label: 'Matrimony Services', icon: <HeartHandshake size={16} /> },
@@ -210,6 +211,11 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="Contact Us"
+        description="Get in touch with Devkalp Foundation for partnerships, donations, volunteering, or any queries about our matrimony, health, and livelihood programs."
+        path="/contact"
+      />
       <Navbar />
 
       {/* Hero */}

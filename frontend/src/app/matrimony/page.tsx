@@ -14,6 +14,7 @@ import CountUp from '@/components/ui/CountUp'
 import ConstellationBackground from '@/components/ui/ConstellationBackground'
 import { useAuthStore } from '@/lib/store'
 import { clsx } from 'clsx'
+import Seo from '@/components/common/Seo'
 
 /* ── API profile shape ──────────────────────────────────────── */
 interface ApiProfile {
@@ -313,6 +314,11 @@ export default function MatrimonyPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="Matrimony Services"
+        description="A private, counselor-led matchmaking program that honours family values and personal readiness — not an app, a relationship."
+        path="/matrimony"
+      />
       <Navbar transparent />
 
       {/* ── Toast ───────────────────────────────────────────── */}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Mail, Heart, ArrowLeft, Send } from 'lucide-react'
 import { Button } from '@/components/ui'
 import toast from 'react-hot-toast'
+import Seo from '@/components/common/Seo'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
@@ -20,6 +21,12 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+      <Seo
+        title="Reset Password"
+        description="Reset your Devkalp Foundation account password."
+        path="/auth/forgot-password"
+        noindex={true}
+      />
       <div className="w-full max-w-md">
         <Link to="/" className="flex items-center gap-2 mb-10 justify-center">
           <div className="w-9 h-9 rounded-xl bg-trust-800 flex items-center justify-center">

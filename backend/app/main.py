@@ -87,6 +87,42 @@ async def security_headers(request: Request, call_next):
     return response
 
 
+MAINTENANCE_EXEMPT_PREFIXES = (
+    f"{'/api/v1'}/auth",
+    f"{'/api/v1'}/system",
+    f"{'/api/v1'}/hidden",
+    "/health", "/static",
+    "/api/docs", "/api/redoc", "/api/openapi.json",
+    "/sitemap.xml", "/robots.txt",
+)
+
+
+@app.middleware("http")
+async def maintenance_mode_guard(request: Request, call_next):
+    path = request.url.path
+    if (
+        request.method == "OPTIONS"
+        or path == "/"
+        or "/admin" in path
+        or any(path.startswith(p) for p in MAINTENANCE_EXEMPT_PREFIXES)
+    ):
+        return await call_next(request)
+
+    from app.utils.platform_settings import get_maintenance_status
+    maint = await get_maintenance_status()
+    if maint["maintenance_mode"]:
+        # This response is constructed outside CORSMiddleware's layer, so it needs
+        # its own CORS header — see the note on the 500 handler below.
+        origin = request.headers.get("origin")
+        headers = {"Access-Control-Allow-Origin": origin} if origin else {}
+        return JSONResponse(
+            status_code=503,
+            content={"detail": "maintenance", "message": maint["message"] or "We'll be back shortly."},
+            headers=headers,
+        )
+    return await call_next(request)
+
+
 # ── Exception Handlers ───────────────────────────────────────
 
 @app.exception_handler(404)
@@ -95,15 +131,21 @@ async def not_found(_request: Request, _exc):
 
 
 @app.exception_handler(500)
-async def server_error(_request: Request, exc):
-    logger.error(f"Internal error: {exc}")
-    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+async def server_error(request: Request, exc):
+    # Starlette routes the status-code-500 handler through ServerErrorMiddleware,
+    # which wraps CORSMiddleware — so this response never gets CORS headers from
+    # CORSMiddleware. Unhandled exceptions would otherwise surface in the browser
+    # as a misleading "blocked by CORS policy" instead of the real 500.
+    logger.error(f"Internal error: {exc}", exc_info=True)
+    origin = request.headers.get("origin")
+    headers = {"Access-Control-Allow-Origin": origin} if origin else {}
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"}, headers=headers)
 
 
 # ── Routers ──────────────────────────────────────────────────
 
 from app.routers import auth, matrimony, donations, jobs, campaigns, volunteers, admin, enquiries, awards, csr, press, gallery, partners, instagram
-from app.routers import counselors, family, emotional, campaign_sessions
+from app.routers import counselors, family, emotional, campaign_sessions, system
 
 API = "/api/v1"
 
@@ -125,6 +167,8 @@ app.include_router(press.router,              prefix=API)
 app.include_router(gallery.router,            prefix=API)
 app.include_router(partners.router,           prefix=API)
 app.include_router(instagram.router,          prefix=API)
+app.include_router(system.router,             prefix=API)
+app.include_router(system.public_router)
 
 
 # ── Health & Root ─────────────────────────────────────────────

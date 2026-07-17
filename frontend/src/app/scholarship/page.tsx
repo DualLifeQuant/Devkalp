@@ -9,6 +9,7 @@ import { clsx } from 'clsx'
 import { Button } from '@/components/ui'
 import { useAuthStore } from '@/lib/store'
 import { useNavigate } from 'react-router-dom'
+import Seo from '@/components/common/Seo'
 
 const DIGITAL_GUJARAT_FILES = [
   { id: 'hsc_marksheet', label: 'HSC Marksheet / Result *' },
@@ -370,6 +371,11 @@ export default function ScholarshipPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8] flex flex-col justify-between">
+      <Seo
+        title="Scholarships"
+        description="Discover scholarship opportunities offered by Devkalp Foundation to support education for deserving students."
+        path="/scholarship"
+      />
       <Navbar />
 
       <main className="flex-1">

@@ -1,5 +1,6 @@
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import Seo from '@/components/common/Seo'
 
 const SECTIONS = [
   {
@@ -39,6 +40,11 @@ const SECTIONS = [
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="Terms of Use"
+        description="Review the terms and conditions governing use of Devkalp Foundation's website and services."
+        path="/terms"
+      />
       <Navbar />
       <div className="pt-28 pb-20 page-container max-w-3xl">
         <div className="mt-6 mb-10">

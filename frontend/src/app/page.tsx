@@ -11,6 +11,7 @@ import ConstellationBackground from '@/components/ui/ConstellationBackground'
 import IndiaMap from '@/components/ui/IndiaMap'
 import { useAuthStore } from '@/lib/store'
 import VirtualPhone from '@/components/ui/VirtualPhone'
+import Seo from '@/components/common/Seo'
 
 function FadeIn({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
   return (
@@ -184,6 +185,11 @@ export default function HomePage() {
   }, [])
   return (
     <div className="min-h-screen overflow-x-hidden">
+      <Seo
+        title="Devkalp Foundation"
+        description="Devkalp Foundation works across matrimony, health campaigns, employment, and community volunteering to build stronger communities across India."
+        path="/"
+      />
       <Navbar transparent />
 
       {/* HERO */}

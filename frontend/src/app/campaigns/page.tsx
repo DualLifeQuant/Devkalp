@@ -8,6 +8,7 @@ import { campaignsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
 import { clsx } from 'clsx'
 import VariableProximity from '@/components/ui/VariableProximity'
+import Seo from '@/components/common/Seo'
 
 const isVideoUrl = (url: string): boolean => {
   if (!url) return false
@@ -99,6 +100,11 @@ export default function CampaignsPage() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fc]">
+      <Seo
+        title="Campaigns"
+        description="Explore Devkalp Foundation's active health, education, and community campaigns and see the impact of transparent, accountable giving."
+        path="/campaigns"
+      />
       <Navbar transparent />
 
       {/* ── BREATHTAKING CINEMATIC HERO (MATCHING JOBS & MATRIMONY PAGES) ── */}

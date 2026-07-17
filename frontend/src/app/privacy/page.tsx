@@ -1,5 +1,6 @@
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import Seo from '@/components/common/Seo'
 
 const SECTIONS = [
   {
@@ -35,6 +36,11 @@ const SECTIONS = [
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="Privacy Policy"
+        description="Read Devkalp Foundation's privacy policy to understand how we collect, use, and protect your personal information."
+        path="/privacy"
+      />
       <Navbar />
       <div className="pt-28 pb-20 page-container max-w-3xl">
         <div className="mt-6 mb-10">

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { clsx } from 'clsx'
 import VariableProximity from '@/components/ui/VariableProximity'
 import CountUp from '@/components/ui/CountUp'
+import Seo from '@/components/common/Seo'
 
 const IMPACT_AREAS = [
   {
@@ -64,6 +65,11 @@ export default function VolunteerPage() {
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <Seo
+        title="Volunteer With Us"
+        description="Join Devkalp Foundation's volunteer ecosystem — a structured, respected program where your contributions are tracked and tied to real community outcomes."
+        path="/volunteer"
+      />
       <Navbar transparent />
 
       {/* ── BREATHTAKING CINEMATIC HERO (MATCHING JOBS, MATRIMONY, CAMPAIGNS & ABOUT PAGES) ── */}
