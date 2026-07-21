@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Building2, User, Mail, Phone, Calendar, Search, X, Inbox, Eye, DollarSign, CheckSquare } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { csrApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -56,7 +55,6 @@ export default function AdminCSRPage() {
   }
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
         
         {/* Header */}
@@ -264,6 +262,5 @@ export default function AdminCSRPage() {
         )}
 
       </div>
-    </AdminLayout>
   )
 }

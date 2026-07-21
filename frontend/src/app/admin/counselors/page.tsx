@@ -1,6 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
 import { UserCheck, Plus, X, Calendar, Heart } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Button, Card, Spinner, EmptyState, StatsCard } from '@/components/ui'
 import { counselorsApi, matrimonyApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -150,7 +149,7 @@ export default function AdminCounselorsPage() {
   }
 
   return (
-    <AdminLayout>
+    <>
       <div className="p-6 md:p-8 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -423,6 +422,6 @@ export default function AdminCounselorsPage() {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </>
   )
 }

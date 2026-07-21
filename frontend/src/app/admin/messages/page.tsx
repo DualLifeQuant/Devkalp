@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Mail, Phone, Calendar, Trash2, Eye, Search, HeartHandshake, HandHeart, Users, Briefcase, X, MessageSquare, Inbox, BookOpen } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { enquiriesApi, jobsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -224,7 +223,6 @@ export default function AdminMessagesPage() {
   }
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
         
         {/* Header */}
@@ -548,6 +546,5 @@ export default function AdminMessagesPage() {
         )}
 
       </div>
-    </AdminLayout>
   )
 }

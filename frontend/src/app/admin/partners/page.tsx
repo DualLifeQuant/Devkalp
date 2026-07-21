@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Handshake, Plus, Edit, Trash2, X, Search, Globe, Eye, EyeOff, Camera } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { partnersApi, adminApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -124,7 +123,6 @@ export default function AdminPartnersPage() {
   })
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
         
         {/* Header */}
@@ -332,6 +330,5 @@ export default function AdminPartnersPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

@@ -1,7 +1,6 @@
 ﻿import { useEffect, useState } from 'react'
 import { Plus, School, Users, CheckCircle, Calendar, X, Camera, Video } from 'lucide-react'
 import { HeartHandshake, Briefcase, Leaf, Heart } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, StatsCard, EmptyState } from '@/components/ui'
 import { campaignsApi, sessionApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -230,7 +229,6 @@ export default function AdminCampaignsPage() {
   }
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -671,6 +669,5 @@ export default function AdminCampaignsPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

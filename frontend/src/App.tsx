@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import RootLayout from './app/layout';
 import MaintenancePage from './components/MaintenancePage';
+import AdminLayout from './components/layout/AdminLayout';
 import { api } from './lib/api';
 
 function ScrollToTop() {
@@ -145,24 +146,28 @@ export default function App() {
           <Route path="/dashboard/counselor/sessions" element={<DashboardCounselorSessionsPage />} />
           <Route path="/dashboard/counselor/profiles" element={<DashboardCounselorProfilesPage />} />
 
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminDashboardPage />} />
-          <Route path="/admin/donations" element={<AdminDonationsPage />} />
-          <Route path="/admin/jobs" element={<AdminJobsPage />} />
-          <Route path="/admin/volunteers" element={<AdminVolunteersPage />} />
-          <Route path="/admin/matrimony" element={<AdminMatrimonyPage />} />
-          <Route path="/admin/counselors" element={<AdminCounselorsPage />} />
-          <Route path="/admin/users" element={<AdminUsersPage />} />
-          <Route path="/admin/activity" element={<AdminActivityPage />} />
-          <Route path="/admin/campaigns" element={<AdminCampaignsPage />} />
-          <Route path="/admin/messages" element={<AdminMessagesPage />} />
-          <Route path="/admin/scholarship" element={<AdminScholarshipsPage />} />
-          <Route path="/admin/csr" element={<AdminCSRPage />} />
-          <Route path="/admin/awards" element={<AdminAwardsPage />} />
-          <Route path="/admin/press" element={<AdminPressPage />} />
-          <Route path="/admin/gallery" element={<AdminGalleryPage />} />
-          <Route path="/admin/partners" element={<AdminPartnersPage />} />
-          <Route path="/admin/instagram" element={<AdminInstagramPage />} />
+          {/* Admin Routes — nested under a single persistent AdminLayout so the
+              sidebar (and its scroll position) survives navigation between
+              admin pages instead of unmounting/remounting on every click. */}
+          <Route path="/admin" element={<AdminLayout><Outlet /></AdminLayout>}>
+            <Route index element={<AdminDashboardPage />} />
+            <Route path="donations" element={<AdminDonationsPage />} />
+            <Route path="jobs" element={<AdminJobsPage />} />
+            <Route path="volunteers" element={<AdminVolunteersPage />} />
+            <Route path="matrimony" element={<AdminMatrimonyPage />} />
+            <Route path="counselors" element={<AdminCounselorsPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+            <Route path="activity" element={<AdminActivityPage />} />
+            <Route path="campaigns" element={<AdminCampaignsPage />} />
+            <Route path="messages" element={<AdminMessagesPage />} />
+            <Route path="scholarship" element={<AdminScholarshipsPage />} />
+            <Route path="csr" element={<AdminCSRPage />} />
+            <Route path="awards" element={<AdminAwardsPage />} />
+            <Route path="press" element={<AdminPressPage />} />
+            <Route path="gallery" element={<AdminGalleryPage />} />
+            <Route path="partners" element={<AdminPartnersPage />} />
+            <Route path="instagram" element={<AdminInstagramPage />} />
+          </Route>
         </Routes>
         </MaintenanceGate>
       </RootLayout>

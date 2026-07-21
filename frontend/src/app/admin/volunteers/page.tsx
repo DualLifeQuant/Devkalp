@@ -1,6 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
 import { Users, CheckCircle, Clock, X, Calendar, ClipboardList } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState, StatsCard } from '@/components/ui'
 import { volunteersApi, campaignsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -94,7 +93,6 @@ export default function AdminVolunteersPage() {
   const pending = volunteers.filter(v => v.status === 'pending').length
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8 space-y-6">
         <div>
           <h1 className="font-display text-2xl text-trust-900">Volunteers</h1>
@@ -234,6 +232,5 @@ export default function AdminVolunteersPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

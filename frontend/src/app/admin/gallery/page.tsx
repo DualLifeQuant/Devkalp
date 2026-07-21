@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Image as ImageIcon, Calendar, Plus, Edit, Trash2, X, Search, Eye, EyeOff, Camera, Upload, Check, AlertCircle, Settings, Save } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { galleryApi, adminApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -298,7 +297,6 @@ export default function AdminGalleryPage() {
   })
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
 
         {/* Header */}
@@ -694,6 +692,5 @@ export default function AdminGalleryPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

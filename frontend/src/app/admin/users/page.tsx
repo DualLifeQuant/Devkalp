@@ -1,6 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
 import { Users, Search, Shield, ShieldOff } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Card, Spinner, EmptyState, StatsCard } from '@/components/ui'
 import { adminApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -45,7 +44,6 @@ export default function AdminUsersPage() {
   const roleCounts = users.reduce((acc:any, u:any) => { acc[u.role] = (acc[u.role]||0)+1; return acc }, {})
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8 space-y-6">
         <div>
           <h1 className="font-display text-2xl text-trust-900">All Users</h1>
@@ -103,6 +101,5 @@ export default function AdminUsersPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

@@ -1,6 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
 import { HeartHandshake, Briefcase, Leaf, Heart, Users, Check, X, Eye, Link2, Calendar, MessageSquare, Bell, Sparkles, ChevronRight, Trash2 } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { matrimonyApi, counselorsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -157,7 +156,6 @@ export default function AdminMatrimonyPage() {
   }
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -874,6 +872,5 @@ export default function AdminMatrimonyPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

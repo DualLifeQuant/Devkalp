@@ -1,6 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
 import { HandHeart, TrendingUp, Plus, X } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Card, Spinner, EmptyState, StatsCard, Button } from '@/components/ui'
 import { donationsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -46,7 +45,7 @@ export default function AdminDonationsPage() {
   }
 
   return (
-    <AdminLayout>
+    <>
       <div className="p-6 md:p-8 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -159,6 +158,6 @@ export default function AdminDonationsPage() {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </>
   )
 }

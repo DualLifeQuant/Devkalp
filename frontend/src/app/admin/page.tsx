@@ -6,7 +6,6 @@ import {
   Leaf, Heart, TrendingUp, Clock, CheckCircle, AlertCircle,
   ArrowUpRight, Activity, Building2, Trophy, Newspaper
 } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { StatsCard, Badge, Card, Spinner, EmptyState } from '@/components/ui'
 import { adminApi, matrimonyApi, jobsApi } from '@/lib/api'
 
@@ -56,7 +55,6 @@ export default function AdminDashboard() {
   }, [])
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8 space-y-7">
 
         {/* Header */}
@@ -224,6 +222,5 @@ export default function AdminDashboard() {
           </>
         )}
       </div>
-    </AdminLayout>
   )
 }

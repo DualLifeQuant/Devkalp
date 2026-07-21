@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Mail, Phone, Calendar, Trash2, Eye, Search, X, Inbox, BookOpen, Briefcase } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { enquiriesApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -85,7 +84,6 @@ export default function AdminScholarshipsPage() {
   })
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
         
         {/* Header */}
@@ -339,6 +337,5 @@ export default function AdminScholarshipsPage() {
         )}
 
       </div>
-    </AdminLayout>
   )
 }

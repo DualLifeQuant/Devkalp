@@ -1,6 +1,5 @@
 ﻿import { useEffect, useState } from 'react'
 import { Activity, RefreshCw } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Spinner, EmptyState } from '@/components/ui'
 import { adminApi } from '@/lib/api'
 import { clsx } from 'clsx'
@@ -29,7 +28,6 @@ export default function ActivityLogsPage() {
   useEffect(() => { load() }, [moduleFilter])
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -78,6 +76,5 @@ export default function ActivityLogsPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

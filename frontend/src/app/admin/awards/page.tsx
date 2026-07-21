@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Trophy, Calendar, Plus, Edit, Trash2, X, Search, Globe, Eye, EyeOff, Camera } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState } from '@/components/ui'
 import { awardsApi, adminApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -133,7 +132,6 @@ export default function AdminAwardsPage() {
   })
 
   return (
-    <AdminLayout>
       <div className="p-6 md:p-8">
         
         {/* Header */}
@@ -389,6 +387,5 @@ export default function AdminAwardsPage() {
           </div>
         )}
       </div>
-    </AdminLayout>
   )
 }

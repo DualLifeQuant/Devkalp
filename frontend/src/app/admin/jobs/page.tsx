@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Briefcase, Plus, Check, X, Calendar, ChevronDown, ChevronUp } from 'lucide-react'
-import AdminLayout from '@/components/layout/AdminLayout'
 import { Badge, Button, Card, Spinner, EmptyState, StatsCard } from '@/components/ui'
 import { jobsApi } from '@/lib/api'
 import toast from 'react-hot-toast'
@@ -263,7 +262,7 @@ export default function AdminJobsPage() {
   const interviewCount = apps.filter(a => a.status === 'interview_scheduled').length
 
   return (
-    <AdminLayout>
+    <>
       <div className="p-6 md:p-8 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -741,6 +740,6 @@ export default function AdminJobsPage() {
           </div>
         </div>
       )}
-    </AdminLayout>
+    </>
   )
 }
