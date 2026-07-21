@@ -18,19 +18,23 @@ interface DashboardLayoutProps {
   title: string
 }
 
-export default function DashboardLayout({ children, navItems, title }: DashboardLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { user, clearAuth } = useAuthStore()
-  const location = useLocation()
-  const pathname = location.pathname
-  const navigate = useNavigate()
+interface SidebarContentProps {
+  mobile?: boolean
+  title: string
+  user: ReturnType<typeof useAuthStore>['user']
+  navItems: NavItem[]
+  pathname: string
+  onLinkClick: () => void
+  onLogout: () => void
+}
 
-  const handleLogout = () => {
-    clearAuth()
-    navigate('/')
-  }
-
-  const Sidebar = ({ mobile = false }) => (
+// Defined outside DashboardLayout so its component identity is stable across
+// re-renders (e.g. on every route change via useLocation). An inline function
+// component here would get a new identity each render, causing React to
+// unmount/remount the <nav> DOM node — and reset its scroll position — on
+// every navigation, even though DashboardLayout itself never remounts.
+function SidebarContent({ mobile = false, title, user, navItems, pathname, onLinkClick, onLogout }: SidebarContentProps) {
+  return (
     <aside className={clsx(
       'flex flex-col h-full bg-white border-r border-slate-100',
       mobile ? 'w-72' : 'w-64'
@@ -66,7 +70,7 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
               <Link
                 key={item.href}
                 to={item.href}
-                onClick={() => setSidebarOpen(false)}
+                onClick={onLinkClick}
                 className={clsx(
                   'sidebar-link',
                   active && 'sidebar-link-active'
@@ -93,7 +97,7 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
           ← Back to website
         </Link>
         <button
-          onClick={handleLogout}
+          onClick={onLogout}
           className="w-full sidebar-link text-red-500 hover:text-red-700 hover:bg-red-50"
         >
           <LogOut size={16} /> Sign Out
@@ -101,12 +105,27 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
       </div>
     </aside>
   )
+}
+
+export default function DashboardLayout({ children, navItems, title }: DashboardLayoutProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { user, clearAuth } = useAuthStore()
+  const location = useLocation()
+  const pathname = location.pathname
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    clearAuth()
+    navigate('/')
+  }
+
+  const closeMobileSidebar = () => setSidebarOpen(false)
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex shrink-0">
-        <Sidebar />
+        <SidebarContent title={title} user={user} navItems={navItems} pathname={pathname} onLinkClick={closeMobileSidebar} onLogout={handleLogout} />
       </div>
 
       {/* Mobile Sidebar Overlay */}
@@ -114,7 +133,7 @@ export default function DashboardLayout({ children, navItems, title }: Dashboard
         <div className="fixed inset-0 z-40 md:hidden flex">
           <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
           <div className="relative z-50 flex">
-            <Sidebar mobile />
+            <SidebarContent mobile title={title} user={user} navItems={navItems} pathname={pathname} onLinkClick={closeMobileSidebar} onLogout={handleLogout} />
           </div>
         </div>
       )}
