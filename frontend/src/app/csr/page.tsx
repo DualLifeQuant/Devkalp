@@ -74,28 +74,6 @@ const CSR_TESTIMONIALS = [
     logo: 'dlq'
   },
   {
-    id: 'tirth',
-    initial: 'T',
-    avatarBg: 'bg-saffron-100',
-    avatarText: 'text-saffron-855',
-    name: 'Tirth Goyani',
-    title: 'Co-Founder',
-    company: 'Korneza Solutions',
-    message: '"Our collaboration with Devkalp Foundation has been instrumental in driving meaningful change through grassroots digital education and healthcare camps. This partnership reflects our shared commitment to creating sustainable, technology-driven solutions that empower vulnerable communities across Gujarat."',
-    logo: 'korneza'
-  },
-  {
-    id: 'harsh',
-    initial: 'H',
-    avatarBg: 'bg-trust-100',
-    avatarText: 'text-trust-855',
-    name: 'Harsh Savaliya',
-    title: 'Co-Founder',
-    company: 'Korneza Solutions',
-    message: '"Collaborating with the Devkalp Foundation on community healthcare initiatives has been extremely rewarding. Their organization shows an exceptional level of professionalism and operational care in coordinating local health camps, bringing critical care directly to families in need."',
-    logo: 'korneza'
-  },
-  {
     id: 'sujal',
     initial: 'S',
     avatarBg: 'bg-trust-100',
@@ -133,15 +111,6 @@ const TestimonialLogo = ({ type }: { type: string }) => {
         <line x1="10" y1="12" x2="18" y2="8" stroke="#3B82F6" strokeWidth="1" />
         <line x1="10" y1="12" x2="18" y2="16" stroke="#3B82F6" strokeWidth="1" />
         <text x="26" y="15" fill="#1E3A8A" fontSize="8" fontWeight="800" fontFamily="sans-serif" letterSpacing="0.5">DUAL LIFE QUANT</text>
-      </svg>
-    )
-  }
-  if (type === 'korneza') {
-    return (
-      <svg className="h-6 w-auto" viewBox="0 0 140 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="4" width="16" height="16" rx="4" fill="#0EA5E9" />
-        <path d="M7 8h1.5v3.5l2.5-3.5h2l-3 4 3.2 4h-2l-2.7-3.5L8.5 13.5V16H7V8z" fill="white" />
-        <text x="24" y="15" fill="#0F172A" fontSize="8" fontWeight="800" fontFamily="sans-serif" letterSpacing="0.5">KORNEZA SOLUTIONS</text>
       </svg>
     )
   }
