@@ -183,8 +183,11 @@ async def root():
     }
 
 
-@app.get("/health", tags=["Root"])
+@app.api_route("/health", methods=["GET", "HEAD"], tags=["Root"])
 async def health():
+    # Uptime monitors (e.g. UptimeRobot) default to HEAD requests; FastAPI's
+    # @app.get() only registers GET, which made HEAD checks 405 and falsely
+    # report the service as down.
     return {"status": "healthy", "environment": settings.APP_ENV}
 
 
