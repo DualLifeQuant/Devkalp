@@ -142,8 +142,8 @@ export default function AboutPage() {
             className="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto w-full">
             {[
               { v: 2025, f: 1990, s: '', l: 'Year Founded' },
-              { v: 80, f: 0, s: '+', l: 'Marriages Facilitated' },
-              { v: 48, f: 0, s: '', l: 'Schools Reached' },
+              { v: 10, f: 0, s: '+', l: 'Marriages Facilitated' },
+              { v: 4200, f: 0, s: '+', l: 'Beneficiary Students' },
             ].map((s, idx) => (
               <div key={s.l} className={clsx("text-center border-slate-200/60", idx < 2 && "md:border-r")}>
                 <p className="font-display text-2xl sm:text-3xl font-bold text-trust-900 mb-1">
@@ -220,13 +220,16 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {[
                 { value: 2025, from: 1990, suffix: '', label: 'Year Founded', sub: 'A decade of service', fullWidth: true },
-                { value: 80, from: 0, suffix: '+', label: 'Marriages Facilitated', sub: 'With care and counseling' },
-                { value: 48, from: 0, suffix: '', label: 'Schools Reached', sub: 'Across Gujarat' },
+                { value: 10, from: 0, suffix: '+', label: 'Marriages Facilitated', sub: 'With care and counseling' },
+                { value: 4200, from: 0, suffix: '+', separator: ',', label: 'Beneficiary Students', sub: 'Across Gujarat' },
+                { value: 700, from: 0, suffix: '+', label: 'Food Beneficiaries', sub: 'Families supported with meals' },
+                { value: 30, from: 0, suffix: '+', label: 'Unemployed Assisted', sub: 'Placed into livelihoods' },
+                { value: 1000, from: 0, suffix: '+', separator: ',', label: 'Cloth Beneficiaries', sub: 'Families supported with clothing' },
               ].map(stat => (
-                <div key={stat.label} className={clsx("bg-white rounded-2xl p-5 shadow-card text-center", stat.fullWidth && "col-span-2")}>
+                <div key={stat.label} className={clsx("bg-white rounded-2xl p-5 shadow-card text-center", stat.fullWidth && "col-span-2 sm:col-span-3")}>
                   <p className="font-display text-2xl font-semibold text-trust-800 mb-0.5">
                     <CountUp to={stat.value} from={stat.from} separator={stat.separator} />{stat.suffix}
                   </p>

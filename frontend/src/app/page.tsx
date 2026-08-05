@@ -26,9 +26,11 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
 }
 
 const STATS = [
-  { value: 80, suffix: '+', label: 'Marriages Facilitated' },
-  { value: 5400, suffix: '+', separator: ',', label: 'School\'s Student Sessions Held' },
-  { value: 100, suffix: '+', label: 'Lives Placed in Jobs' },
+  { value: 10, suffix: '+', label: 'Marriages Facilitated' },
+  { value: 4200, suffix: '+', separator: ',', label: 'Beneficiary Students' },
+  { value: 30, suffix: '+', label: 'Lives Placed in Jobs' },
+  { value: 700, suffix: '+', label: 'Food Beneficiaries' },
+  { value: 1000, suffix: '+', separator: ',', label: 'Cloth Beneficiaries' },
 ]
 const GALLERY = [
   '2.jpeg',
@@ -59,7 +61,7 @@ const IMPACT_TABS = [
     title: 'Nurturing Minds, Building Futures',
     desc1: 'At Devkalp Foundation, we believe education is the key to breaking the cycle of poverty. We support rural schools by providing quality learning materials, library setup, and volunteer-led tutoring programs.',
     desc2: 'Our mentorship programs and scholarships guide students through their educational journeys, equipping them with the knowledge and confidence to build self-reliant futures.',
-    badgeText: '5,400+ Students Mentored',
+    badgeText: '4,200+ Beneficiary Students',
     badgeIcon: <Sparkles className="text-rose-400 shrink-0" size={20} />,
     colorClass: 'bg-rose-500',
     textClass: 'text-rose-400',
@@ -289,7 +291,7 @@ export default function HomePage() {
       {/* STATS */}
       <section className="py-12 bg-white border-y border-slate-100">
         <div className="page-container">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 md:gap-8">
             {STATS.map((s, i) => (
               <FadeIn key={s.label} delay={i * 0.07} className="text-center">
                 <p className="font-display text-3xl md:text-4xl font-semibold text-trust-700 mb-1">
